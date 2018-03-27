@@ -114,6 +114,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-query id="queryCantantes" path="/Cantantes" data="{{cantantes}}">
     </firebase-query>
 
+    <firebase-query id="queryCantantes" path="/Duetos" data="{{duetos}}">
+    </firebase-query>
 
     <firebase-document id="queryEspect" path="/Espectadores/[[user.uid]]" data="{{espectador}}">
     </firebase-document>
@@ -158,8 +160,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <br></br>
           <h2>Duetos:</h2>
-          <template is="dom-repeat" items="{{_dueto}}">
-            <template is="dom-if" if="{{_isInDueto(item)}}">
+          <template is="dom-repeat" items="{{duetos}}">
+            <template is="dom-if" if="{{_isInDueto(item, espectador)}}">
               <div class="card-container">
                 <paper-card image="{{item.imagen}}">
                   <div class="card-content">
@@ -239,8 +241,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _isInCantante: function (item, espectador) {
         return espectador.cantante1 == item.$key || espectador.cantante2 == item.$key;
       },
-      _isInDueto: function (item) {
-        return this.espectador.dueto == item.$key;
+      _isInDueto: function (item, espectador) {
+        return espectador.dueto == item.$key;
       },
       devolverCosas: function (cantantes, espectador) {
         console.log(cantantes);
