@@ -1,0 +1,175 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<dom-module id="ot-perfil">
+  <template>
+
+    <style>
+
+    .content {
+      display: block;
+      position: relative;
+      max-width: 1000px;
+      margin: 5px auto;
+    }
+
+    .card-container {
+      display: inline-block;
+      width: 33.33%;
+      color: black;
+      text-decoration: none;
+    }
+
+    paper-card {
+      display: block;
+      margin: 5px;
+
+      --paper-card-header-image: {
+        height: 200px;
+      }
+    }
+
+    paper-card h2 {
+      margin: 4px;
+      font-weight: normal;
+    }
+
+    paper-card p {
+      margin: 4px;
+      color: #999;
+    }
+
+    paper-fab {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+
+      --paper-fab-background: #EF5458;
+      --paper-fab-keyboard-focus-background: #DF4448;
+    }
+
+    @media (max-width: 960px) {
+      .content {
+        max-width: 800px;
+      }
+
+      .card-container {
+        width: 50%;
+      }
+    }
+
+    @media (max-width: 719px) {
+      app-toolbar {
+        height: 60px;
+      }
+
+      [condensed-title] {
+        background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_s.png');
+        background-size: 60px;
+      }
+
+      [main-title] {
+        top: -60px;
+        background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_m.png');
+        background-size: 60px;
+      }
+
+      .content {
+        max-width: 400px;
+      }
+
+      .card-container {
+        width: 100%;
+      }
+    }
+
+    </style>
+
+    <firebase-query
+      id="query"
+      path="/peliculas"
+      data="{{peliculas}}">
+    </firebase-query>
+
+    <!-- main panel -->
+    <app-header-layout>
+      <div class="content">
+        <div>
+                    <iron-image src="./image/perfil.jpg" ></iron-image>
+        </div>
+          
+          <iron-form id="form1">
+              <form action="/foo" method="get">
+                <paper-input type="text" name="name" label="Nombre" ></paper-input>
+                <paper-input type="text" name="apellidos" label="Apellidos" ></paper-input>
+                <paper-input type="text" name="mail" label="Mail" ></paper-input>
+                <label id="labelradio">Tipo Perfil: </label>
+                <paper-radio-group aria-labelledby="labelradio">
+                    <paper-radio-button name="publico">Publico</paper-radio-button>
+                    <paper-radio-button name="privado">Privado</paper-radio-butto>
+                </paper-radio-group>
+                <div>
+                    <paper-input type="text" name="descripcion" label="Descripcion" ></paper-input>
+                </div>
+                <div>
+                    <paper-button raised onclick="form1.submit()">Actualizar</paper-button>
+                    <paper-button raised onclick="form1.reset()">Volver</paper-button>
+                </div>
+              </form>
+              <br>
+              <div class="output"></div>
+            </iron-form>
+      </div>
+
+    </app-header-layout>
+
+    <paper-fab icon="app:create"></paper-fab>
+  </template>
+
+  <script>
+
+  Polymer({
+    is: 'ot-perfil',
+
+    properties: {
+      recipes: Object,
+    },
+    ayuda: function(){
+      console.log(this.peliculas);
+    },
+    redirigir: function(){
+      location.href = '#/perfil';
+    }
+
+  });
+
+  </script>
+</dom-module>
+

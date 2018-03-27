@@ -1,0 +1,177 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<dom-module id="ot-vercantante">
+    <link rel="import" type="css" href="../css/w3.css">
+  <template>
+    
+    <style>
+      :host {
+        display: block;
+        background-attachment: fixed;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+      }
+
+      #header {
+        color: white;
+
+        --app-header-background-rear-layer: {
+          background-color: #00AA8D;
+        }
+        ;
+      }
+
+      paper-icon-button {
+        color: white;
+        --paper-icon-button-ink-color: white;
+      }
+
+      .card-container {
+        position: relative;
+        width: 720px;
+        margin: 40px auto 40px;
+      }
+
+      paper-card {
+        padding: 16px;
+        width: 100%;
+      }
+
+      paper-card p {
+        margin: 12px 0;
+        color: #999;
+      }
+
+      h4 {
+        margin: 60px 0 12px;
+      }
+
+      .ingredient-item {
+        margin: 20px 0;
+        @apply --layout-horizontal;
+      }
+
+      .ingredient-amount {
+        margin-left: -80px;
+        width: 60px;
+        padding-right: 20px;
+        color: rgb(33, 169, 143);
+        text-align: right;
+      }
+
+      .ingredient-name {
+        @apply --layout-flex;
+      }
+
+      @media (max-width: 720px) {
+
+        .card-container {
+          width: 100%;
+          margin: 150px 0 0;
+        }
+
+      }
+    </style>
+
+    <!-- main panel -->
+    <app-header-layout style="background-color: #f4f4f4">
+      <iron-image src="{{cantante.imagen}}" sizing="cover" 
+      style="width: 200px; 
+      height: 200px; 
+      display: block;
+      margin-left: auto;
+      margin-right: auto;" 
+      class="w3-round w3-border"></iron-image>
+      <div class="card-container">
+        <paper-card heading="{{cantante.nombre}}">
+          <div class="card-content">
+            <p>Descripción: {{cantante.descripcion}}</p>
+            <p>Precio: {{cantante.precio}} cr</p>
+            <p>Posición en el ranking: 1</p>
+            <p>Puntuaciones:</p>
+            <table class="w3-table w3-border w3-bordered w3-striped">
+              <thead class="w3-indigo">
+                <tr>
+                  <th>Gala</th>
+                  <th>Puntos</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>15</td>
+                </tr>
+                <tr>
+                  <th>Total</th>
+                  <th>30</th>
+                </tr>
+              </tbody>
+            </table>
+
+            <!--template is="dom-repeat" items="{{__actores(pelicula)}}">
+              <div class="ingredient-item">
+                <div class="ingredient-amount">{{item.nombre}}</div>
+                <div class="ingredient-name">{{item.nacionalidad}}</div>
+              </div>
+            </template-->
+          </div>
+        </paper-card>
+      </div>
+    </app-header-layout>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'ot-vercantante',
+
+      properties: {
+
+        cantante: Object
+
+      },
+
+      __cantanteChanged: function (cantante) {
+        if (cantante) {
+          this.style.backgroundImage = 'url(' + cantante.imagen + ')';
+        }
+      }
+    });
+
+  </script>
+
+</dom-module>

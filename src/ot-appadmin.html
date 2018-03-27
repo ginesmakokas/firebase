@@ -1,0 +1,406 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-layout/app-layout.html">
+
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+
+
+
+
+<link rel="import" href="ot-verdueto.html">
+<link rel="import" href="ot-vercantante.html">
+<link rel="import" href="app-icons.html">
+<link rel="import" href="admin/ot-gestionusuarios.html">
+<link rel="import" href="admin/ot-gestioncantantes.html">
+<link rel="import" href="admin/ot-gestionduetos.html">
+<link rel="import" href="admin/ot-gestiongalas.html">
+
+<link rel="import" href="admin/ot-delcantante.html">
+<link rel="import" href="admin/ot-deldueto.html">
+<link rel="import" href="admin/ot-delgala.html">
+<link rel="import" href="admin/ot-deluser.html">
+
+<link rel="import" href="admin/ot-newuser.html">
+<link rel="import" href="admin/ot-newcantante.html">
+<link rel="import" href="admin/ot-newdueto.html">
+<link rel="import" href="admin/ot-newgala.html">
+
+<link rel="import" href="admin/ot-updateuser.html">
+<link rel="import" href="admin/ot-updatecantante.html">
+<link rel="import" href="admin/ot-updatedueto.html">
+<link rel="import" href="admin/ot-updategala.html">
+
+
+<dom-module id="ot-appadmin">
+
+  <template>
+
+    <style>
+      
+    :host {
+      --paper-font-common-base: {
+        font-family: Raleway, sans-serif;
+      };
+    }
+    app-header {
+      color: #fff;
+      background-color: rgb(75, 139, 190);
+
+    }
+    app-toolbar {
+      height: 5px;
+    }
+
+    app-drawer-layout:not([narrow]) [drawer-toggle] {
+      display: none;
+    }
+    [condensed-title] {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+/*      background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_m.png');*/
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 60px;
+      /* The difference in font size is used to calculate the scale of the title in the transition. */
+      font-size: 16px;
+    }
+
+    [main-title] {
+      position: absolute;
+      top: -120px;
+      bottom: 0;
+      left: 0;
+      right: 0;
+  /*    background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_l.png');*/
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 240px;
+      -webkit-transform-origin: center top !important;
+      transform-origin: center top !important;
+
+      /* The difference in font size is used to calculate the scale of the title in the transition. */
+      font-size: 32px;
+    }
+
+
+    .avatar-container {
+      position: relative;
+      border: 2px solid rgb(116, 29, 197);
+      border-radius: 50%;
+      height: 90px;
+      padding: 2px;
+      width: 90px;
+      margin: 20px auto;
+    }
+
+    .avatar-container .image {
+      background-image: url('//app-layout-assets.appspot.com/assets/pesto/avatar.jpg');
+      background-size: contain;
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
+    }
+
+    .contact-info {
+      margin: 0 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #CCC;
+      text-align: center;
+    }
+
+    .contact-info .name {
+      font-weight: bold;
+    }
+
+    .contact-info .email {
+      color: #999;
+    }
+
+    paper-item {
+      height: 54px;
+    }
+
+    paper-item > a {
+      width: 100%;
+      height: 100%;
+      line-height: 54px;
+      text-align: center;
+      text-decoration: none;
+      color: rgb(0, 0, 0);
+    }
+    paper-icon-button {
+      --paper-icon-button-ink-color: white;
+    }
+    #buttonLogin {
+      background-color: rgb(161, 99, 219);
+      --paper-icon-button-ink-color: white;
+    }
+    #buttonLogin:hover {
+      background-color: rgb(119, 13, 218);
+      --paper-icon-button-ink-color: white;
+    }
+    #btnNav{
+      text-decoration:#fff;
+      color: rgb(255, 255, 255);
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      padding: 10px;
+    }
+    .grid-item {
+
+      padding: 20px;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    </style>
+        <firebase-auth id="auth" user="{{user}}" provider="google">
+        </firebase-auth>
+    <!-- Patrón de rutas de navegación -->
+    <app-location route="{{_route}}" use-hash-as-path></app-location>
+    <app-route
+        route="{{_route}}"
+        pattern="/:page"
+        data="{{_pageData}}"
+        tail="{{_subRoute}}"></app-route>
+    <app-route
+        route="{{_subRoute}}"
+        pattern="/:id"
+        data="{{_idData}}"></app-route>
+
+
+
+    <!-- ------------------------------------------------------------------------------------>
+                                <!--REGISTRO-->
+      
+  
+    <!-------------------------------------------------------------------------------------->
+    
+
+
+    <!-------------------------------------------------------------------------------------->
+
+
+<!-------------------------------------------------------------------------------------------->        
+<!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->        
+<!-------------------------------------------------------------------------------------------->        
+        <app-drawer-layout responsive-width="1280px" name="admin">
+
+            <!-- nav panel -->
+            <app-drawer id="drawer2" swipe-open slot="drawer">
+              <app-header-layout has-scrolling-region>
+      
+                <app-header fixed slot="header">
+                  <div class="avatar-container">
+                    <div class="image"></div>
+                  </div>
+                  <div class="contact-info">
+      
+                    <div class="name">[[user.displayName]]</div>
+                    <div class="email">[[user.email]]</div>
+                    <div class="email">
+                      <paper-button raised on-tap="_salirUsuario">Salir</paper-button>
+                    </div>
+                  </div>
+                </app-header>
+      
+      
+                <!-- nav menu -->
+                <!-- Two way binding to the selected property has been removed due to polymer/issues/4405 -->
+                <paper-listbox
+                    selected="[[_pageData.page]]"
+                    attr-for-selected="name"
+                    on-iron-activate="_drawerSelected">
+                  <paper-item name="perfil">
+                    <a href="#/perfil" name="perfil">Gestion Usuarios</a>
+                  </paper-item>
+                  <paper-item name="home">
+                    <a href="#/galas" name="galas">Gestion Galas</a>
+                  </paper-item>
+                  <paper-item name="ranking">
+                    <a href="#/ranking" name="ranking">Gestion Ranking</a>
+                  </paper-item>
+                  <paper-item name="cantantes">
+                    <a href="#/cantantes" name="cantantes">Gestion Cantantes</a>
+                  </paper-item>
+                  <paper-item name="duetos">
+                      <a href="#/duetos" name="duetos">Gestion Duetos</a>
+                    </paper-item>
+                </paper-listbox>
+              </app-header-layout>
+            </app-drawer>
+      <!--      BARRA DE NAVEGACION     -->
+      <app-header-layout>
+          <app-header effects="resize-title" condenses fixed shadow slot="header">
+            <div>
+            <app-toolbar class="top-toolbar">
+              <div condensed-title> 
+              </div> 
+            </app-toolbar>
+            <app-toolbar class="bottom-toolbar">
+              <div main-title></div>
+            </app-toolbar>
+          </div>
+          <a href="#/perfil" id="btnNav"><paper-button>Gestion Usuarios</paper-button></a>
+          <a href="#/galas" id="btnNav"><paper-button>Gestion Galas</paper-button></a>
+          <a href="#/ranking" id="btnNav"><paper-button>Gestion Ranking</paper-button></a>
+          <a href="#/cantantes" id="btnNav"><paper-button>Gestion Cantantes</paper-button></a>
+          <a href="#/duetos" id="btnNav"><paper-button>Gestion Duetos</paper-button></a>
+          </app-header>
+        </app-header-layout>
+      
+      
+            <!-- list/detail pages -->
+            <iron-pages selected="[[_selectedPage]]" attr-for-selected="name">
+      
+              <ot-gestioncantantes name="cantantes"></ot-gestioncantantes> 
+      
+              <ot-gestionusuarios name="perfil"></ot-gestionusuarios>
+      
+              <ot-gestiongalas name="galas"></ot-gestiongalas>
+      
+              <ot-ranking name="ranking"></ot-ranking>
+      
+              <ot-gestionduetos name="duetos"></ot-gestionduetos>
+      
+              <ot-verdueto id="detailDueto" name="detailDueto" duetoid="[[_idData.id]]"></ot-verdueto>
+
+              <ot-newuser name="newuser"></ot-newuser>
+              <ot-newdueto name="newdueto"></ot-newdueto>
+              <ot-newgala name="newgala"></ot-newgala>
+              <ot-newcantante name="newcantante"></ot-newcantante>
+              
+              <ot-delcantante name="delcantante"></ot-delcantante>
+              <ot-deldueto name="deldueto"></ot-deldueto>
+              <ot-delgala name="delgala"></ot-delgala>
+              <ot-deluser name="deluser"></ot-deluser>
+
+              <ot-updatecantante name="updatecantante"></ot-updatecantante>
+              <ot-updatedueto name="updatedueto"></ot-updatedueto>
+              <ot-updategala name="updategala"></ot-updategala>
+              <ot-updateuser name="updateuser"></ot-updateuser>
+              
+            </iron-pages>
+      </app-drawer-layout>
+  </template>
+
+  <script>
+
+  Polymer({
+
+    is: 'ot-appadmin',
+
+    properties: {
+
+      _route: Object,
+
+      _subRoute: Object,
+
+      _pageData: {
+        type: Object,
+        observer: '_pageDataChanged'
+      },
+
+      _selectedPage: String,
+
+      _idData: Object,
+      
+      /************************************************************************************************/
+
+      user: Object,
+    
+      /************************************************************************************************/
+
+      _scrollPositionMap: {
+        type: Object,
+        value: function() {
+          return {};
+        }
+      }
+    },
+
+    attached: function() {
+      this.async(function() {
+        if (!this._route.path) {
+          this.set('_route.path', '/home');
+        }
+      });
+    }, 
+    _drawerSelected: function() {
+      if (!this.$.drawer.persistent) this.$.drawer.close();
+    },
+
+    /************************************************************************************************/
+
+    _abrirventanalogin: function(){
+      return this.$.auth.signInWithPopup();
+    },
+
+    _salirUsuario: function(){
+      console.log(this.user);
+      this.$.auth.signOut();
+    },
+
+  /************************************************************************************************/
+
+    /**
+     * Preserves the document scroll position, so 
+     * it can be restored when returning to a page.
+     */
+    _pageDataChanged: function(pageData, oldPageData) {
+      var map = this._scrollPositionMap;
+     
+      if (oldPageData != null && oldPageData.page != null) {
+        map[oldPageData.page] = window.pageYOffset;
+      }
+      this._selectedPage = pageData.page;
+      if (map[pageData.page] != null) {
+        Polymer.AppLayout.scroll({ top: map[pageData.page], behavior: 'silent' });
+      } else if (this.isAttached) {
+        Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
+      }
+    }
+
+  });
+
+  </script>
+
+</dom-module>

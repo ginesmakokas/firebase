@@ -1,0 +1,162 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
+
+<dom-module id="ot-duetos">
+  <template>
+
+    <style>
+      .card-header {
+        @apply --paper-font-headline;
+      }
+
+      .icon-text {
+        color: var(--paper-grey-600);
+      }
+
+      .icon-price {
+        float: right;
+        font-size: 15px;
+        vertical-align: middle;
+      }
+
+      .content {
+        display: block;
+        position: relative;
+        max-width: 1000px;
+        margin: 5px auto;
+      }
+
+      .card-container {
+        display: inline-block;
+        width: 30%;
+        color: black;
+        text-decoration: none;
+      }
+
+      paper-card {
+        display: block;
+        margin: 5px;
+        --paper-card-header-image: {
+          height: 180px;
+        }
+      }
+
+      paper-card h2 {
+        margin: 4px;
+        font-weight: normal;
+      }
+
+      paper-card p {
+        margin: 4px;
+        font-size: 15px;
+        color: #999;
+      }
+
+      @media (max-width: 960px) {
+        .content {
+          max-width: 800px;
+        }
+        .card-container {
+          width: 50%;
+        }
+      }
+
+      @media (max-width: 719px) {
+        app-toolbar {
+          height: 60px;
+        }
+        .content {
+          max-width: 400px;
+        }
+        .card-container {
+          width: 100%;
+        }
+      }
+
+      paper-button.indigo {
+        background-color: #dbdbdb;
+        color: black;
+        font-size: 12px;
+        --paper-button-raised-keyboard-focus: {
+          background-color: var(--paper-pink-a200) !important;
+          color: white !important;
+        }
+        ;
+      }
+    </style>
+
+    <app-header-layout>
+      <div class="content">
+        <h1>Duetos</h1>
+        <br>
+        <template is="dom-repeat" items="{{duetos}}">
+          <a href="#/detailDueto/{{item.$key}}" class="card-container">
+            <paper-card image="{{item.imagen}}">
+              <div class="card-content">
+                <div class="card-header">
+                  {{item.cantante1}} y {{item.cantante2}}
+                  <div class="icon-price icon-text">
+                    <iron-icon src="../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+                    <span>{{item.precio}} cr</span>
+                  </div>
+                  <p>Puntuación: {{item.puntuacionTotal}}</p>
+                </div>
+                <paper-button class="indigo">Ver detalle</paper-button>
+              </div>
+              <div class="card-actions">
+                <paper-button>Descripción</paper-button>
+                <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggle" data-args="{{index}}" style="float:right;">
+                </paper-icon-button>
+                <iron-collapse id="descripcionDueto{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                  {{item.descripcion}}
+                </iron-collapse>
+              </div>
+            </paper-card>
+          </a>
+        </template>
+      </div>
+    </app-header-layout>
+  </template>
+
+  <script>
+    Polymer({
+      is: 'ot-duetos',
+
+      properties: {
+        duetos: Object
+      },
+
+      _toggle: function (e) {
+        var i = e.model.get('index');
+        var moreInfo = document.getElementById('descripcionDueto' + i);
+        var iconButton = Polymer.dom(event).localTarget;
+        iconButton.icon = moreInfo.opened ? 'expand-more' : 'expand-less';
+        moreInfo.toggle();
+      }
+    });
+  </script>
+</dom-module>

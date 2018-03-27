@@ -1,0 +1,357 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+
+<link rel="import" href="../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
+
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-layout/app-layout.html">
+<link rel="import" href="../bower_components/paper-carousel/paper-carousel.html">
+
+<link rel="import" href="../bower_components/jquery/jquery.html">
+
+<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+
+<link rel="import" href="ot-duetos.html">
+<link rel="import" href="ot-equipo.html">
+<link rel="import" href="ot-gala.html">
+<link rel="import" href="ot-perfil.html">
+<link rel="import" href="ot-ranking.html">
+<link rel="import" href="ot-verdueto.html">
+<link rel="import" href="ot-vercantante.html">
+<link rel="import" href="app-icons.html">
+
+<dom-module id="ot-ingreso">
+
+  <template>
+
+    <style>
+      
+    :host {
+      --paper-font-common-base: {
+        font-family: Raleway, sans-serif;
+      };
+    }
+    app-header {
+      color: #fff;
+      background-color: rgb(75, 139, 190);
+
+    }
+    app-toolbar {
+      height: 5px;
+    }
+
+    app-drawer-layout:not([narrow]) [drawer-toggle] {
+      display: none;
+    }
+    .grid-container {
+        display: grid;
+        grid-template-columns: 400px 400px 400px 300px 300px;
+        grid-template-rows: 300px 300px 300px 300px 300px;
+        
+        padding: 10px;
+    }
+
+    .grid-item {
+
+        padding: 20px;
+        font-size: 30px;
+        text-align: center;
+    }
+  
+
+    #buttonSel {
+                background-color: rgb(161, 99, 219);
+                --paper-icon-button-ink-color: white;
+            }
+
+    #buttonSel:hover {
+                background-color: rgb(119, 13, 218);
+                --paper-icon-button-ink-color: white;
+    }
+    .imagentam{
+        width: 60%;
+        height: 50%;
+    }
+
+
+
+    </style>
+        <firebase-auth id="auth" user="{{user}}" provider="google">
+        </firebase-auth>
+    <!-- Patrón de rutas de navegación -->
+    <app-location route="{{_route}}" use-hash-as-path></app-location>
+    <app-route
+        route="{{_route}}"
+        pattern="/:page"
+        data="{{_pageData}}"
+        tail="{{_subRoute}}"></app-route>
+    <app-route
+        route="{{_subRoute}}"
+        pattern="/:id"
+        data="{{_idData}}"></app-route>
+
+
+
+    <!-- ------------------------------------------------------------------------------------>
+                                <!--REGISTRO-->
+      
+  
+    <!-------------------------------------------------------------------------------------->
+    
+
+
+    <!-------------------------------------------------------------------------------------->
+
+
+<!-------------------------------------------------------------------------------------------->        
+<!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->        
+<!-------------------------------------------------------------------------------------------->        
+<firebase-query id="query" path="/Cantantes" data="{{cantantes}}">
+</firebase-query>
+
+<firebase-query id="query" path="/Duetos" data="{{duetos}}">
+</firebase-query>
+
+<div class="grid-container" name="login">
+        <div class="grid-item">
+                <h1 >Selecciona un dueto y dos cantante</h1>
+        </div>
+        <div class="grid-item">
+            <div>
+                <paper-carousel items="1" dotText="true" controls="true" name="cantantes" dots="true" loop="true" autoplay="true" autoplaytime="5000" >
+                        <template is="dom-repeat" items="{{cantantes}}">
+                          <a href="#/detailCantante/{{item.$key}}" class="card-container">
+                            <paper-card image="{{item.imagen}}">
+                              <div class="card-content">
+                                <div class="card-header">
+                                  {{item.nombre}}
+                                  <div class="icon-price icon-text">
+                                    <iron-icon src="../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+                                    <span>{{item.precio}} cr</span>
+                                  </div>
+                                </div>
+                                <paper-button class="indigo">Ver detalle</paper-button>
+                              </div>
+                            </a>
+                              <div  class="card-action">
+                                  <paper-button id="buttonSel" on-tap="_asignar">Seleccionar</paper-button>
+                                  <paper-button>Descripción</paper-button>
+                                  <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggle" data-args="{{index}}" style="float:right;">
+                                  </paper-icon-button>
+                                  <iron-collapse id="descripcionCantante{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                                    {{item.descripcion}}
+                                  </iron-collapse>
+                              </div>
+                            </paper-card>
+                        </div>
+                      </template>
+                </paper-carousel>
+            </div>
+        </div>
+
+        <div class="grid-item">
+            <div>
+                <paper-carousel items="1" dotText="true" controls="true" name="duetos" dots="true" loop="true" autoplay="true" autoplaytime="5000" >
+                        <template is="dom-repeat" items="{{duetos}}">
+                          <a href="#/detailDueto/{{item.$key}}" class="card-container">
+                            <paper-card image="{{item.imagen}}">
+                              <div class="card-content">
+                                <div class="card-header">
+                                  {{item.cantante1}} y {{item.cantante2}}
+                                  <div class="icon-price icon-text">
+                                    <iron-icon src="../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+                                    <span>{{item.precio}} cr</span>
+                                  </div>
+                                  <p>Puntuación: {{item.puntuacionTotal}}</p>
+                                </div>
+                                <paper-button class="indigo">Ver detalle</paper-button>
+                              </div>
+                            </a>
+                              <div class="card-action">
+                                    <paper-button id="buttonSel">Seleccionar</paper-button>
+                                    <paper-button>Descripción</paper-button>
+                                    <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggle" data-args="{{index}}" style="float:right;">
+                                    </paper-icon-button>
+                                    <iron-collapse id="descripcionDueto{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                                      {{item.descripcion}}
+                                    </iron-collapse>
+                                </div>
+                            </paper-card>
+                          </div>
+                      </template>
+                </paper-carousel>
+            </div>
+        </div>
+        <div class="grid-item">
+                <div name="cantante1">
+                        <paper-card id="cards" image="{{item.imageUrl}}">
+                                <div class="card-content">
+                                  <h2>{{item.titulo}}</h2>
+                                  <p>Cantante 1</p>
+                                </div>
+                              </a>
+                                <div class="card-action">
+                                      <paper-button id="buttonSel" class="prueba">Quitar</paper-button>
+                                  </div>
+                              </paper-card>
+                            </div>
+        </div>
+        <div class="grid-item">
+            <div name="cantante2">
+                <paper-card id="cards" image="{{item.imageUrl}}">
+                        <div class="card-content">
+                          <h2>{{item.titulo}}</h2>
+                          <p>Cantante 2</p>
+                        </div>
+                      </a>
+                        <div class="card-action">
+                              <paper-button id="buttonSel">Quitar</paper-button>
+                          </div>
+                      </paper-card>
+                    </div>
+        </div>
+        <div class="grid-item">
+        </div> 
+        <div class="grid-item">
+        </div> 
+        <div class="grid-item">
+        </div> 
+        <div class="grid-item">
+                <div name="dueto">
+                        <paper-card id="dueto1" image="{{item.imageUrl}}">
+                                <div class="card-content">
+                                  <h2>{{item.titulo}}</h2>
+                                  <p>Dueto </span></p>
+                                </div>
+                              </a>
+                                <div class="card-action">
+                                      <paper-button id="buttonSel">Quitar</paper-button>
+                                  </div>
+                              </paper-card>
+                            </div>
+        </div> 
+    </div>
+  </template>
+
+  <script>
+
+  Polymer({
+
+    is: 'ot-ingreso',
+
+    properties: {
+
+      recipes: Object,
+
+      _route: Object,
+
+      _subRoute: Object,
+
+      _pageData: {
+        type: Object,
+        observer: '_pageDataChanged'
+      },
+
+      _selectedPage: String,
+
+      _idData: Object,
+      
+      /************************************************************************************************/
+
+      user: Object,
+      aux1: String,
+    
+      /************************************************************************************************/
+
+      _scrollPositionMap: {
+        type: Object,
+        value: function() {
+          return {};
+        }
+      }
+    },
+
+    attached: function() {
+      this.async(function() {
+        if (!this._route.path) {
+          this.set('_route.path', '/home');
+        }
+      });
+    }, 
+
+    _drawerSelected: function() {
+      if (!this.$.drawer.persistent) this.$.drawer.close();
+    },
+
+    /************************************************************************************************/
+
+    _abrirventanalogin: function(){
+      return this.$.auth.signInWithPopup();
+    },
+
+    _salirUsuario: function(){
+      console.log(this.user);
+      this.$.auth.signOut();
+    },
+    _asignar:function(){
+        
+        var dueto = document.querySelector('#dueto1');
+        var elemento = document.querySelector(this.$.card1);
+        console.log(elemento);
+        var imagen = elemento.getAttribute('image');
+        dueto.setAttribute('image',imagen)    
+    },
+
+  /************************************************************************************************/
+
+    /**
+     * Preserves the document scroll position, so 
+     * it can be restored when returning to a page.
+     */
+    _pageDataChanged: function(pageData, oldPageData) {
+      var map = this._scrollPositionMap;
+     
+      if (oldPageData != null && oldPageData.page != null) {
+        map[oldPageData.page] = window.pageYOffset;
+      }
+      this._selectedPage = pageData.page;
+      if (map[pageData.page] != null) {
+        Polymer.AppLayout.scroll({ top: map[pageData.page], behavior: 'silent' });
+      } else if (this.isAttached) {
+        Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
+      }
+    }
+
+  });
+
+  </script>
+
+</dom-module>
