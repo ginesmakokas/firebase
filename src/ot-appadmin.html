@@ -36,6 +36,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
 
+<link rel="import" href="../bower_components/firebase-query/firebase-query.html">
+
 
 
 
@@ -206,6 +208,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         pattern="/:id"
         data="{{_idData}}"></app-route>
 
+        <firebase-query id="query" path="/Cantantes" data="{{cantantes}}">
+        </firebase-query>
+        
+        <firebase-query id="query" path="/Duetos" data="{{duetos}}">
+        </firebase-query>
+
 
 
     <!-- ------------------------------------------------------------------------------------>
@@ -291,7 +299,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <!-- list/detail pages -->
             <iron-pages selected="[[_selectedPage]]" attr-for-selected="name">
       
-              <ot-gestioncantantes name="cantantes"></ot-gestioncantantes> 
+              <ot-gestioncantantes name="cantantes" cantantes="[[cantantes]]"></ot-gestioncantantes> 
       
               <ot-gestionusuarios name="perfil"></ot-gestionusuarios>
       
@@ -299,12 +307,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       
               <ot-ranking name="ranking"></ot-ranking>
       
-              <ot-gestionduetos name="duetos"></ot-gestionduetos>
+              <ot-gestionduetos name="duetos" duetos="[[duetos]]"></ot-gestionduetos>
       
-              <ot-verdueto id="detailDueto" name="detailDueto" duetoid="[[_idData.id]]"></ot-verdueto>
+              <ot-vercantante id="detailCantante" name="detailCantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-vercantante>
+              <ot-verdueto id="detailDueto" name="detailDueto" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-verdueto>
 
               <ot-newuser name="newuser"></ot-newuser>
-              <ot-newdueto name="newdueto"></ot-newdueto>
+              <ot-newdueto name="newdueto" cantantes="[[cantantes]]"></ot-newdueto>
               <ot-newgala name="newgala"></ot-newgala>
               <ot-newcantante name="newcantante"></ot-newcantante>
               
@@ -330,6 +339,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     properties: {
 
+      cantantes: Object,
+
+      duetos: Object,
+      
       _route: Object,
 
       _subRoute: Object,
@@ -355,6 +368,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           return {};
         }
       }
+    },
+
+    _getCantante: function () {
+        if (this.cantantes && this._idData && this._idData.id) {
+          for (var i = 0; i < this.cantantes.length; ++i) {
+            var r = this.cantantes[i];
+            if (r.$key === this._idData.id) {
+              return r;
+            }
+          }
+        }
+        return null;
+    },
+
+    _getDueto: function () {
+        if (this.duetos && this._idData && this._idData.id) {
+          for (var i = 0; i < this.duetos.length; ++i) {
+            var r = this.duetos[i];
+            if (r.$key === this._idData.id) {
+              return r;
+            }
+          }
+        }
+        return null;
     },
 
     attached: function() {
