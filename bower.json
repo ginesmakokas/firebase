@@ -32,7 +32,7 @@
     "paper-dialog": "PolymerElements/paper-dialog#^2.1.1",
     "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#^2.2.0",
     "paper-carousel": "Redbility/paper-carousel#^1.2.5",
-    "vaadin-upload": "Vaadin/vaadin-upload#^3.0.2"
+    "iron-collapse": "PolymerElements/iron-collapse#^2.2.0"
   },
   "variants": {
     "1.x": {

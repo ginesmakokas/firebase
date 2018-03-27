@@ -8,21 +8,21 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../bower_components/paper-card/paper-card.html">
-<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 
-<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
-<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
-<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
-<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
-<link rel="import" href="../bower_components/polymerfire/polymerfire.html">
-<link rel="import" href="../bower_components/paper-button/paper-button.html">
-<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
-<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
 
 <dom-module id="ot-cantantes">
@@ -115,7 +115,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <h1>Cantantes</h1>
         <br>
         <template is="dom-repeat" items="{{cantantes}}">
-          <a href="#/detailCantante/{{item.$key}}" class="card-container">
+          <div class="card-container">
             <paper-card image="{{item.imagen}}">
               <div class="card-content">
                 <div class="card-header">
@@ -126,7 +126,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   </div>
                   <p>Puntuación: {{item.puntuacionTotal}}</p>
                 </div>
+                <a href="#/detailCantante/{{item.$key}}" class="card-container">
                 <paper-button class="indigo">Ver detalle</paper-button>
+                </a>
               </div>
               <div class="card-actions">
                 <paper-button>Descripción</paper-button>
@@ -137,7 +139,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </iron-collapse>
               </div>
             </paper-card>
-          </a>
+          </div>
         </template>
       </div>
     </app-header-layout>
