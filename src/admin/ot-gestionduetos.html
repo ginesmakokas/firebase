@@ -249,7 +249,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-header-layout>
       <div class="content">
-        <paper-button raised style="background-color: lightgreen;">
+        <paper-button raised style="background-color: lightgreen;" on-tap="_nuevoDueto">
           <iron-icon icon="icons:add"></iron-icon>Nuevo dueto</paper-button>
         <br>
         <h1>Duetos</h1>
@@ -267,10 +267,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <p>Puntuación: {{item.puntuacionTotal}}</p>
                 </div>
                 <div>
+                  <!-- Ver -->
                   <paper-button class="indigo" on-tap="_verDueto">
-                    <iron-icon icon="icons:visibility"></iron-icon>Ver detalle</paper-button>
-                  <paper-button raised style="background-color: crimson; color: white" class="">
-                    <iron-icon icon="icons:delete"></iron-icon>Eliminar</paper-button>
+                      <iron-icon icon="icons:visibility"></iron-icon>
+                    </paper-button>
+                    <!-- Eliminar -->
+                    <paper-button raised style="background-color: crimson; color: white" class="">
+                      <iron-icon icon="icons:delete"></iron-icon></paper-button>
+                    <!-- Editar -->
+                    <paper-button raised style="background-color: rgb(15, 149, 202); color: white">
+                      <iron-icon icon="image:edit"></iron-icon></paper-button>
                 </div>
               </div>
               <div class="card-actions">
@@ -366,6 +372,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log(e.model.get('item.cantante1'));
         console.log(e.model.get('item.cantante2'));
         this.set('_route.path', '/detailDueto/' + i);
+      },
+
+      _nuevoDueto: function () {
+        this.set('_route.path', '/newdueto');
       },
 
       _toggle: function (e) {

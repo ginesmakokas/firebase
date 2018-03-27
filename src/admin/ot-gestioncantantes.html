@@ -249,7 +249,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </div-->
     <app-header-layout>
       <div class="content">
-        <paper-button raised style="background-color: lightgreen;">
+        <paper-button raised style="background-color: lightgreen;" on-tap="_nuevoCantante">
           <iron-icon icon="icons:add"></iron-icon>Nuevo cantante</paper-button>
         <br>
         <h1>Cantantes</h1>
@@ -267,25 +267,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <p>Puntuación: {{item.puntuacionTotal}}</p>
                 </div>
                 <div>
-                    <paper-button class="indigo" on-tap="_verCantante">
-                      <iron-icon icon="icons:visibility"></iron-icon>Ver detalle
-                    </paper-button>
+                  <!-- Ver -->
+                  <paper-button class="indigo" on-tap="_verCantante">
+                    <iron-icon icon="icons:visibility"></iron-icon>
+                  </paper-button>
+                  <!-- Eliminar -->
                   <paper-button raised style="background-color: crimson; color: white" class="">
-                    <iron-icon icon="icons:delete"></iron-icon>Eliminar</paper-button>
+                    <iron-icon icon="icons:delete"></iron-icon></paper-button>
+                  <!-- Editar -->
+                  <paper-button raised style="background-color: rgb(15, 149, 202); color: white">
+                    <iron-icon icon="image:edit"></iron-icon></paper-button>
                 </div>
-              </div>
-              <div class="card-actions">
-                <paper-button>Descripción</paper-button>
-                <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggle" data-args="{{index}}" style="float:right;">
-                </paper-icon-button>
-                <iron-collapse id="descripcionCantanteA{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
-                  {{item.descripcion}}
-                </iron-collapse>
-              </div>
+                <div class="card-actions">
+                  <paper-button>Descripción</paper-button>
+                  <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggle" data-args="{{index}}" style="float:right;">
+                  </paper-icon-button>
+                  <iron-collapse id="descripcionCantanteA{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                    {{item.descripcion}}
+                  </iron-collapse>
+                </div>
             </paper-card>
-          </div>
+            </div>
         </template>
-      </div>
+        </div>
     </app-header-layout>
   </template>
 
@@ -360,6 +364,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _salirUsuario: function () {
         console.log(this.user);
         this.$.auth.signOut();
+      },
+
+      _nuevoCantante: function () {
+        this.set('_route.path', '/newcantante');
       },
 
       _verCantante: function (e) {

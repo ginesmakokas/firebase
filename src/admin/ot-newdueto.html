@@ -21,6 +21,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
 
@@ -42,220 +43,150 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="app-icons.html">
 
 <dom-module id="ot-newdueto">
-
+  <link rel="import" type="css" href="../../css/w3.css">
   <template>
 
     <style>
-      
-    :host {
-      --paper-font-common-base: {
-        font-family: Raleway, sans-serif;
-      };
-    }
-    app-header {
-      color: #fff;
-      background-color: rgb(75, 139, 190);
+      .content {
+        display: block;
+        position: relative;
+        max-width: 1000px;
+        margin: 5px auto;
+      }
 
-    }
-    app-toolbar {
-      height: 5px;
-    }
+      .card-container {
+        display: inline-block;
+        width: 33.33%;
+        color: black;
+        text-decoration: none;
+      }
 
-    app-drawer-layout:not([narrow]) [drawer-toggle] {
-      display: none;
-    }
-    .grid-container {
-        display: grid;
-        grid-template-columns: 400px 400px 400px 300px 300px;
-        grid-template-rows: 300px 300px 300px 300px 300px;
-        
-        padding: 10px;
-    }
+      paper-card {
+        display: block;
+        margin: 5px;
+        --paper-card-header-image: {
+          height: 200px;
+        }
+      }
 
-    .grid-item {
+      paper-card h2 {
+        margin: 4px;
+        font-weight: normal;
+      }
 
-        padding: 20px;
-        font-size: 30px;
-        text-align: center;
-    }
-    #btnNav{
-      text-decoration:#fff;
-      color: rgb(255, 255, 255);
-      background-color: black;
-    }
-  
+      paper-card p {
+        margin: 4px;
+        color: #999;
+      }
 
-    #buttonSel {
-                background-color: rgb(161, 99, 219);
-                --paper-icon-button-ink-color: white;
-            }
+      paper-fab {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        --paper-fab-background: #EF5458;
+        --paper-fab-keyboard-focus-background: #DF4448;
+      }
 
-    #buttonSel:hover {
-                background-color: rgb(119, 13, 218);
-                --paper-icon-button-ink-color: white;
-    }
-    .imagentam{
-        width: 60%;
-        height: 50%;
-    }
+      @media (max-width: 960px) {
+        .content {
+          max-width: 800px;
+        }
+        .card-container {
+          width: 50%;
+        }
+      }
 
-
-
+      @media (max-width: 719px) {
+        app-toolbar {
+          height: 60px;
+        }
+        [condensed-title] {
+          background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_s.png');
+          background-size: 60px;
+        }
+        [main-title] {
+          top: -60px;
+          background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_m.png');
+          background-size: 60px;
+        }
+        .content {
+          max-width: 400px;
+        }
+        .card-container {
+          width: 100%;
+        }
+      }
     </style>
-        <firebase-auth id="auth" user="{{user}}" provider="google">
-        </firebase-auth>
-    <!-- Patrón de rutas de navegación -->
-    <app-location route="{{_route}}" use-hash-as-path></app-location>
-    <app-route
-        route="{{_route}}"
-        pattern="/:page"
-        data="{{_pageData}}"
-        tail="{{_subRoute}}"></app-route>
-    <app-route
-        route="{{_subRoute}}"
-        pattern="/:id"
-        data="{{_idData}}"></app-route>
 
+    <!-------------------------------------------------------------------------------------------------------->
 
-
-    <!-- ------------------------------------------------------------------------------------>
-                                <!--REGISTRO-->
-      
-  
-    <!-------------------------------------------------------------------------------------->
-    
-
-
-    <!-------------------------------------------------------------------------------------->
-
-
-<!-------------------------------------------------------------------------------------------->        
-<!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->        
-<!-------------------------------------------------------------------------------------------->        
-
-    
-<div class="grid-container" name="login">
-        <div class="grid-item">
-            <h1>NEW DUETO</h1>
+    <!-- main panel -->
+    <app-header-layout>
+      <div class="content">
+        <div>
+          <iron-image src="./image/perfil.jpg"></iron-image>
         </div>
-        <div class="grid-item">
-        </div>
+        <div>Nuevo dueto</div>
+        <iron-form id="form1">
+          <form action="/foo" method="get">
+            <paper-input type="text" name="imagen" id="imagen" label="Ruta a una imagen"></paper-input>
+            <paper-input type="text" name="precio" id="precio" label="Precio"></paper-input>
+            <paper-input type="text" name="descripcion" id="descripcion" label="Descripcion"></paper-input>
+            <br>
+            <select class="w3-select w3-border" name="option" required>
+              <option value="" disabled selected hidden>Cantante 1</option>
+              <template is="dom-repeat" items="{{cantantes}}">
+                  <option value="">{{item.nombre}}</option>
+              </template>
+            </select>
+            <br>
+            <br>
+            <select class="w3-select w3-border" name="option" required>
+                <option value="" disabled selected hidden>Cantante 2</option>
+                <template is="dom-repeat" items="{{cantantes}}">
+                    <option value="">{{item.nombre}}</option>
+                </template>
+              </select>
+            <br>
+            <br>
+            <div>
+              <!--<paper-button raised onclick="form1.submit()">Actualizar</paper-button>-->
+              <paper-button raised on-tap="_insertDueto">Insertar</paper-button>
+              <paper-button raised on-tap="redirigir">Volver</paper-button>
+            </div>
+          </form>
+          <br>
+          <div class="output"></div>
+        </iron-form>
+      </div>
 
-        <div class="grid-item">
-        </div>
-        <div class="grid-item">
-            
-        </div>
-        <div class="grid-item">
-            
-        </div>
-        <div class="grid-item">
-        </div> 
-        <div class="grid-item">
-        </div> 
-        <div class="grid-item">
-        </div> 
-        <div class="grid-item">
-            
-        </div> 
-    </div>
+    </app-header-layout>
   </template>
 
   <script>
-
-  Polymer({
-
-    is: 'ot-newdueto',
-
-    properties: {
-
-      recipes: Object,
-
-      _route: Object,
-
-      _subRoute: Object,
-
-      _pageData: {
-        type: Object,
-        observer: '_pageDataChanged'
+    Polymer({
+      is: 'ot-newdueto',
+      properties: {
+        cantantes: Object,
       },
-
-      _selectedPage: String,
-
-      _idData: Object,
-      
-      /************************************************************************************************/
-
-      user: Object,
-      aux1: String,
-    
-      /************************************************************************************************/
-
-      _scrollPositionMap: {
-        type: Object,
-        value: function() {
-          return {};
-        }
+      ayuda: function () {
+        console.log(this.peliculas);
+      },
+      redirigir: function () {
+        location.href = '#/duetos';
+      },
+      _insertDueto: function () {
+        var dataSinger = {
+          nombre: this.$.name.value,
+          imagen: this.$.imagen.value,
+          precio: this.$.precio.value,
+          descripcion: this.$.descripcion.value
+        };
+        console.log(dataSinger);
+        this.$.queryinsertSinger.ref.child(this.$.name.value).update(dataSinger);
+        //this.$.queryinsertSinger.ref.saveValue("this.$.name.value/dataSinger");
       }
-    },
-
-    attached: function() {
-      this.async(function() {
-        if (!this._route.path) {
-          this.set('_route.path', '/home');
-        }
-      });
-    }, 
-
-    _getRecipe: function() {
-      if (this.recipes && this._idData && this._idData.id) {
-        for (var i = 0; i < this.recipes.length; ++i) {
-          var r = this.recipes[i];
-          if (r.id === this._idData.id) {
-            return r;
-          }
-        }
-      }
-      return null;
-    },
-
-    _drawerSelected: function() {
-      if (!this.$.drawer.persistent) this.$.drawer.close();
-    },
-
-    /************************************************************************************************/
-
-    _abrirventanalogin: function(){
-      return this.$.auth.signInWithPopup();
-    },
-
-    _salirUsuario: function(){
-      console.log(this.user);
-      this.$.auth.signOut();
-    },
-
-
-  /************************************************************************************************/
-
-    /**
-     * Preserves the document scroll position, so 
-     * it can be restored when returning to a page.
-     */
-    _pageDataChanged: function(pageData, oldPageData) {
-      var map = this._scrollPositionMap;
-     
-      if (oldPageData != null && oldPageData.page != null) {
-        map[oldPageData.page] = window.pageYOffset;
-      }
-      this._selectedPage = pageData.page;
-      if (map[pageData.page] != null) {
-        Polymer.AppLayout.scroll({ top: map[pageData.page], behavior: 'silent' });
-      } else if (this.isAttached) {
-        Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
-      }
-    }
-
-  });
+    });
 
   </script>
 
