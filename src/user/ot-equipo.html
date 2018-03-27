@@ -12,6 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
@@ -19,135 +20,234 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
+
 
 <dom-module id="ot-equipo">
   <template>
 
     <style>
-
-    .content {
-      display: block;
-      position: relative;
-      max-width: 1000px;
-      margin: 5px auto;
-    }
-
-    .card-container {
-      display: inline-block;
-      width: 33.33%;
-      color: black;
-      text-decoration: none;
-    }
-
-    paper-card {
-      display: block;
-      margin: 5px;
-
-      --paper-card-header-image: {
-        height: 200px;
-      }
-    }
-
-    paper-card h2 {
-      margin: 4px;
-      font-weight: normal;
-    }
-
-    paper-card p {
-      margin: 4px;
-      color: #999;
-    }
-
-    paper-fab {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-
-      --paper-fab-background: #EF5458;
-      --paper-fab-keyboard-focus-background: #DF4448;
-    }
-
-    @media (max-width: 960px) {
       .content {
-        max-width: 800px;
+        display: block;
+        position: relative;
+        max-width: 1000px;
+        margin: 5px auto;
       }
-
       .card-container {
-        width: 50%;
+        display: inline-block;
+        width: 33.33%;
+        color: black;
+        text-decoration: none;
       }
-    }
-
-    @media (max-width: 719px) {
-      app-toolbar {
-        height: 60px;
+      paper-card {
+        display: block;
+        margin: 5px;
+        --paper-card-header-image: {
+          height: 200px;
+        }
       }
-
-      [condensed-title] {
-        background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_s.png');
-        background-size: 60px;
+      paper-card h2 {
+        margin: 4px;
+        font-weight: normal;
       }
-
-      [main-title] {
-        top: -60px;
-        background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_m.png');
-        background-size: 60px;
+      paper-card p {
+        margin: 4px;
+        color: #999;
       }
-
-      .content {
-        max-width: 400px;
+      paper-fab {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        --paper-fab-background: #EF5458;
+        --paper-fab-keyboard-focus-background: #DF4448;
       }
-
-      .card-container {
-        width: 100%;
+      @media (max-width: 960px) {
+        .content {
+          max-width: 800px;
+        }
+        .card-container {
+          width: 50%;
+        }
       }
-    }
-
+      @media (max-width: 719px) {
+        app-toolbar {
+          height: 60px;
+        }
+        [condensed-title] {
+          background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_s.png');
+          background-size: 60px;
+        }
+        [main-title] {
+          top: -60px;
+          background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_m.png');
+          background-size: 60px;
+        }
+        .content {
+          max-width: 400px;
+        }
+        .card-container {
+          width: 100%;
+        }
+      }
+      paper-button.indigo {
+        background-color: #dbdbdb;
+        color: black;
+        font-size: 12px;
+        --paper-button-raised-keyboard-focus: {
+          background-color: var(--paper-pink-a200) !important;
+          color: white !important;
+        }
+        ;
+      }
     </style>
 
-    <firebase-query
-      id="query"
-      path="/peliculas"
-      data="{{peliculas}}">
+    <!--QUERYS-->
+
+    <firebase-auth id="auth" user="{{user}}" provider="google">
+    </firebase-auth>
+
+    <firebase-query id="queryCantantes" path="/Cantantes" data="{{cantantes}}">
     </firebase-query>
+
+
+    <firebase-document id="queryEspect" path="/Espectadores/[[user.uid]]" data="{{espectador}}">
+    </firebase-document>
+    
+    <!-------------------------------------------------------------------------------------------------------->
 
     <!-- main panel -->
     <app-header-layout>
       <div class="content">
-          <div><paper-button raised on-tap="ayuda">AYUDA</paper-button></div>
-        <template is="dom-repeat" items="{{peliculas}}"><!-- No empty text node
-        --><a href="#/detail/{{item.$key}}" class="card-container">
-            <paper-card image="{{item.imageUrl}}">
-              <div class="card-content">
-                <h2>{{item.titulo}}</h2>
-                <p>Genero: <span>{{item.genero}}</span></p>
+        <h1>Equipo seleccionado por [[user.displayName]]</h2>
+          <br></br>
+          <h2>Cantantes:</h2>
+          
+          <template is="dom-repeat" items="{{cantantes}}">
+            <template is="dom-if" if="{{_isInCantante(item, espectador)}}">
+          
+              <div class="card-container">
+                <paper-card image="{{item.imagen}}">
+                  <div class="card-content">
+                    <div class="card-header">
+                      {{item.nombre}}
+                      <div class="icon-price icon-text">
+                        <iron-icon src="../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+                        <span>{{item.precio}} cr</span>
+                      </div>
+                      <p>Puntuación: {{item.puntuacionTotal}}</p>
+                    </div>
+                    <paper-button class="indigo">Ver detalle</paper-button>
+                  </div>
+                  <div class="card-actions">
+                    <paper-button>Descripción</paper-button>
+                    <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggleCantante" data-args="{{index}}" style="float:right;">
+                    </paper-icon-button>
+                    <iron-collapse id="descripcionCantante{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                      {{item.descripcion}}
+                    </iron-collapse>
+                  </div>
+                </paper-card>
               </div>
-            </paper-card>
-          </a><!-- No empty text node
-      --></template>
+            </template>
+          </template>
+
+          <br></br>
+          <h2>Duetos:</h2>
+          <template is="dom-repeat" items="{{_dueto}}">
+            <template is="dom-if" if="{{_isInDueto(item)}}">
+              <div class="card-container">
+                <paper-card image="{{item.imagen}}">
+                  <div class="card-content">
+                    <div class="card-header">
+                      {{item.cantante1}} y {{item.cantante2}}
+                      <div class="icon-price icon-text">
+                        <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+                        <span>{{item.precio}} cr</span>
+                      </div>
+                      <p>Puntuación: {{item.puntuacionTotal}}</p>
+                    </div>
+                    <paper-button class="indigo">Ver detalle</paper-button>
+                  </div>
+                  <div class="card-actions">
+                    <paper-button>Descripción</paper-button>
+                    <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggleDueto" data-args="{{index}}" style="float:right;">
+                    </paper-icon-button>
+                    <iron-collapse id="descripcionDueto{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                      {{item.descripcion}}
+                    </iron-collapse>
+                  </div>
+                </paper-card>
+              </div>
+            </template>
+          </template>
+
+          <div>
+            <paper-button raised on-tap="ayuda">AYUDA</paper-button>
+          </div>
       </div>
 
     </app-header-layout>
-
     <paper-fab icon="app:create"></paper-fab>
   </template>
 
   <script>
+    Polymer({
+      is: 'ot-equipo',
+      properties: {
+        recipes: Object,
+        _cantante: {
+          type: Object
+        },
+        _dueto: {
+          type: Object
+        },
+        cantantes: {
+          type: Object
+        },
+        duetos: {
+          type: Object
+        }
+      },
 
-  Polymer({
-    is: 'ot-equipo',
-
-    properties: {
-      recipes: Object,
-    },
-    ayuda: function(){
-      console.log(this.peliculas);
-    },
-    redirigir: function(){
-      location.href = '#/home';
-    }
-
-  });
-
+      _toggleCantante: function (e) {
+        var i = e.model.get('index');
+        var moreInfo = document.getElementById('descripcionCantante' + i);
+        var iconButton = Polymer.dom(event).localTarget;
+        iconButton.icon = moreInfo.opened ? 'expand-more' : 'expand-less';
+        moreInfo.toggle();
+      },
+      _toggleDueto: function (e) {
+        var i = e.model.get('index');
+        var moreInfo = document.getElementById('descripcionDueto' + i);
+        var iconButton = Polymer.dom(event).localTarget;
+        iconButton.icon = moreInfo.opened ? 'expand-more' : 'expand-less';
+        moreInfo.toggle();
+      },
+      ayuda: function () {
+        console.log(this.user.uid);
+        console.log("Espectador");
+        console.log(this.espectador);
+      },
+      redirigir: function () {
+        location.href = '#/home';
+      },
+      _isInCantante: function (item, espectador) {
+        return espectador.cantante1 == item.$key || espectador.cantante2 == item.$key;
+      },
+      _isInDueto: function (item) {
+        return this.espectador.dueto == item.$key;
+      },
+      devolverCosas: function (cantantes, espectador) {
+        console.log(cantantes);
+        console.log(espectador);
+        cantantes[2]= "";
+        return cantantes;
+      }
+    });
   </script>
 </dom-module>
