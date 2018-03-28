@@ -10,8 +10,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
@@ -19,135 +26,123 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
 <dom-module id="ot-ranking">
+    <link rel="import" type="css" href="../../css/w3.css">
   <template>
-
+      
     <style>
-
-    .content {
-      display: block;
-      position: relative;
-      max-width: 1000px;
-      margin: 5px auto;
-    }
-
-    .card-container {
-      display: inline-block;
-      width: 33.33%;
-      color: black;
-      text-decoration: none;
-    }
-
-    paper-card {
-      display: block;
-      margin: 5px;
-
-      --paper-card-header-image: {
-        height: 200px;
+      :host {
+        display: block;
+        background-attachment: fixed;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
       }
-    }
-
-    paper-card h2 {
-      margin: 4px;
-      font-weight: normal;
-    }
-
-    paper-card p {
-      margin: 4px;
-      color: #999;
-    }
-
-    paper-fab {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-
-      --paper-fab-background: #EF5458;
-      --paper-fab-keyboard-focus-background: #DF4448;
-    }
-
-    @media (max-width: 960px) {
-      .content {
-        max-width: 800px;
+      #header {
+        color: white;
+        --app-header-background-rear-layer: {
+          background-color: #00AA8D;
+        }
+        ;
       }
-
+      paper-icon-button {
+        color: white;
+        --paper-icon-button-ink-color: white;
+      }
       .card-container {
-        width: 50%;
+        position: relative;
+        width: 720px;
+        margin: 40px auto 40px;
       }
-    }
-
-    @media (max-width: 719px) {
-      app-toolbar {
-        height: 60px;
-      }
-
-      [condensed-title] {
-        background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_s.png');
-        background-size: 60px;
-      }
-
-      [main-title] {
-        top: -60px;
-        background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_m.png');
-        background-size: 60px;
-      }
-
-      .content {
-        max-width: 400px;
-      }
-
-      .card-container {
+      paper-card {
+        padding: 16px;
         width: 100%;
       }
-    }
-
+      paper-card p {
+        margin: 12px 0;
+        color: #999;
+      }
+      h4 {
+        margin: 60px 0 12px;
+      }
+      .ingredient-item {
+        margin: 20px 0;
+        @apply --layout-horizontal;
+      }
+      .ingredient-amount {
+        margin-left: -80px;
+        width: 60px;
+        padding-right: 20px;
+        color: rgb(33, 169, 143);
+        text-align: right;
+      }
+      .ingredient-name {
+        @apply --layout-flex;
+      }
+      @media (max-width: 720px) {
+        .card-container {
+          width: 100%;
+          margin: 150px 0 0;
+        }
+        td, th {
+    padding: 8px;
+    box-sizing: border-box;
+    white-space: nowrap;
+  }
+  td:nth-of-type(1),
+  th:nth-of-type(1) {
+    background-color: rgba(255, 0, 255, 0.2);
+  }
+  tr.iron-selected td {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  tr:hover td {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+  tr td.iron-selected:not(:nth-of-type(1)) {
+    background-color: rgba(255, 255, 0, 0.2);
+  }
+      }
     </style>
 
-    <firebase-query
-      id="query"
-      path="/peliculas"
-      data="{{peliculas}}">
-    </firebase-query>
+        <table class="w3-table-all w3-card-4 w3-centered">
+              <tr class="w3-blue">
+                <th>Imagen</th>
+                <th>Posicion</th>
+                <th>Nombre</th>
+                <th>Cantante 1</th>
+                <th>Cantante 2</th>
+                <th>Dueto</th>
+                <th>Puntuacion</th>
+              </tr>
+           <template is="dom-repeat" items="{{espectadores}}">
+              <tr is="s-tr" multi>
+                <td>{{item.imagen}}</td>
+                <td>1</td>
+                <td>{{item.nombre}}</td>
+                <td>{{item.cantante1}}</td>
+                <td>{{item.cantante2}}</td>
+                <td>{{item.dueto}}</td>
+                <td>11</td>
+              </tr>
+            </template>
+          </table>
 
-    <!-- main panel -->
-    <app-header-layout>
-      <div class="content">
-          <div><paper-button raised on-tap="ayuda">AYUDA</paper-button></div>
-        <template is="dom-repeat" items="{{peliculas}}"><!-- No empty text node
-        --><a href="#/detail/{{item.$key}}" class="card-container">
-            <paper-card image="{{item.imageUrl}}">
-              <div class="card-content">
-                <h2>{{item.titulo}}</h2>
-                <p>Genero: <span>{{item.genero}}</span></p>
-              </div>
-            </paper-card>
-          </a><!-- No empty text node
-      --></template>
-      </div>
-
-    </app-header-layout>
-
-    <paper-fab icon="app:create"></paper-fab>
   </template>
 
   <script>
-
-  Polymer({
-    is: 'ot-ranking',
-
-    properties: {
-      recipes: Object,
-    },
-    ayuda: function(){
-      console.log(this.peliculas);
-    },
-    redirigir: function(){
-      location.href = '#/home';
-    }
-
-  });
-
+    Polymer({
+      is: 'ot-ranking',
+      properties: {
+        espectadores: Object, 
+        seleccion: String
+      },
+      __cantanteChanged: function (cantante) {
+        if (cantante) {
+          this.style.backgroundImage = 'url(' + cantante.imagen + ')';
+        }
+      }
+    });
   </script>
+
 </dom-module>
