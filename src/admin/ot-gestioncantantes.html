@@ -188,25 +188,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         ;
       }
+
     </style>
     <firebase-auth id="auth" user="{{user}}" provider="google">
     </firebase-auth>
+
+    <firebase-query id="querySinger" path="/Cantantes" data="{{cantantes}}">
+    </firebase-query>
+
+
     <!-- Patrón de rutas de navegación -->
     <app-location route="{{_route}}" use-hash-as-path></app-location>
     <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
     <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
 
-
-
-    <!-- ------------------------------------------------------------------------------------>
-    <!--REGISTRO-->
-
-
-    <!-------------------------------------------------------------------------------------->
-
-
-
-    <!-------------------------------------------------------------------------------------->
 
 
     <!-------------------------------------------------------------------------------------------->
@@ -272,10 +267,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <iron-icon icon="icons:visibility"></iron-icon>
                   </paper-button>
                   <!-- Eliminar -->
-                  <paper-button raised style="background-color: crimson; color: white" class="">
+                  <paper-button raised style="background-color: crimson; color: white" class="" on-tap="_deleteSinger">
                     <iron-icon icon="icons:delete"></iron-icon></paper-button>
                   <!-- Editar -->
-                  <paper-button raised style="background-color: rgb(15, 149, 202); color: white">
+                  <paper-button raised style="background-color: rgb(15, 149, 202); color: white" on-tap="_updateSinger">
                     <iron-icon icon="image:edit"></iron-icon></paper-button>
                 </div>
                 <div class="card-actions">
@@ -339,18 +334,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         });
       },
 
-      _getRecipe: function () {
-        if (this.recipes && this._idData && this._idData.id) {
-          for (var i = 0; i < this.recipes.length; ++i) {
-            var r = this.recipes[i];
-            if (r.id === this._idData.id) {
-              return r;
-            }
-          }
-        }
-        return null;
-      },
-
       _drawerSelected: function () {
         if (!this.$.drawer.persistent) this.$.drawer.close();
       },
@@ -368,6 +351,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _nuevoCantante: function () {
         this.set('_route.path', '/newcantante');
+      },
+
+      _deleteSinger: function(e){
+        console.log(e.model.get('item.$key'));
+        if(confirm("¿Está seguro que desea eliminar este cantante? Esta acción no se puede deshacer.")){
+          this.$.querySinger.ref.child(e.model.get('item.$key')).remove();
+        }
+      },
+
+      _updateSinger: function (e) {
+        var i = e.model.get('item.$key');
+        this.set('_route.path', '/updatecantante/' + i);
       },
 
       _verCantante: function (e) {

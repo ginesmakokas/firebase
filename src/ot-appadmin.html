@@ -216,15 +216,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 
-    <!-- ------------------------------------------------------------------------------------>
-                                <!--REGISTRO-->
-      
-  
-    <!-------------------------------------------------------------------------------------->
-    
-
-
-    <!-------------------------------------------------------------------------------------->
 
 
 <!-------------------------------------------------------------------------------------------->        
@@ -322,8 +313,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <ot-delgala name="delgala"></ot-delgala>
               <ot-deluser name="deluser"></ot-deluser>
 
-              <ot-updatecantante name="updatecantante"></ot-updatecantante>
-              <ot-updatedueto name="updatedueto"></ot-updatedueto>
+              <ot-updatecantante name="updatecantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-updatecantante>
+              <ot-updatedueto name="updatedueto" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-updatedueto>
               <ot-updategala name="updategala"></ot-updategala>
               <ot-updateuser name="updateuser"></ot-updateuser>
               
