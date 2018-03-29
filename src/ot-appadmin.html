@@ -55,6 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="admin/ot-deluser.html">
 
 <link rel="import" href="admin/ot-newuser.html">
+<link rel="import" href="admin/ot-veruser.html">
 <link rel="import" href="admin/ot-newcantante.html">
 <link rel="import" href="admin/ot-newdueto.html">
 <link rel="import" href="admin/ot-newgala.html">
@@ -310,6 +311,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <ot-vercantante id="detailCantante" name="detailCantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-vercantante>
         <ot-verdueto id="detailDueto" name="detailDueto" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-verdueto>
+        <ot-veruser id="detailUsuario" name="detailUsuario" usuario="[[_getUser(usuarios, _idData.id)]]"></ot-veruser>
 
         <ot-newuser name="newuser"></ot-newuser>
         <ot-newdueto name="newdueto" cantantes="[[cantantes]]"></ot-newdueto>
@@ -341,6 +343,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         cantantes: Object,
 
         duetos: Object,
+
+        usuarios: Object,
 
         _route: Object,
 

@@ -293,7 +293,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </td>
                 <td style="vertical-align: middle;">
                   <!-- Ver -->
-                  <paper-icon-button title="Ver" icon="icons:visibility"></paper-icon-button>
+                  <paper-icon-button title="Ver" icon="icons:visibility" on-tap="_verUser"></paper-icon-button>
                   <!-- Eliminar -->
                   <paper-icon-button title="Eliminar" icon="icons:delete" on-tap="_deleteUser"></paper-icon-button>
                   <!-- Editar -->
@@ -373,6 +373,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           if (confirm("¿Está seguro que desea eliminar este cantante? Esta acción no se puede deshacer.")) {
            this.$.queryDeleteUser.ref.child(e.model.get('item.$key')).remove();
           }
+      },
+
+      _verUser: function (e) {
+        var i = e.model.get('item.$key');
+        this.set('_route.path', '/detailUsuario/' + i);
       },
 
       _updateUser: function (e) {
