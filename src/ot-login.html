@@ -65,9 +65,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             app-drawer-layout:not([narrow]) [drawer-toggle] {
                 display: none;
             }
+
             paper-item {
                 height: 54px;
             }
+
             #buttonLogin {
                 background-color: rgb(161, 99, 219);
                 --paper-icon-button-ink-color: white;
@@ -95,14 +97,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
         <!--Autenticacion con FIREBASE-->
-        <firebase-app 
-            auth-domain="practica2firebase.firebaseapp.com" 
-            database-url="https://practica2firebase.firebaseio.com/" 
-            api-key="AIzaSyBuCthX0RXuTeaqw1B39CzV7NCT0dkHZy4">
+        <firebase-app auth-domain="practica2firebase.firebaseapp.com" database-url="https://practica2firebase.firebaseio.com/" api-key="AIzaSyBuCthX0RXuTeaqw1B39CzV7NCT0dkHZy4">
         </firebase-app>
 
         <firebase-auth id="auth" user="{{user}}" provider="google">
         </firebase-auth>
+        <firebase-query id="queryLogin" path="/Espectadores" data="{{espectadores}}">
+        </firebase-query>
         <!-- ------------------------------------------------------------------------------------>
 
 
@@ -128,7 +129,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <div class="grid-item">
                     <h1>Bienvenido a la aplicacion de OT</h1>
                     <paper-button raised on-tap="_abrirventanalogin" toggles id="buttonLogin">Entrar</paper-button>
-                </div> 
+                </div>
             </div>
             <ot-app name="usuario"></ot-app>
             <ot-appadmin name="admin"></ot-appadmin>
@@ -192,11 +193,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             _calculalogado: function (usuario) {
                 if (this.$.auth.user === undefined || this.$.auth.user === null)
                     return "login";
-                else{  
-                    if(this.$.auth.user.email==="adm.firebase@gmail.com"){
+                else {
+                    if (this.$.auth.user.email === "adm.firebase@gmail.com") {
                         return "admin";
                     }
-                    else{
+                    else {
+                        console.log(this.$.queryLogin.ref.child(this.user.uid).uid);
+                        if (this.$.queryLogin.ref.child(this.user.uid).uid === null ||
+                            this.$.queryLogin.ref.child(this.user.uid).uid === undefined) {
+                            var dataLogin = {
+                                creditos: 50,
+                                email: this.user.email,
+                                imagen: this.user.photoURL,
+                                nombre: this.user.displayName,
+                                privacidad: "privado"
+                            };
+                            this.$.queryLogin.ref.child(this.user.uid).update(dataLogin);
+                        }
                         return "usuario";
                     }
                 }
