@@ -209,7 +209,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
 
     <!------------------------------------------QUERYS-------------------------------------------------->
-    <firebase-query id="query" path="/Cantantes" data="{{cantantes}}">
+    <firebase-query id="query" path="/Cantantes" data="{{cantantes}}" orderByChild = "precio">
     </firebase-query>
 
     <firebase-query id="query" path="/Duetos" data="{{duetos}}">
