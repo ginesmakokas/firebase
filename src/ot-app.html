@@ -194,8 +194,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-query id="query" path="/Cantantes" data="{{cantantes}}">
     </firebase-query>
     
-    <firebase-query id="query" path="/Duetos" data="{{duetos}}">
-    </firebase-query>
+    <firebase-query id="query2" path="/Duetos" data="{{duetos}}"></firebase-query>
+
+    <firebase-document id="queryUser2" path="/Espectadores/[[user.uid]]" data="{{spectator}}"></firebase-document>
 
  
 
@@ -273,7 +274,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
                 <ot-cantantes name="cantantes"  cantantes="[[cantantes]]"></ot-cantantes> 
         
-                <ot-perfil name="perfil"></ot-perfil>
+                <ot-perfil name="perfil" spectator="[[spectator]]" user="[[user]]"></ot-perfil>
         
                 <ot-equipo name="home"></ot-equipo>
         

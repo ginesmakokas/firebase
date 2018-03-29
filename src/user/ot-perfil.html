@@ -32,120 +32,112 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
 
     <style>
-
-    .content {
-      display: block;
-      position: relative;
-      max-width: 1000px;
-      margin: 5px auto;
-    }
-
-    .card-container {
-      display: inline-block;
-      width: 33.33%;
-      color: black;
-      text-decoration: none;
-    }
-
-    paper-card {
-      display: block;
-      margin: 5px;
-
-      --paper-card-header-image: {
-        height: 200px;
-      }
-    }
-
-    paper-card h2 {
-      margin: 4px;
-      font-weight: normal;
-    }
-
-    paper-card p {
-      margin: 4px;
-      color: #999;
-    }
-
-    paper-fab {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-
-      --paper-fab-background: #EF5458;
-      --paper-fab-keyboard-focus-background: #DF4448;
-    }
-
-    @media (max-width: 960px) {
       .content {
-        max-width: 800px;
+        display: block;
+        position: relative;
+        max-width: 1000px;
+        margin: 5px auto;
       }
 
       .card-container {
-        width: 50%;
-      }
-    }
-
-    @media (max-width: 719px) {
-      app-toolbar {
-        height: 60px;
+        display: inline-block;
+        width: 33.33%;
+        color: black;
+        text-decoration: none;
       }
 
-      [condensed-title] {
-        background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_s.png');
-        background-size: 60px;
+      paper-card {
+        display: block;
+        margin: 5px;
+
+        --paper-card-header-image: {
+          height: 200px;
+        }
       }
 
-      [main-title] {
-        top: -60px;
-        background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_m.png');
-        background-size: 60px;
+      paper-card h2 {
+        margin: 4px;
+        font-weight: normal;
       }
 
-      .content {
-        max-width: 400px;
+      paper-card p {
+        margin: 4px;
+        color: #999;
       }
 
-      .card-container {
-        width: 100%;
-      }
-    }
+      paper-fab {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
 
+        --paper-fab-background: #EF5458;
+        --paper-fab-keyboard-focus-background: #DF4448;
+      }
+
+      @media (max-width: 960px) {
+        .content {
+          max-width: 800px;
+        }
+
+        .card-container {
+          width: 50%;
+        }
+      }
+
+      @media (max-width: 719px) {
+        app-toolbar {
+          height: 60px;
+        }
+
+        [condensed-title] {
+          background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_s.png');
+          background-size: 60px;
+        }
+
+        [main-title] {
+          top: -60px;
+          background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_m.png');
+          background-size: 60px;
+        }
+
+        .content {
+          max-width: 400px;
+        }
+
+        .card-container {
+          width: 100%;
+        }
+      }
     </style>
-
-    <firebase-query
-      id="query"
-      path="/peliculas"
-      data="{{peliculas}}">
-    </firebase-query>
+    <firebase-query id="queryUpdateSpectator" path="/Espectadores/[[user.uid]]" data="{{updateSpectator}}"></firebase-query>
 
     <!-- main panel -->
     <app-header-layout>
       <div class="content">
-        <div>
-                    <iron-image src="../../image/perfil.jpg" ></iron-image>
+        <div id>
+          <iron-image src="{{spectator.imagen}}" class="gifloading"></iron-image>
         </div>
-          
-          <iron-form id="form1">
-              <form action="/foo" method="get">
-                <paper-input type="text" name="name" label="Nombre" ></paper-input>
-                <paper-input type="text" name="apellidos" label="Apellidos" ></paper-input>
-                <paper-input type="text" name="mail" label="Mail" ></paper-input>
-                <label id="labelradio">Tipo Perfil: </label>
-                <paper-radio-group aria-labelledby="labelradio">
-                    <paper-radio-button name="publico">Publico</paper-radio-button>
-                    <paper-radio-button name="privado">Privado</paper-radio-butto>
-                </paper-radio-group>
-                <div>
-                    <paper-input type="text" name="descripcion" label="Descripcion" ></paper-input>
-                </div>
-                <div>
-                    <paper-button raised onclick="form1.submit()">Actualizar</paper-button>
-                    <paper-button raised onclick="form1.reset()">Volver</paper-button>
-                </div>
-              </form>
-              <br>
-              <div class="output"></div>
-            </iron-form>
+
+        <iron-form id="form1">
+          <form action="/foo" method="get">
+            <paper-input type="text" id="name" name="name" label="Nombre" value="{{spectator.nombre}}"></paper-input>
+            <paper-input type="text" id="mail" name="mail" label="Mail" value="{{spectator.email}}"></paper-input>
+            <label id="labelradio">Tipo Perfil: </label>
+            <paper-radio-group id="radioButtonGroup" aria-labelledby="labelradio" attr-for-selected="name" fallback-selection="privado"
+              selected="{{spectator.privacidad}}" selected-item="{{rbprivacidad}}">
+              <paper-radio-button id="radiobuttonpublic" name="publico" value="publico">Publico</paper-radio-button>
+              <paper-radio-button id="radiobuttonprivate" name="privado" value="privado">Privado</paper-radio-butto>
+            </paper-radio-group>
+            <div>
+              <paper-input type="text" id="descripcion" name="descripcion" label="Descripcion" value="{{spectator.descripcion}}"></paper-input>
+            </div>
+            <div>
+              <paper-button raised on-tap="_update">Actualizar</paper-button>
+            </div>
+          </form>
+          <br>
+          <div class="output"></div>
+        </iron-form>
       </div>
 
     </app-header-layout>
@@ -155,21 +147,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script>
 
-  Polymer({
-    is: 'ot-perfil',
+    Polymer({
+      is: 'ot-perfil',
 
-    properties: {
-      recipes: Object,
-    },
-    ayuda: function(){
-      console.log(this.peliculas);
-    },
-    redirigir: function(){
-      location.href = '#/perfil';
-    }
+      properties: {
+        spectator: {
+          type: Object
+        },
+        user: Object
+      },
+      redirigir: function () {
+        location.href = '#/perfil';
+      },
 
-  });
+      _update: function () {
+        var dataUpdate = {
+          nombre: this.$.name.value,
+          descripcion: this.$.descripcion.value,
+          privacidad: this.rbprivacidad.value
+        };
+        this.$.queryUpdateSpectator.ref.update(dataUpdate);
+      }
+
+    });
 
   </script>
 </dom-module>
-

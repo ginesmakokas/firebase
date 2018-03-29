@@ -103,6 +103,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <firebase-auth id="auth" user="{{user}}" provider="google">
         </firebase-auth>
+        <firebase-query id="queryLogin" path="/Espectadores" data="{{espectadores}}">
+        </firebase-query>
         <!-- ------------------------------------------------------------------------------------>
 
 
@@ -197,6 +199,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         return "admin";
                     }
                     else{
+                        var dataLogin = {
+                            creditos: 50,
+                            email: this.user.email,
+                            imagen: this.user.photoURL,
+                            nombre: this.user.displayName,
+                            privacidad: "privado"
+                        };
+                        this.$.queryLogin.ref.child(this.user.uid).update(dataLogin);
                         return "usuario";
                     }
                 }
