@@ -1,0 +1,185 @@
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+
+<link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+
+<dom-module id="ot-veruser">
+  <link rel="import" type="css" href="../../css/w3.css">
+  <template>
+
+    <style>
+      :host {
+        display: block;
+        background-attachment: fixed;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+      }
+
+      #header {
+        color: white;
+
+        --app-header-background-rear-layer: {
+          background-color: #00AA8D;
+        }
+        ;
+      }
+
+      paper-icon-button {
+        color: white;
+        --paper-icon-button-ink-color: white;
+      }
+
+      .card-container {
+        position: relative;
+        width: 720px;
+        margin: 40px auto 40px;
+      }
+
+      paper-card {
+        padding: 16px;
+        width: 100%;
+      }
+
+      paper-card p {
+        margin: 12px 0;
+        color: #999;
+      }
+
+      h4 {
+        margin: 60px 0 12px;
+      }
+
+      .ingredient-item {
+        margin: 20px 0;
+        @apply --layout-horizontal;
+      }
+
+      .ingredient-amount {
+        margin-left: -80px;
+        width: 60px;
+        padding-right: 20px;
+        color: rgb(33, 169, 143);
+        text-align: right;
+      }
+
+      .ingredient-name {
+        @apply --layout-flex;
+      }
+
+      @media (max-width: 720px) {
+
+        .card-container {
+          width: 100%;
+          margin: 150px 0 0;
+        }
+
+      }
+    </style>
+
+    <firebase-document path="/Cantantes/{{usuario.cantante1}}" data="{{cantante1}}">
+    </firebase-document>
+    <firebase-document path="/Cantantes/{{usuario.cantante2}}" data="{{cantante2}}">
+    </firebase-document>
+    <firebase-document path="/Duetos/{{usuario.dueto}}" data="{{dueto}}">
+    </firebase-document>
+
+    <!-- main panel -->
+    <app-header-layout style="background-color: #f4f4f4">
+      <iron-image src="{{usuario.imagen}}" sizing="cover" style="width: 200px; 
+      height: 200px; 
+      display: block;
+      margin-left: auto;
+      margin-right: auto;" class="w3-round w3-border"></iron-image>
+      <div class="card-container">
+        <paper-card heading="{{usuario.nombre}}">
+          <div class="card-content">
+            <p>Email: {{usuario.email}}</p>
+            <p>Descripción: {{usuario.descripcion}}</p>
+            <p>Posición en el ranking: 1</p>
+          </div>
+          <div class="card-actions">
+            <p>Equipo: </p>
+            <div class="w3-row">
+              <div class="w3-half" style="text-align: center;">
+                <h3>Cantantes</h3>
+                <div class="w3-half">
+                  <iron-image src="{{cantante1.imagen}}" sizing="cover" style="width: 100px; 
+                      height: 100px; 
+                      display: block;
+                      margin-left: auto;
+                      margin-right: auto;" class="w3-round w3-border"></iron-image>
+                  <p>{{cantante1.nombre}}</p>
+                </div>
+                <div class="w3-half">
+                  <iron-image src="{{cantante2.imagen}}" sizing="cover" style="width: 100px; 
+                      height: 100px; 
+                      display: block;
+                      margin-left: auto;
+                      margin-right: auto;" class="w3-round w3-border"></iron-image>
+                  <p>{{cantante2.nombre}}</p>
+                </div>
+              </div>
+              <div class="w3-half" style="text-align: center;">
+                <h3>Dueto</h3>
+                <iron-image src="{{dueto.imagen}}" sizing="cover" style="width: 100px; 
+                height: 100px; 
+                display: block;
+                margin-left: auto;
+                margin-right: auto;" class="w3-round w3-border"></iron-image>
+                <p>{{dueto.cantante1}} y {{dueto.cantante2}}</p>
+              </div>
+            </div>
+          </div>
+        </paper-card>
+      </div>
+    </app-header-layout>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'ot-veruser',
+
+      properties: {
+
+        usuario: Object
+
+      },
+
+      __cantanteChanged: function (cantante) {
+        if (cantante) {
+          this.style.backgroundImage = 'url(' + cantante.imagen + ')';
+        }
+      }
+    });
+
+  </script>
+
+</dom-module>
