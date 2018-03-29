@@ -18,18 +18,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
 <link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../bower_components/app-layout/app-layout.html">
 <link rel="import" href="../../bower_components/paper-carousel/paper-carousel.html">
@@ -41,12 +46,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../app-icons.html">
 
-<dom-module id="ot-gestionusuarios">
 
+<dom-module id="ot-gestionusuarios">
+  <link rel="import" type="css" href="../../css/w3.css">
   <template>
 
     <style>
-      
+      /*
     :host {
       --paper-font-common-base: {
         font-family: Raleway, sans-serif;
@@ -55,12 +61,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     app-header {
       color: #fff;
       background-color: rgb(75, 139, 190);
-
     }
     app-toolbar {
       height: 5px;
     }
-
     app-drawer-layout:not([narrow]) [drawer-toggle] {
       display: none;
     }
@@ -71,9 +75,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
         padding: 10px;
     }
-
     .grid-item {
-
         padding: 20px;
         font-size: 30px;
         text-align: center;
@@ -84,12 +86,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       background-color: black;
     }
   
-
     #buttonSel {
                 background-color: rgb(161, 99, 219);
                 --paper-icon-button-ink-color: white;
             }
-
     #buttonSel:hover {
                 background-color: rgb(119, 13, 218);
                 --paper-icon-button-ink-color: white;
@@ -98,173 +98,306 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 60%;
         height: 50%;
     }
+*/
 
+      .card-header {
+        @apply --paper-font-headline;
+      }
 
+      .icon-text {
+        color: var(--paper-grey-600);
+      }
+
+      .icon-price {
+        float: right;
+        font-size: 15px;
+        vertical-align: middle;
+      }
+
+      .content {
+        display: block;
+        position: relative;
+        max-width: 1000px;
+        margin: 5px auto;
+      }
+
+      .card-container {
+        display: inline-block;
+        width: 30%;
+        color: black;
+        text-decoration: none;
+      }
+
+      paper-card {
+        display: block;
+        margin: 5px;
+        --paper-card-header-image: {
+          height: 180px;
+        }
+      }
+
+      paper-card h2 {
+        margin: 4px;
+        font-weight: normal;
+      }
+
+      paper-card p {
+        margin: 4px;
+        font-size: 15px;
+        color: #999;
+      }
+
+      @media (max-width: 960px) {
+        .content {
+          max-width: 800px;
+        }
+        .card-container {
+          width: 50%;
+        }
+      }
+
+      @media (max-width: 719px) {
+        app-toolbar {
+          height: 60px;
+        }
+        .content {
+          max-width: 400px;
+        }
+        .card-container {
+          width: 100%;
+        }
+      }
+
+      paper-button {
+        font-size: 12px;
+        height: 25px;
+      }
+
+      paper-button.indigo {
+        background-color: #dbdbdb;
+        color: black;
+        --paper-button-raised-keyboard-focus: {
+          background-color: var(--paper-pink-a200) !important;
+          color: white !important;
+        }
+        ;
+      }
+
+      table {
+        font-family: Raleway, sans-serif;
+        font-size: 12px;
+      }
+
+      paper-icon-button {
+        color: gray;
+        width: 35px;
+        height: 35px;
+      }
+
+      iron-icon {
+        width: 20px;
+        height: 20px;
+      }
+
+      /* No funciona XD */
+
+      /*
+      td {
+        vertical-align: middle;
+      }
+      */
 
     </style>
-        <firebase-auth id="auth" user="{{user}}" provider="google">
-        </firebase-auth>
+
+     <!------------------------------------------QUERYS-------------------------------------------------->
+    <firebase-auth id="auth" user="{{user}}" provider="google">
+    </firebase-auth>
+
+    <!-------------------------------------------------------------------------------------------->
     <!-- Patrón de rutas de navegación -->
     <app-location route="{{_route}}" use-hash-as-path></app-location>
-    <app-route
-        route="{{_route}}"
-        pattern="/:page"
-        data="{{_pageData}}"
-        tail="{{_subRoute}}"></app-route>
-    <app-route
-        route="{{_subRoute}}"
-        pattern="/:id"
-        data="{{_idData}}"></app-route>
+    <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
+    <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
+
+    <firebase-query id="queryDeleteUser" path="/Espectadores" data="{{espectadores}}">
+    </firebase-query>
+    <!-------------------------------------------------------------------------------------------->
+    <!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->
+    <!-------------------------------------------------------------------------------------------->
 
 
-
-    <!-- ------------------------------------------------------------------------------------>
-                                <!--REGISTRO-->
-      
-  
-    <!-------------------------------------------------------------------------------------->
-    
-
-
-    <!-------------------------------------------------------------------------------------->
-
-
-<!-------------------------------------------------------------------------------------------->        
-<!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->        
-<!-------------------------------------------------------------------------------------------->        
-
-    
-<div class="grid-container" name="login">
-        <div class="grid-item">
-            <a href="#/newuser" id="btnNav" >
-                <paper-button>Nuevo Usuario</paper-button>
-            </a>
-        </div>
-        <div class="grid-item">
-          <a href="#/updateuser" id="btnNav" >
-            <paper-button>Modificar Usuario</paper-button>
+    <!--div class="grid-container" name="login">
+      <div class="grid-item">
+        <a href="#/newuser" id="btnNav">
+          <paper-button>Nuevo Usuario</paper-button>
         </a>
-        </div>
-
-        <div class="grid-item">
-          <a href="#/deluser" id="btnNav" >
-            <paper-button>Borrar Usuario</paper-button>
+      </div>
+      <div class="grid-item">
+        <a href="#/updateuser" id="btnNav">
+          <paper-button>Modificar Usuario</paper-button>
         </a>
-        </div>
-        <div class="grid-item">
-            
-        </div>
-        <div class="grid-item">
-            
-        </div>
-        <div class="grid-item">
-        </div> 
-        <div class="grid-item">
-        </div> 
-        <div class="grid-item">
-        </div> 
-        <div class="grid-item">
-            
-        </div> 
-    </div>
+      </div>
+      <div class="grid-item">
+        <a href="#/deluser" id="btnNav">
+          <paper-button>Borrar Usuario</paper-button>
+        </a>
+      </div>
+      <div class="grid-item">
+      </div>
+      <div class="grid-item">
+      </div>
+      <div class="grid-item">
+      </div>
+      <div class="grid-item">
+      </div>
+      <div class="grid-item">
+      </div>
+      <div class="grid-item">
+      </div>
+    </div-->
+
+    <app-header-layout>
+      <div class="content">
+        <paper-button raised style="background-color: lightgreen;" on-tap="_nuevoUsuario">
+          <iron-icon icon="icons:add"></iron-icon>Nuevo usuario</paper-button>
+        <br>
+        <h1>Usuarios</h1>
+        <br>
+        <table class="w3-table-all">
+          <thead>
+            <tr class="w3-indigo">
+              <th style="width: 10%;">Avatar</th>
+              <th>Nombre de usuario</th>
+              <th>Email</th>
+              <th style="width: 10%;">Público</th>
+              <th style="width: 15%;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template is="dom-repeat" items="{{usuarios}}">
+              <tr>
+                <td style="vertical-align: middle;">
+                  <iron-image src="{{item.imagen}}" sizing="cover" style="width: 20px; 
+                  height: 20px; 
+                  display: block;" class="w3-round w3-border"></iron-image>
+                </td>
+                <td style="vertical-align: middle;">{{item.nombre}}</td>
+                <td style="vertical-align: middle;">{{item.email}}</td>
+                <td style="vertical-align: middle;">
+                  <template is="dom-if" if="{{_isPublic(item.isPublic)}}">
+                    <iron-icon icon="icons:check" style="color: green;"></iron-icon>
+                  </template>
+                  <template is="dom-if" if="{{!_isPublic(item.isPublic)}}">
+                    <iron-icon icon="icons:clear" style="color: red;"></iron-icon>
+                  </template>
+                </td>
+                <td style="vertical-align: middle;">
+                  <!-- Ver -->
+                  <paper-icon-button title="Ver" icon="icons:visibility"></paper-icon-button>
+                  <!-- Eliminar -->
+                  <paper-icon-button title="Eliminar" icon="icons:delete" on-tap="_deleteUser"></paper-icon-button>
+                  <!-- Editar -->
+                  <paper-icon-button title="Editar" icon="image:edit" on-tap="_updateUser"></paper-icon-button>
+                </td>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+      </div>
+    </app-header-layout>
+
+
   </template>
 
   <script>
+    Polymer({
+      is: 'ot-gestionusuarios',
+      properties: {
+        usuarios: Object,
 
-  Polymer({
+        _route: Object,
 
-    is: 'ot-gestionusuarios',
+        _subRoute: Object,
 
-    properties: {
+        _pageData: {
+          type: Object,
+          observer: '_pageDataChanged'
+        },
 
-      recipes: Object,
+        _selectedPage: String,
 
-      _route: Object,
+        _idData: Object,
 
-      _subRoute: Object,
-
-      _pageData: {
-        type: Object,
-        observer: '_pageDataChanged'
-      },
-
-      _selectedPage: String,
-
-      _idData: Object,
-      
-      /************************************************************************************************/
-
-      user: Object,
-      aux1: String,
-    
-      /************************************************************************************************/
-
-      _scrollPositionMap: {
-        type: Object,
-        value: function() {
-          return {};
-        }
-      }
-    },
-
-    attached: function() {
-      this.async(function() {
-        if (!this._route.path) {
-          this.set('_route.path', '/home');
-        }
-      });
-    }, 
-
-    _getRecipe: function() {
-      if (this.recipes && this._idData && this._idData.id) {
-        for (var i = 0; i < this.recipes.length; ++i) {
-          var r = this.recipes[i];
-          if (r.id === this._idData.id) {
-            return r;
+        /************************************************************************************************/
+        user: Object,
+        aux1: String,
+        /************************************************************************************************/
+        _scrollPositionMap: {
+          type: Object,
+          value: function () {
+            return {};
           }
         }
+      },
+      attached: function () {
+        this.async(function () {
+          if (!this._route.path) {
+            this.set('_route.path', '/home');
+          }
+        });
+      },
+
+      _drawerSelected: function () {
+        if (!this.$.drawer.persistent) this.$.drawer.close();
+      },
+      /************************************************************************************************/
+      _abrirventanalogin: function () {
+        return this.$.auth.signInWithPopup();
+      },
+
+      _salirUsuario: function () {
+        console.log(this.user);
+        this.$.auth.signOut();
+      },
+
+      _isPublic: function (public) {
+        return public === 'true';
+      },
+
+      _nuevoUsuario: function () {
+        this.set('_route.path', '/newuser');
+      },
+
+      _deleteUser: function (e) {
+        console.log(e.model.get('item.$key'));
+          if (confirm("¿Está seguro que desea eliminar este cantante? Esta acción no se puede deshacer.")) {
+           this.$.queryDeleteUser.ref.child(e.model.get('item.$key')).remove();
+          }
+      },
+
+      _updateUser: function (e) {
+        var i = e.model.get('item.$key');
+        this.set('_route.path', '/updateuser/' + i);
+      },
+
+      /************************************************************************************************/
+      /**
+       * Preserves the document scroll position, so 
+       * it can be restored when returning to a page.
+       */
+      _pageDataChanged: function (pageData, oldPageData) {
+        var map = this._scrollPositionMap;
+        if (oldPageData != null && oldPageData.page != null) {
+          map[oldPageData.page] = window.pageYOffset;
+        }
+        this._selectedPage = pageData.page;
+        if (map[pageData.page] != null) {
+          Polymer.AppLayout.scroll({ top: map[pageData.page], behavior: 'silent' });
+        } else if (this.isAttached) {
+          Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
+        }
       }
-      return null;
-    },
-
-    _drawerSelected: function() {
-      if (!this.$.drawer.persistent) this.$.drawer.close();
-    },
-
-    /************************************************************************************************/
-
-    _abrirventanalogin: function(){
-      return this.$.auth.signInWithPopup();
-    },
-
-    _salirUsuario: function(){
-      console.log(this.user);
-      this.$.auth.signOut();
-    },
-
-
-  /************************************************************************************************/
-
-    /**
-     * Preserves the document scroll position, so 
-     * it can be restored when returning to a page.
-     */
-    _pageDataChanged: function(pageData, oldPageData) {
-      var map = this._scrollPositionMap;
-     
-      if (oldPageData != null && oldPageData.page != null) {
-        map[oldPageData.page] = window.pageYOffset;
-      }
-      this._selectedPage = pageData.page;
-      if (map[pageData.page] != null) {
-        Polymer.AppLayout.scroll({ top: map[pageData.page], behavior: 'silent' });
-      } else if (this.isAttached) {
-        Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
-      }
-    }
-
-  });
-
+    });
   </script>
 
 </dom-module>
