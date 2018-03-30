@@ -32,7 +32,10 @@
     "paper-dialog": "PolymerElements/paper-dialog#^2.1.1",
     "paper-dialog-scrollable": "PolymerElements/paper-dialog-scrollable#^2.2.0",
     "paper-carousel": "Redbility/paper-carousel#^1.2.5",
-    "iron-collapse": "PolymerElements/iron-collapse#^2.2.0"
+    "iron-collapse": "PolymerElements/iron-collapse#^2.2.0",
+    "neon-animation": "PolymerElements/neon-animation#^2.2.1",
+    "web-animations-js": "^2.3.1",
+    "paper-dialog-behavior": "PolymerElements/paper-dialog-behavior#^2.2.1"
   },
   "variants": {
     "1.x": {

@@ -23,7 +23,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
-
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/neon-animation/web-animations.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
 
 <dom-module id="ot-cantantes">
   <template>
@@ -55,6 +58,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 30%;
         color: black;
         text-decoration: none;
+      }
+
+      .right {
+        float: right;
+      }
+
+      .center {
+        display: inline-block;
       }
 
       paper-card {
@@ -107,11 +118,100 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         ;
       }
+
+
+
+      .container-login100 {
+        /*width: 100%;
+    min-height: 100vh;*/
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        padding: 15px;
+
+      }
+
+      .wrap-login100 {
+        width: 300px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .money {
+        display: inline;
+      }
     </style>
-<firebase-auth id="auth" user="{{user}}" provider="google">
-</firebase-auth>
-    
+    <!-- alto derecha -->
+    <firebase-auth id="auth" user="{{user}}" provider="google">
+    </firebase-auth>
+
+    <firebase-query id="queryUpdateSpectatorCantante" path="/Espectadores/[[user.uid]]" data="{{updateSpectator}}"></firebase-query>
+
+    <paper-dialog id="dialogCompra" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            <iron-icon icon="icons:shopping-cart"></iron-icon>
+            Comprar
+          </h2>
+          <div class="icon-text">
+            <span id="textoDialogCompra"></span>
+            <template is="dom-if" if="{{_mostrarMoneda(opcionMoneda)}}">
+              <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+            </template>
+          </div>
+        </center>
+        <br>
+        <template is="dom-if" if="{{_mostrarCompra(opcionCompra)}}">
+          <paper-button class="indigo" on-tap="_comprar" refresh>Comprar</paper-button>
+          <div class="right">
+            <paper-button class="indigo" on-tap="_cancelCompra">Cancelar</paper-button>
+          </div>
+        </template>
+        <template is="dom-if" if="{{!_mostrarCompra(opcionCompra)}}">
+          <center>
+            <paper-button class="indigo" on-tap="_cancelCompra">Continuar</paper-button>
+          </center>
+        </template>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="dialogVenta" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            <iron-icon title="Eliminar" icon="icons:delete"></iron-icon>
+            Vender
+          </h2>
+          <div class="icon-text">
+            <span id="textoDialogVenta"></span>
+            <template is="dom-if" if="{{_mostrarMoneda(opcionMoneda)}}">
+              <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+            </template>
+          </div>
+        </center>
+        <br>
+        <template is="dom-if" if="{{_mostrarVenta(opcionVenta)}}">
+          <paper-button class="indigo" on-tap="_vender">Vender</paper-button>
+          <div class="right">
+            <paper-button class="indigo" on-tap="_cancelVenta">Cancelar</paper-button>
+          </div>
+        </template>
+        <template is="dom-if" if="{{!_mostrarVenta(opcionVenta)}}">
+          <center>
+            <paper-button class="indigo" on-tap="_cancelVenta">Continuar</paper-button>
+          </center>
+        </template>
+      </div>
+    </paper-dialog>
+
     <app-header-layout>
+
       <div class="content">
         <h1>Cantantes</h1>
         <br>
@@ -127,9 +227,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   </div>
                   <p>Puntuación: {{item.puntuacionTotal}}</p>
                 </div>
-                <a href="#/detailCantante/{{item.$key}}" class="card-container">
-                <paper-button class="indigo">Ver detalle</paper-button>
+                <a href="#/detailCantante/{{item}}" class="card-container">
+                  <paper-button class="indigo">Ver detalle</paper-button>
                 </a>
+                <div class="right">
+                  <template is="dom-if" if="{{!_compraVenta(item, spectator)}}">
+                    <paper-button class="indigo" on-tap="_compra" data-args="{{item.$key}}">
+                      <iron-icon icon="icons:shopping-cart"></iron-icon>
+                      Comprar
+                    </paper-button>
+                  </template>
+                  <template is="dom-if" if="{{_compraVenta(item, spectator)}}">
+                    <paper-button class="indigo" on-tap="_venta" data-args="{{item.$key}}">
+                      <iron-icon title="Eliminar" icon="icons:delete"></iron-icon>
+                      Vender
+                    </paper-button>
+                  </template>
+                </div>
               </div>
               <div class="card-actions">
                 <paper-button>Descripción</paper-button>
@@ -147,11 +261,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <script>
+
     Polymer({
       is: 'ot-cantantes',
 
       properties: {
-        cantantes: Object
+        cantantes: Object,
+        spectator: Object,
+        cantanteCompra: Object,
+        cantanteVenta: Object,
+        opcionCompra: {
+          type: String,
+          value: 'comprar'
+        },
+        opcionVenta: {
+          type: String,
+          value: 'vender'
+        },
+        opcionMoneda: {
+          type: String,
+          value: 'si'
+        }
       },
 
       _toggle: function (e) {
@@ -160,6 +290,94 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var iconButton = Polymer.dom(event).localTarget;
         iconButton.icon = moreInfo.opened ? 'expand-more' : 'expand-less';
         moreInfo.toggle();
+      },
+      _compra: function (e) {
+        var item = e.model.get('item');
+        this.opcionMoneda = "si";
+        this.opcionCompra = "comprar";
+        this.cantanteCompra = item;
+        this.$.dialogCompra.open();
+        this.$.textoDialogCompra.innerHTML = "  Vas a comprar a " + item.$key + " por " + item.precio;
+      },
+      _venta: function (e) {
+        var item = e.model.get('item');
+        this.opcionMoneda = "si";
+        this.opcionVenta = "vender";
+        this.cantanteVenta = item;
+        this.$.dialogVenta.open();
+        this.$.textoDialogVenta.innerHTML = "  Vas a comprar a " + item.$key + " por " + item.precio;
+      },
+      _cancelCompra: function () {
+        this.cantanteCompra = null;
+        this.$.dialogCompra.close();
+      },
+      _cancelVenta: function () {
+        this.cantanteCompra = null;
+        this.$.dialogVenta.close();
+      },
+      _comprar: function () {
+        this.opcionCompra = "null";
+        if ((this.spectator.creditos - this.cantanteCompra.precio) < 0) {
+          this.opcionMoneda = "no";
+          this.$.textoDialogCompra.innerHTML = "No tienes suficiente dinero :(";
+        }
+        else if (this.spectator.cantante1 === null || this.spectator.cantante1 === undefined) {
+          this.spectator.cantante1 = this.cantanteCompra.$key;
+          var dataUpdate = {
+            cantante1: this.cantanteCompra.$key,
+            creditos: (this.spectator.creditos - this.cantanteCompra.precio)
+          };
+          this.$.queryUpdateSpectatorCantante.ref.update(dataUpdate);
+        }
+        else if (this.spectator.cantante2 === null || this.spectator.cantante2 === undefined) {
+          if (this.cantanteCompra.$key === this.spectator.cantante1) {
+            this.opcionMoneda = "no";
+            this.$.textoDialogCompra.innerHTML = "No puedes comprar al mismo cantante que ya tienes :(";
+          } else {
+            this.$.textoDialogCompra.innerHTML = "Has comprado a " + this.cantanteCompra.$key + " por " + this.cantanteCompra.precio;
+            var dataUpdate = {
+              cantante2: this.cantanteCompra.$key,
+              creditos: (this.spectator.creditos - this.cantanteCompra.precio)
+            };
+            this.$.queryUpdateSpectatorCantante.ref.update(dataUpdate);
+          }
+        }
+        else {
+          this.opcionMoneda = "no";
+          this.$.textoDialogCompra.innerHTML = "Tienes que vender un cantante antes de poder comprar otro :(";
+        }
+      },
+      _vender: function () {
+        this.opcionVenta = "null";
+
+        if (this.spectator.cantante1 === this.cantanteVenta.$key) {
+          this.spectator.cantante1 = null;
+          var dataUpdate = {
+            cantante1: null,
+            creditos: (this.spectator.creditos + this.cantanteVenta.precio)
+          };
+          this.$.queryUpdateSpectatorCantante.ref.update(dataUpdate);
+        }
+        else if (this.spectator.cantante2 === this.cantanteVenta.$key) {
+          this.spectator.cantante2 = null;
+          var dataUpdate = {
+            cantante2: null,
+            creditos: (this.spectator.creditos + this.cantanteVenta.precio)
+          };
+          this.$.queryUpdateSpectatorCantante.ref.update(dataUpdate);
+        }
+      },
+      _mostrarCompra: function (opcionCompra) {
+        return opcionCompra == "comprar";
+      },
+      _mostrarVenta: function (opcionVenta) {
+        return opcionVenta == "vender";
+      },
+      _mostrarMoneda: function (opcionMoneda) {
+        return opcionMoneda == "si";
+      },
+      _compraVenta: function (item, spectator) {
+        return item.$key == spectator.cantante1 || item.$key == spectator.cantante2;
       }
     });
   </script>
