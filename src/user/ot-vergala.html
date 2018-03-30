@@ -199,14 +199,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           for (var i = 0; i < this.usuarios.length; ++i) {
             var r = this.usuarios[i];
             if (r.$key === idUsuario) {
-              switch (atributo) {
-                case 'imagen':
-                  return r.imagen;
-                  break;
-                case 'nombre':
-                  return r.nombre;
-                  break;
-              }
+              return r[atributo];
             }
           }
         }
