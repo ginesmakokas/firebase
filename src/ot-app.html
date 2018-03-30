@@ -197,17 +197,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <firebase-query id="query2" path="/Duetos" data="{{duetos}}"></firebase-query>
 
-    <firebase-query id="queryRanking" path="/Ranking" data="{{ranking}}">
-    </firebase-query>
-    <!-------------------------------------------------------------------------------------------->
     <firebase-query id="query3" path="/Programas" data="{{galas}}">
     </firebase-query>
 
+    <firebase-query id="queryRanking" path="/Ranking" data="{{ranking}}">
+    </firebase-query>
+	
     <firebase-document id="queryUser2" path="/Espectadores/[[user.uid]]" data="{{spectator}}"></firebase-document>
-    <!-- Patrón de rutas de navegación -->
-    <app-location route="{{_route}}" use-hash-as-path></app-location>
-    <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
-    <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
+
+
 
     <!-------------------------------------------------------------------------------------------->
     <!--------------------------------    PARTE DEL USUARIO             -------------------------->
@@ -393,7 +391,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _getGala: function () {
-        console.log("hola");
         if (this.galas && this._idData && this._idData.id) {
           for (var i = 0; i < this.galas.length; ++i) {
             var r = this.galas[i];
