@@ -298,6 +298,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         else if (this.spectator.dueto === null || this.spectator.dueto === undefined) {
           this.spectator.cantante1 = this.duetoCompra.$key;
+          this.$.textoDialogVenta.innerHTML = "Has a comprado a " + item.$key + " por " + item.precio;
           var dataUpdate = {
             dueto: this.duetoCompra.$key,
             creditos: (this.spectator.creditos - this.duetoCompra.precio)
@@ -313,6 +314,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.opcionVenta = "null";
 
         if (this.spectator.dueto === this.duetoVenta.$key) {
+          this.$.textoDialogVenta.innerHTML = "Has a vendido a " + item.$key + " por " + item.precio;
           this.spectator.cantante1 = null;
           var dataUpdate = {
             dueto: null,

@@ -210,7 +210,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   </div>
                   <p>Puntuación: {{item.puntuacionTotal}}</p>
                 </div>
-                <a href="#/detailCantante/{{item}}" class="card-container">
+                <a href="#/detailCantante/{{item.$key}}" class="card-container">
                   <paper-button class="indigo">Ver detalle</paper-button>
                 </a>
                 <div class="right">
@@ -335,6 +335,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.opcionVenta = "null";
 
         if (this.spectator.cantante1 === this.cantanteVenta.$key) {
+          this.$.textoDialogCompra.innerHTML = "Has vendido a " + this.cantanteCompra.$key + " por " + this.cantanteCompra.precio;
           this.spectator.cantante1 = null;
           var dataUpdate = {
             cantante1: null,
@@ -343,6 +344,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.$.queryUpdateSpectatorCantante.ref.update(dataUpdate);
         }
         else if (this.spectator.cantante2 === this.cantanteVenta.$key) {
+          this.$.textoDialogCompra.innerHTML = "Has vendido a " + this.cantanteCompra.$key + " por " + this.cantanteCompra.precio;
           this.spectator.cantante2 = null;
           var dataUpdate = {
             cantante2: null,
