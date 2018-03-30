@@ -107,10 +107,85 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         ;
       }
+
+      .wrap-login100 {
+        width: 300px;
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .right {
+        float: right;
+      }
+
+      .center {
+        display: inline-block;
+      }
     </style>
 
-<firebase-auth id="auth" user="{{user}}" provider="google">
-</firebase-auth>
+    <firebase-auth id="auth" user="{{user}}" provider="google"></firebase-auth>
+
+
+    <firebase-query id="queryUpdateSpectatorCantante" path="/Espectadores/[[user.uid]]" data="{{updateSpectator}}"></firebase-query>
+
+    <paper-dialog id="dialogCompra" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            <iron-icon icon="icons:shopping-cart"></iron-icon>
+            Comprar
+          </h2>
+          <div class="icon-text">
+            <span id="textoDialogCompra"></span>
+            <template is="dom-if" if="{{_mostrarMoneda(opcionMoneda)}}">
+              <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+            </template>
+          </div>
+        </center>
+        <br>
+        <template is="dom-if" if="{{_mostrarCompra(opcionCompra)}}">
+          <paper-button class="indigo" on-tap="_comprar" refresh>Comprar</paper-button>
+          <div class="right">
+            <paper-button class="indigo" on-tap="_cancelCompra">Cancelar</paper-button>
+          </div>
+        </template>
+        <template is="dom-if" if="{{!_mostrarCompra(opcionCompra)}}">
+          <center>
+            <paper-button class="indigo" on-tap="_cancelCompra">Continuar</paper-button>
+          </center>
+        </template>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="dialogVenta" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            <iron-icon title="Eliminar" icon="icons:delete"></iron-icon>
+            Vender
+          </h2>
+          <div class="icon-text">
+            <span id="textoDialogVenta"></span>
+            <template is="dom-if" if="{{_mostrarMoneda(opcionMoneda)}}">
+              <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+            </template>
+          </div>
+        </center>
+        <br>
+        <template is="dom-if" if="{{_mostrarVenta(opcionVenta)}}">
+          <paper-button class="indigo" on-tap="_vender">Vender</paper-button>
+          <div class="right">
+            <paper-button class="indigo" on-tap="_cancelVenta">Cancelar</paper-button>
+          </div>
+        </template>
+        <template is="dom-if" if="{{!_mostrarVenta(opcionVenta)}}">
+          <center>
+            <paper-button class="indigo" on-tap="_cancelVenta">Continuar</paper-button>
+          </center>
+        </template>
+      </div>
+    </paper-dialog>
+
     <app-header-layout>
       <div class="content">
         <h1>Duetos</h1>
@@ -127,10 +202,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   </div>
                   <p>Puntuación: {{item.puntuacionTotal}}</p>
                 </div>
-                <a href="#/detailDueto/{{item.$key}}" >
-                <paper-button class="indigo">Ver detalle</paper-button>
-              </a>
+                <a href="#/detailDueto/{{item.$key}}">
+                  <paper-button class="indigo">Ver detalle</paper-button>
+                </a>
+                <div class="right">
+                  <template is="dom-if" if="{{!_compraVenta(item, spectator)}}">
+                    <paper-button class="indigo" on-tap="_compra" data-args="{{item.$key}}">
+                      <iron-icon icon="icons:shopping-cart"></iron-icon>
+                      Comprar
+                    </paper-button>
+                  </template>
+                  <template is="dom-if" if="{{_compraVenta(item, spectator)}}">
+                    <paper-button class="indigo" on-tap="_venta" data-args="{{item.$key}}">
+                      <iron-icon title="Eliminar" icon="icons:delete"></iron-icon>
+                      Vender
+                    </paper-button>
+                  </template>
+                </div>
               </div>
+
               <div class="card-actions">
                 <paper-button>Descripción</paper-button>
                 <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggle" data-args="{{index}}" style="float:right;">
@@ -151,7 +241,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'ot-duetos',
 
       properties: {
-        duetos: Object
+        duetos: Object,
+        spectator: Object,
+        duetoCompra: Object,
+        duetoVenta: Object,
+        opcionCompra: {
+          type: String,
+          value: 'comprar'
+        },
+        opcionVenta: {
+          type: String,
+          value: 'vender'
+        },
+        opcionMoneda: {
+          type: String,
+          value: 'si'
+        }
       },
 
       _toggle: function (e) {
@@ -160,6 +265,73 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var iconButton = Polymer.dom(event).localTarget;
         iconButton.icon = moreInfo.opened ? 'expand-more' : 'expand-less';
         moreInfo.toggle();
+      },
+      _compra: function (e) {
+        var item = e.model.get('item');
+        this.opcionMoneda = "si";
+        this.opcionCompra = "comprar";
+        this.duetoCompra = item;
+        this.$.dialogCompra.open();
+        this.$.textoDialogCompra.innerHTML = "  Vas a comprar a " + item.$key + " por " + item.precio;
+      },
+      _venta: function (e) {
+        var item = e.model.get('item');
+        this.opcionMoneda = "si";
+        this.opcionVenta = "vender";
+        this.duetoVenta = item;
+        this.$.dialogVenta.open();
+        this.$.textoDialogVenta.innerHTML = "  Vas a vender a " + item.$key + " por " + item.precio;
+      },
+      _cancelCompra: function () {
+        this.duetoCompra = null;
+        this.$.dialogCompra.close();
+      },
+      _cancelVenta: function () {
+        this.duetoCompra = null;
+        this.$.dialogVenta.close();
+      },
+      _comprar: function () {
+        this.opcionCompra = "null";
+        if ((this.spectator.creditos - this.duetoCompra.precio) < 0) {
+          this.opcionMoneda = "no";
+          this.$.textoDialogCompra.innerHTML = "No tienes suficiente dinero :(";
+        }
+        else if (this.spectator.dueto === null || this.spectator.dueto === undefined) {
+          this.spectator.cantante1 = this.duetoCompra.$key;
+          var dataUpdate = {
+            dueto: this.duetoCompra.$key,
+            creditos: (this.spectator.creditos - this.duetoCompra.precio)
+          };
+          this.$.queryUpdateSpectatorCantante.ref.update(dataUpdate);
+        }
+        else {
+          this.opcionMoneda = "no";
+          this.$.textoDialogCompra.innerHTML = "Tienes que vender un dueto antes de poder comprar otro :(";
+        }
+      },
+      _vender: function () {
+        this.opcionVenta = "null";
+
+        if (this.spectator.dueto === this.duetoVenta.$key) {
+          this.spectator.cantante1 = null;
+          var dataUpdate = {
+            dueto: null,
+            creditos: (this.spectator.creditos + this.duetoVenta.precio)
+          };
+          this.$.queryUpdateSpectatorCantante.ref.update(dataUpdate);
+        }
+      },
+      _mostrarCompra: function (opcionCompra) {
+        return opcionCompra == "comprar";
+      },
+      _mostrarVenta: function (opcionVenta) {
+        return opcionVenta == "vender";
+      },
+      _mostrarMoneda: function (opcionMoneda) {
+        return opcionMoneda == "si";
+      },
+      _compraVenta: function (item, spectator) {
+        return item.$key == spectator.dueto;
       }
     });
   </script>

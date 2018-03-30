@@ -119,23 +119,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ;
       }
 
-
-
-      .container-login100 {
-        /*width: 100%;
-    min-height: 100vh;*/
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: -moz-box;
-        display: -ms-flexbox;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        padding: 15px;
-
-      }
-
       .wrap-login100 {
         width: 300px;
         border-radius: 10px;
@@ -305,7 +288,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.opcionVenta = "vender";
         this.cantanteVenta = item;
         this.$.dialogVenta.open();
-        this.$.textoDialogVenta.innerHTML = "  Vas a comprar a " + item.$key + " por " + item.precio;
+        this.$.textoDialogVenta.innerHTML = "  Vas a vender a " + item.$key + " por " + item.precio;
       },
       _cancelCompra: function () {
         this.cantanteCompra = null;
