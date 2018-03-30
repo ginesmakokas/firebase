@@ -20,133 +20,155 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+
 
 <dom-module id="ot-gala">
   <template>
 
     <style>
-
-    .content {
-      display: block;
-      position: relative;
-      max-width: 1000px;
-      margin: 5px auto;
-    }
-
-    .card-container {
-      display: inline-block;
-      width: 33.33%;
-      color: black;
-      text-decoration: none;
-    }
-
-    paper-card {
-      display: block;
-      margin: 5px;
-
-      --paper-card-header-image: {
-        height: 200px;
-      }
-    }
-
-    paper-card h2 {
-      margin: 4px;
-      font-weight: normal;
-    }
-
-    paper-card p {
-      margin: 4px;
-      color: #999;
-    }
-
-    paper-fab {
-      position: fixed;
-      right: 24px;
-      bottom: 24px;
-
-      --paper-fab-background: #EF5458;
-      --paper-fab-keyboard-focus-background: #DF4448;
-    }
-
-    @media (max-width: 960px) {
-      .content {
-        max-width: 800px;
+      .card-header {
+        @apply --paper-font-headline;
       }
 
-      .card-container {
-        width: 50%;
-      }
-    }
-
-    @media (max-width: 719px) {
-      app-toolbar {
-        height: 60px;
+      .icon-text {
+        color: var(--paper-grey-600);
       }
 
-      [condensed-title] {
-        background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_s.png');
-        background-size: 60px;
-      }
-
-      [main-title] {
-        top: -60px;
-        background-image: url('//app-layout-assets.appspot.com/assets/pesto/logo_m.png');
-        background-size: 60px;
+      .icon-price {
+        float: right;
+        font-size: 15px;
+        vertical-align: middle;
       }
 
       .content {
-        max-width: 400px;
+        display: block;
+        position: relative;
+        max-width: 1000px;
+        margin: 5px auto;
       }
 
       .card-container {
-        width: 100%;
+        display: inline-block;
+        width: 30%;
+        color: black;
+        text-decoration: none;
       }
-    }
 
+      paper-card {
+        display: block;
+        margin: 5px;
+        --paper-card-header-image: {
+          height: 180px;
+        }
+      }
+
+      paper-card h2 {
+        margin: 4px;
+        font-weight: normal;
+      }
+
+      paper-card p {
+        margin: 4px;
+        font-size: 15px;
+        color: #999;
+      }
+
+      @media (max-width: 960px) {
+        .content {
+          max-width: 800px;
+        }
+        .card-container {
+          width: 50%;
+        }
+      }
+
+      @media (max-width: 719px) {
+        app-toolbar {
+          height: 60px;
+        }
+        .content {
+          max-width: 400px;
+        }
+        .card-container {
+          width: 100%;
+        }
+      }
+
+      paper-button.indigo {
+        background-color: #dbdbdb;
+        color: black;
+        font-size: 12px;
+        --paper-button-raised-keyboard-focus: {
+          background-color: var(--paper-pink-a200) !important;
+          color: white !important;
+        }
+        ;
+      }
     </style>
-
-    <firebase-query
-      id="query"
-      path="/peliculas"
-      data="{{peliculas}}">
-    </firebase-query>
-
-    <!-- main panel -->
+    <firebase-auth id="auth" user="{{user}}" provider="google">
+    </firebase-auth>
+    <!-- Patrón de rutas de navegación -->
+    <app-location route="{{_route}}" use-hash-as-path></app-location>
+    <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
+    <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
     <app-header-layout>
       <div class="content">
-          <div><paper-button raised on-tap="ayuda">AYUDA</paper-button></div>
-        <template is="dom-repeat" items="{{peliculas}}"><!-- No empty text node
-        --><a href="#/detail/{{item.$key}}" class="card-container">
-            <paper-card image="{{item.imageUrl}}">
+        <h1>Galas</h1>
+        <br>
+        <template is="dom-repeat" items="{{galas}}">
+          <div class="card-container">
+            <paper-card image="{{item.imagen}}">
               <div class="card-content">
-                <h2>{{item.titulo}}</h2>
-                <p>Genero: <span>{{item.genero}}</span></p>
+                <div class="card-header">
+                  {{item.nombre}}
+                  <p>Día: {{item.dia}}</p>
+                </div>
+                <paper-button class="indigo" on-tap="_verGala">Ver detalle</paper-button>
+              </div>
+              <div class="card-actions">
+                <paper-button>Descripción</paper-button>
+                <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggle" data-args="{{index}}" style="float:right;">
+                </paper-icon-button>
+                <iron-collapse id="descripcionGala{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                  {{item.descripcion}}
+                </iron-collapse>
               </div>
             </paper-card>
-          </a><!-- No empty text node
-      --></template>
+          </div>
+        </template>
       </div>
-
     </app-header-layout>
-
-    <paper-fab icon="app:create"></paper-fab>
   </template>
 
   <script>
 
-  Polymer({
-    is: 'ot-gala',
+    Polymer({
+      is: 'ot-gala',
 
-    properties: {
-      recipes: Object,
-    },
-    ayuda: function(){
-      console.log(this.peliculas);
-    },
-    redirigir: function(){
-      location.href = '#/home';
-    }
-  });
+      properties: {
+        galas: Object,
+      },
+      ayuda: function () {
+        console.log(this.peliculas);
+      },
+      redirigir: function () {
+        location.href = '#/home';
+      },
+      _toggle: function (e) {
+        var i = e.model.get('index');
+        var moreInfo = document.getElementById('descripcionGala' + i);
+        var iconButton = Polymer.dom(event).localTarget;
+        iconButton.icon = moreInfo.opened ? 'expand-more' : 'expand-less';
+        moreInfo.toggle();
+      },
+      _verGala: function (e) {
+        var i = e.model.get('item.$key');
+        this.set('_route.path', '/detailGala/' + i);
+      }
+    });
 
   </script>
 </dom-module>

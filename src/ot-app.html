@@ -46,6 +46,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="user/ot-ranking.html">
 <link rel="import" href="user/ot-verdueto.html">
 <link rel="import" href="user/ot-vercantante.html">
+<link rel="import" href="user/ot-vergala.html">
 <link rel="import" href="app-icons.html">
 
 <dom-module id="ot-app">
@@ -184,11 +185,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-align: center;
       }
     </style>
-
-
-    <!------------------------------------------QUERYS-------------------------------------------------->
     <firebase-auth id="auth" user="{{user}}" provider="google">
     </firebase-auth>
+    <!-- Patrón de rutas de navegación -->
+    <app-location route="{{_route}}" use-hash-as-path></app-location>
+    <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
+    <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
 
     <firebase-query id="query" path="/Cantantes" data="{{cantantes}}">
     </firebase-query>
@@ -198,6 +200,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-query id="queryRanking" path="/Ranking" data="{{ranking}}">
     </firebase-query>
     <!-------------------------------------------------------------------------------------------->
+    <firebase-query id="query3" path="/Programas" data="{{galas}}">
+    </firebase-query>
 
     <firebase-document id="queryUser2" path="/Espectadores/[[user.uid]]" data="{{spectator}}"></firebase-document>
     <!-- Patrón de rutas de navegación -->
@@ -247,6 +251,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-item name="duetos">
               <a href="#/duetos" name="duetos">Duetos</a>
             </paper-item>
+            <paper-item name="galas">
+              <a href="#/galas" name="galas">Galas</a>
+            </paper-item>
           </paper-listbox>
         </app-header-layout>
       </app-drawer>
@@ -277,6 +284,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a href="#/duetos" id="btnDuetos">
             <paper-button>Duetos</paper-button>
           </a>
+          <a href="#/galas" id="btnGalas">
+            <paper-button>Galas</paper-button>
+          </a>
         </app-header>
       </app-header-layout>
 
@@ -293,10 +303,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <ot-ranking name="ranking" ranking="[[ranking]]"></ot-ranking>
 
         <ot-duetos name="duetos" duetos="[[duetos]]"></ot-duetos>
+        <ot-gala name="galas" galas="[[galas]]"></ot-gala>
 
         <ot-vercantante id="detailCantante" name="detailCantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-vercantante>
 
+
         <ot-verdueto id="detailDueto" name="detailDueto" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-verdueto>
+        <ot-vergala id="detailGala" name="detailGala" gala="[[_getGala(galas, _idData.id)]]"></ot-vergala>
+
 
       </iron-pages>
     </app-drawer-layout>
@@ -313,6 +327,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         cantantes: Object,
 
         duetos: Object,
+
+        galas: Object,
 
         _route: Object,
 
@@ -368,6 +384,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if (this.duetos && this._idData && this._idData.id) {
           for (var i = 0; i < this.duetos.length; ++i) {
             var r = this.duetos[i];
+            if (r.$key === this._idData.id) {
+              return r;
+            }
+          }
+        }
+        return null;
+      },
+
+      _getGala: function () {
+        console.log("hola");
+        if (this.galas && this._idData && this._idData.id) {
+          for (var i = 0; i < this.galas.length; ++i) {
+            var r = this.galas[i];
             if (r.$key === this._idData.id) {
               return r;
             }
