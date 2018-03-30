@@ -303,8 +303,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         if ((this.spectator.creditos - this.cantanteCompra.precio) < 0) {
           this.opcionMoneda = "no";
           this.$.textoDialogCompra.innerHTML = "No tienes suficiente dinero :(";
+          console.log(this.spectator.creditos);
         }
-        else if (this.spectator.cantante1 === null || this.spectator.cantante1 === undefined) {
+        else if (this.spectator.cantante1 === null || this.spectator.cantante1 === undefined || this.spectator.cantante1 === "null") {
           this.$.textoDialogCompra.innerHTML = "Has comprado a " + this.cantanteCompra.$key + " por " + this.cantanteCompra.precio;
           this.spectator.cantante1 = this.cantanteCompra.$key;
           var dataUpdate = {
@@ -313,12 +314,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           };
           this.$.queryUpdateSpectatorCantante.ref.update(dataUpdate);
         }
-        else if (this.spectator.cantante2 === null || this.spectator.cantante2 === undefined) {
+        else if (this.spectator.cantante2 === null || this.spectator.cantante2 === undefined || this.spectator.cantante2 == "null") {
           if (this.cantanteCompra.$key === this.spectator.cantante1) {
             this.opcionMoneda = "no";
             this.$.textoDialogCompra.innerHTML = "No puedes comprar al mismo cantante que ya tienes :(";
           } else {
             this.$.textoDialogCompra.innerHTML = "Has comprado a " + this.cantanteCompra.$key + " por " + this.cantanteCompra.precio;
+            this.spectator.cantante2 = this.cantanteCompra.$key;
             var dataUpdate = {
               cantante2: this.cantanteCompra.$key,
               creditos: (this.spectator.creditos - this.cantanteCompra.precio)
@@ -328,7 +330,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         else {
           this.opcionMoneda = "no";
-          this.$.textoDialogCompra.innerHTML = "Tienes que vender un cantante antes de poder comprar otro :(";
+          this.$.textoDialogCompra.innerHTML = "Tienes el numero máximo de cantatnes:(";
         }
       },
       _vender: function () {

@@ -102,8 +102,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <firebase-auth id="auth" user="{{user}}" provider="google">
         </firebase-auth>
-        <firebase-query id="queryLogin" path="/Espectadores" data="{{espectadores}}">
-        </firebase-query>
+        <firebase-document id="queryLogin" path="/Espectadores" data="{{espectadores}}">
+        </firebase-document>
+        <firebase-document id="queryLogin2"></firebase-document>
         <!-- ------------------------------------------------------------------------------------>
 
 
@@ -160,10 +161,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 /************************************************************************************************/
 
                 user: Object,
-
+                espectadores: Object,
                 _usuariologado: {
                     type: String,
-                    computed: '_calculalogado(user)'
+                    computed: '_calculalogado(user, espectadores)'
                 },
 
                 /************************************************************************************************/
@@ -190,7 +191,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             /************************************************************************************************/
 
-            _calculalogado: function (usuario) {
+            _calculalogado: function (usuario, espectadores) {
                 if (this.$.auth.user === undefined || this.$.auth.user === null)
                     return "login";
                 else {
@@ -198,17 +199,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         return "admin";
                     }
                     else {
-                        console.log(this.$.queryLogin.ref.child(this.user.uid).uid);
-                        if (this.$.queryLogin.ref.child(this.user.uid).uid === null ||
-                            this.$.queryLogin.ref.child(this.user.uid).uid === undefined) {
-                            var dataLogin = {
-                                creditos: 50,
-                                email: this.user.email,
-                                imagen: this.user.photoURL,
-                                nombre: this.user.displayName,
-                                privacidad: "privado"
-                            };
-                            this.$.queryLogin.ref.child(this.user.uid).update(dataLogin);
+                        if (this.user) {
+                            console.log(this.$.queryLogin.ref.child(this.user.uid).uid);
+                            console.log("hola");
+                            console.log(this.user.uid);
+                            console.log(espectadores[this.user.uid]);
+                            if (espectadores[this.user.uid] === null ||
+                                espectadores[this.user.uid] === undefined) {
+                                var dataLogin = {
+                                    creditos: 50,
+                                    email: this.user.email,
+                                    imagen: this.user.photoURL,
+                                    nombre: this.user.displayName,
+                                    privacidad: "privado"
+                                };
+                                this.$.queryLogin.ref.child(this.user.uid).update(dataLogin);
+                            }
                         }
                         return "usuario";
                     }
