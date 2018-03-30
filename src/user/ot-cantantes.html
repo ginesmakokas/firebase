@@ -305,6 +305,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.$.textoDialogCompra.innerHTML = "No tienes suficiente dinero :(";
         }
         else if (this.spectator.cantante1 === null || this.spectator.cantante1 === undefined) {
+          this.$.textoDialogCompra.innerHTML = "Has comprado a " + this.cantanteCompra.$key + " por " + this.cantanteCompra.precio;
           this.spectator.cantante1 = this.cantanteCompra.$key;
           var dataUpdate = {
             cantante1: this.cantanteCompra.$key,
