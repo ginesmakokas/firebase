@@ -298,7 +298,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         else if (this.spectator.dueto === null || this.spectator.dueto === undefined) {
           this.spectator.cantante1 = this.duetoCompra.$key;
-          this.$.textoDialogVenta.innerHTML = "Has a comprado a " + item.$key + " por " + item.precio;
+          this.$.textoDialogVenta.innerHTML = "Has a comprado a " + this.duetoCompra.$key + " por " + this.duetoCompra.precio;
           var dataUpdate = {
             dueto: this.duetoCompra.$key,
             creditos: (this.spectator.creditos - this.duetoCompra.precio)
@@ -313,15 +313,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _vender: function () {
         this.opcionVenta = "null";
 
-        if (this.spectator.dueto === this.duetoVenta.$key) {
-          this.$.textoDialogVenta.innerHTML = "Has a vendido a " + item.$key + " por " + item.precio;
-          this.spectator.cantante1 = null;
-          var dataUpdate = {
-            dueto: null,
-            creditos: (this.spectator.creditos + this.duetoVenta.precio)
-          };
-          this.$.queryUpdateSpectatorCantante.ref.update(dataUpdate);
-        }
+
+        this.$.textoDialogVenta.innerHTML = "Has a vendido a " + this.duetoVenta.$key + " por " + this.duetoVenta.precio;
+        this.spectator.dueto = null;
+        var dataUpdate = {
+          dueto: null,
+          creditos: (this.spectator.creditos + this.duetoVenta.precio)
+        };
+        this.$.queryUpdateSpectatorCantante.ref.update(dataUpdate);
+
       },
       _mostrarCompra: function (opcionCompra) {
         return opcionCompra == "comprar";
