@@ -39,46 +39,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-size: 100% auto;
         background-repeat: no-repeat;
       }
-
       #header {
         color: white;
-
         --app-header-background-rear-layer: {
           background-color: #00AA8D;
         }
         ;
       }
-
       paper-icon-button {
         color: white;
         --paper-icon-button-ink-color: white;
       }
-
       .card-container {
         position: relative;
         width: 720px;
         margin: 40px auto 40px;
       }
-
       paper-card {
         padding: 16px;
         width: 100%;
       }
-
       paper-card p {
         margin: 12px 0;
         color: #999;
       }
-
       h4 {
         margin: 60px 0 12px;
       }
-
       .ingredient-item {
         margin: 20px 0;
         @apply --layout-horizontal;
       }
-
       .ingredient-amount {
         margin-left: -80px;
         width: 60px;
@@ -86,24 +77,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: rgb(33, 169, 143);
         text-align: right;
       }
-
       .ingredient-name {
         @apply --layout-flex;
       }
-
       @media (max-width: 720px) {
-
         .card-container {
           width: 100%;
           margin: 150px 0 0;
         }
-
       }
     </style>
     <firebase-query path="/Programas/{{gala.$key}}/PuntuacionesCantantes" data="{{puntosCantantes}}">
     </firebase-query>
     <firebase-query path="/Programas/{{gala.$key}}/PuntuacionesDuetos" data="{{puntosDuetos}}">
     </firebase-query>
+    <firebase-query path="/Programas/{{gala.$key}}/Comentarios" data="{{comentarios}}">
+    </firebase-query>
+    <firebase-query path="/Espectadores" data="{{usuarios}}">
+    </firebase-query>
+
     <!-- main panel -->
     <app-header-layout style="background-color: #f4f4f4">
       <iron-image src="{{gala.imagen}}" sizing="cover" style="width: 200px; 
@@ -114,14 +106,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <div class="card-container">
         <paper-card heading="{{gala.nombre}}">
           <div class="card-content">
-            <p>Descripción: {{gala.descripcion}}</p>
+            <p>Descrigit adpción: {{gala.descripcion}}</p>
             <p>Día: {{gala.dia}}</p>
             <p>Puntuaciones:</p>
             <table class="w3-table-all">
               <thead>
                 <tr class="w3-indigo">
                   <th>Cantante</th>
-                  <th>Puntos</th>
+                  <th style="width: 15%;">Puntos</th>
                 </tr>
               </thead>
               <tbody>
@@ -138,7 +130,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <thead>
                 <tr class="w3-indigo">
                   <th>Dueto</th>
-                  <th>Puntos</th>
+                  <th style="width: 15%;">Puntos</th>
                 </tr>
               </thead>
               <tbody>
@@ -150,7 +142,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </template>
               </tbody>
             </table>
+            <br>
+            <p>Comentarios: </p>
           </div>
+          <template is="dom-repeat" items="{{comentarios}}">
+            <div class="card-actions">
+              <table class="w3-table">
+                <tr>
+                  <td style="vertical-align: middle; width: 15%;">
+                    <iron-image src="[[_getUser(item.usuario, 'imagen')]]" sizing="cover" style="width: 40px; 
+                      height: 40px; 
+                      display: block;" class="w3-round w3-border w3-quarter"></iron-image>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <p>{{item.timestamp}}: <b>{{item.usuario}}</b> dijo...</p>
+                    <p><b>{{item.text}}</b></p>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </template>
         </paper-card>
       </div>
     </app-header-layout>
@@ -158,24 +169,50 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <script>
-
     Polymer({
-
       is: 'ot-vergala',
-
       properties: {
-
         gala: Object
-
       },
-
       __cantanteChanged: function (cantante) {
         if (cantante) {
           this.style.backgroundImage = 'url(' + cantante.imagen + ')';
         }
+      },
+/*
+      _getUser: function (idUsuario) {
+        alert(idUsuario);
+        if (this.usuarios) {
+          for (var i = 0; i < this.usuarios.length; ++i) {
+            var r = this.usuarios[i];
+            if (r.$key === idUsuario) {
+              alert(r.imagen);
+              return r;
+            }
+          }
+        }
+        return null;
+      }
+      */
+      _getUser: function (idUsuario, atributo) {
+        if (this.usuarios) {
+          for (var i = 0; i < this.usuarios.length; ++i) {
+            var r = this.usuarios[i];
+            if (r.$key === idUsuario) {
+              switch (atributo) {
+                case 'imagen':
+                  return r.imagen;
+                  break;
+                case 'nombre':
+                  return r.nombre;
+                  break;
+              }
+            }
+          }
+        }
+        return null;
       }
     });
-
   </script>
 
 </dom-module>

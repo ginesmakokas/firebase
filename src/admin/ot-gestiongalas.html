@@ -8,133 +8,111 @@ Code distributed by Google as part of the polymer project is also
 subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
 -->
 
-<link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
-<link rel="import" href="../../bower_components/app-route/app-location.html">
-<link rel="import" href="../../bower_components/app-route/app-route.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 
-<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
-<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
-<link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
-
-<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../../bower_components/paper-item/paper-item.html">
-<link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
-<link rel="import" href="../../bower_components/paper-input/paper-input.html">
-
-<link rel="import" href="../../bower_components/paper-button/paper-button.html">
-
-<link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
-<link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
-<link rel="import" href="../../bower_components/app-layout/app-layout.html">
-<link rel="import" href="../../bower_components/paper-carousel/paper-carousel.html">
-
-<link rel="import" href="../../bower_components/jquery/jquery.html">
 
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
-<link rel="import" href="../../bower_components/iron-image/iron-image.html">
-
-<link rel="import" href="../app-icons.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="ot-gestiongalas">
 
   <template>
 
     <style>
-      
-    :host {
-      --paper-font-common-base: {
-        font-family: Raleway, sans-serif;
-      };
-    }
-    app-header {
-      color: #fff;
-      background-color: rgb(75, 139, 190);
-
-    }
-    app-toolbar {
-      height: 5px;
-    }
-
-    app-drawer-layout:not([narrow]) [drawer-toggle] {
-      display: none;
-    }
-    .grid-container {
-        display: grid;
-        grid-template-columns: 400px 400px 400px 300px 300px;
-        grid-template-rows: 300px 300px 300px 300px 300px;
-        
-        padding: 10px;
-    }
-
-    .grid-item {
-
-        padding: 20px;
-        font-size: 30px;
-        text-align: center;
-    }
-    #btnNav{
-      text-decoration:#fff;
-      color: rgb(255, 255, 255);
-      background-color: black;
-    }
-  
-
-    #buttonSel {
-                background-color: rgb(161, 99, 219);
-                --paper-icon-button-ink-color: white;
-            }
-
-    #buttonSel:hover {
-                background-color: rgb(119, 13, 218);
-                --paper-icon-button-ink-color: white;
-    }
-    .imagentam{
-        width: 60%;
-        height: 50%;
-    }
-
-
-
+      .card-header {
+        @apply --paper-font-headline;
+      }
+      .icon-text {
+        color: var(--paper-grey-600);
+      }
+      .icon-price {
+        float: right;
+        font-size: 15px;
+        vertical-align: middle;
+      }
+      .content {
+        display: block;
+        position: relative;
+        max-width: 1000px;
+        margin: 5px auto;
+      }
+      .card-container {
+        display: inline-block;
+        width: 30%;
+        color: black;
+        text-decoration: none;
+      }
+      paper-card {
+        display: block;
+        margin: 5px;
+        --paper-card-header-image: {
+          height: 180px;
+        }
+      }
+      paper-card h2 {
+        margin: 4px;
+        font-weight: normal;
+      }
+      paper-card p {
+        margin: 4px;
+        font-size: 15px;
+        color: #999;
+      }
+      @media (max-width: 960px) {
+        .content {
+          max-width: 800px;
+        }
+        .card-container {
+          width: 50%;
+        }
+      }
+      @media (max-width: 719px) {
+        app-toolbar {
+          height: 60px;
+        }
+        .content {
+          max-width: 400px;
+        }
+        .card-container {
+          width: 100%;
+        }
+      }
+      paper-button.indigo {
+        background-color: #dbdbdb;
+        color: black;
+        font-size: 12px;
+        --paper-button-raised-keyboard-focus: {
+          background-color: var(--paper-pink-a200) !important;
+          color: white !important;
+        }
+        ;
+      }
     </style>
-        <firebase-auth id="auth" user="{{user}}" provider="google">
-        </firebase-auth>
-    <!-- Patrón de rutas de navegación -->
-    <app-location route="{{_route}}" use-hash-as-path></app-location>
-    <app-route
-        route="{{_route}}"
-        pattern="/:page"
-        data="{{_pageData}}"
-        tail="{{_subRoute}}"></app-route>
-    <app-route
-        route="{{_subRoute}}"
-        pattern="/:id"
-        data="{{_idData}}"></app-route>
+
+    <firebase-query id="queryGalas" path="/Programas" data="{{galas}}">
+    </firebase-query>
+
+      <!-- Patrón de rutas de navegación -->
+      <app-location route="{{_route}}" use-hash-as-path></app-location>
+      <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
+      <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
+
+    <!-------------------------------------------------------------------------------------------->
+    <!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->
+    <!-------------------------------------------------------------------------------------------->
 
 
-
-    <!-- ------------------------------------------------------------------------------------>
-                                <!--REGISTRO-->
-      
-  
-    <!-------------------------------------------------------------------------------------->
-    
-
-
-    <!-------------------------------------------------------------------------------------->
-
-
-<!-------------------------------------------------------------------------------------------->        
-<!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->        
-<!-------------------------------------------------------------------------------------------->        
-
-    
-<div class="grid-container" name="login">
+    <!--<div class="grid-container" name="login">
         <div class="grid-item">
             <a href="#/newgala" id="btnNav" >
                 <paper-button>Nuevo Gala</paper-button>
@@ -145,7 +123,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-button>Modificar Gala</paper-button>
         </a>
         </div>
-
         <div class="grid-item">
           <a href="#/delgala" id="btnNav" >
             <paper-button>Borrar Gala</paper-button>
@@ -167,104 +144,142 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             
         </div> 
     </div>
+  </template>-->
+
+    <app-header-layout>
+      <div class="content">
+        <paper-button raised style="background-color: lightgreen;" on-tap="_newGala">
+          <iron-icon icon="icons:add"></iron-icon>Nueva Gala</paper-button>
+        <br>
+        <div class="content">
+          <h1>Galas</h1>
+          <br>
+          <template is="dom-repeat" items="{{galas}}">
+            <div class="card-container">
+              <paper-card image="{{item.imagen}}">
+                <div class="card-content">
+                  <div class="card-header">
+                    {{item.nombre}}
+                    <p>Día: {{item.dia}}</p>
+                  </div>
+                  <paper-button class="indigo" on-tap="_verGala">Ver detalle</paper-button>
+                </div>
+                <div>
+                  <!-- Eliminar -->
+                  <paper-button raised style="background-color: crimson; color: white" class="" on-tap="_deleteGala">
+                    <iron-icon icon="icons:delete"></iron-icon>
+                  </paper-button>
+                  <!-- Editar -->
+                  <paper-button raised style="background-color: rgb(15, 149, 202); color: white" on-tap="_updateGala">
+                    <iron-icon icon="image:edit"></iron-icon>
+                  </paper-button>
+                </div>
+                <div class="card-actions">
+                  <paper-button>Descripción</paper-button>
+                  <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggle" data-args="{{index}}" style="float:right;">
+                  </paper-icon-button>
+                  <iron-collapse id="descripcionGalaA{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                    {{item.descripcion}}
+                  </iron-collapse>
+                </div>
+              </paper-card>
+            </div>
+          </template>
+        </div>
+        <div>
+          <paper-button raised on-tap="ayuda">AYUDA</paper-button>
+        </div>
+    </app-header-layout>
   </template>
 
   <script>
-
-  Polymer({
-
-    is: 'ot-gestiongalas',
-
-    properties: {
-
-      recipes: Object,
-
-      _route: Object,
-
-      _subRoute: Object,
-
-      _pageData: {
-        type: Object,
-        observer: '_pageDataChanged'
-      },
-
-      _selectedPage: String,
-
-      _idData: Object,
-      
-      /************************************************************************************************/
-
-      user: Object,
-      aux1: String,
-    
-      /************************************************************************************************/
-
-      _scrollPositionMap: {
-        type: Object,
-        value: function() {
-          return {};
-        }
-      }
-    },
-
-    attached: function() {
-      this.async(function() {
-        if (!this._route.path) {
-          this.set('_route.path', '/home');
-        }
-      });
-    }, 
-
-    _getRecipe: function() {
-      if (this.recipes && this._idData && this._idData.id) {
-        for (var i = 0; i < this.recipes.length; ++i) {
-          var r = this.recipes[i];
-          if (r.id === this._idData.id) {
-            return r;
+    Polymer({
+      is: 'ot-gestiongalas',
+      properties: {
+        recipes: Object,
+        _route: Object,
+        galas: Object,
+        _subRoute: Object,
+        _pageData: {
+          type: Object,
+          observer: '_pageDataChanged'
+        },
+        _selectedPage: String,
+        _idData: Object,
+        /************************************************************************************************/
+        user: Object,
+        aux1: String,
+        /************************************************************************************************/
+        _scrollPositionMap: {
+          type: Object,
+          value: function () {
+            return {};
           }
         }
+      },
+      attached: function () {
+        this.async(function () {
+          if (!this._route.path) {
+            this.set('_route.path', '/home');
+          }
+        });
+      },
+      _drawerSelected: function () {
+        if (!this.$.drawer.persistent) this.$.drawer.close();
+      },
+      /************************************************************************************************/
+      _abrirventanalogin: function () {
+        return this.$.auth.signInWithPopup();
+      },
+      _salirUsuario: function () {
+        console.log(this.user);
+        this.$.auth.signOut();
+      },
+      ayuda: function(e){
+        console.log(e.model.get('item.descripcion'));
+      },
+      _newGala: function () {
+        this.set('_route.path', '/newgala');
+      },
+      _deleteGala: function (e) {
+        console.log(e.model.get('item.$key'));
+        if (confirm("¿Está seguro que desea eliminar esta gala? Esta acción no se puede deshacer.")) {
+          this.$.queryGalas.ref.child(e.model.get('item.$key')).remove();
+        }
+      },
+      _updateGala: function (e) {
+        var i = e.model.get('item.$key');
+        this.set('_route.path', '/updategala/' + i);
+      },
+      _toggle: function (e) {
+        var i = e.model.get('index');
+        var moreInfo = document.getElementById('descripcionGalaA' + i);
+        var iconButton = Polymer.dom(event).localTarget;
+        iconButton.icon = moreInfo.opened ? 'expand-more' : 'expand-less';
+        moreInfo.toggle();
+      },
+      _verGala: function (e) {
+        var i = e.model.get('item.$key');
+        this.set('_route.path', '/detailGala/' + i);
+      },
+      /************************************************************************************************/
+      /**
+       * Preserves the document scroll position, so 
+       * it can be restored when returning to a page.
+       */
+      _pageDataChanged: function (pageData, oldPageData) {
+        var map = this._scrollPositionMap;
+        if (oldPageData != null && oldPageData.page != null) {
+          map[oldPageData.page] = window.pageYOffset;
+        }
+        this._selectedPage = pageData.page;
+        if (map[pageData.page] != null) {
+          Polymer.AppLayout.scroll({ top: map[pageData.page], behavior: 'silent' });
+        } else if (this.isAttached) {
+          Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
+        }
       }
-      return null;
-    },
-
-    _drawerSelected: function() {
-      if (!this.$.drawer.persistent) this.$.drawer.close();
-    },
-
-    /************************************************************************************************/
-
-    _abrirventanalogin: function(){
-      return this.$.auth.signInWithPopup();
-    },
-
-    _salirUsuario: function(){
-      console.log(this.user);
-      this.$.auth.signOut();
-    },
-
-
-  /************************************************************************************************/
-
-    /**
-     * Preserves the document scroll position, so 
-     * it can be restored when returning to a page.
-     */
-    _pageDataChanged: function(pageData, oldPageData) {
-      var map = this._scrollPositionMap;
-     
-      if (oldPageData != null && oldPageData.page != null) {
-        map[oldPageData.page] = window.pageYOffset;
-      }
-      this._selectedPage = pageData.page;
-      if (map[pageData.page] != null) {
-        Polymer.AppLayout.scroll({ top: map[pageData.page], behavior: 'silent' });
-      } else if (this.isAttached) {
-        Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
-      }
-    }
-
-  });
-
+    });
   </script>
 
 </dom-module>

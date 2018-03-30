@@ -43,16 +43,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="user/ot-verdueto.html">
 <link rel="import" href="user/ot-vercantante.html">
+<link rel="import" href="user/ot-vergala.html">
 <link rel="import" href="app-icons.html">
 <link rel="import" href="admin/ot-gestionusuarios.html">
 <link rel="import" href="admin/ot-gestioncantantes.html">
 <link rel="import" href="admin/ot-gestionduetos.html">
 <link rel="import" href="admin/ot-gestiongalas.html">
-
-<link rel="import" href="admin/ot-delcantante.html">
-<link rel="import" href="admin/ot-deldueto.html">
-<link rel="import" href="admin/ot-delgala.html">
-<link rel="import" href="admin/ot-deluser.html">
 
 <link rel="import" href="admin/ot-newuser.html">
 <link rel="import" href="admin/ot-veruser.html">
@@ -77,21 +73,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         ;
       }
-
       app-header {
         color: #fff;
         background-color: rgb(75, 139, 190);
-
       }
-
       app-toolbar {
         height: 5px;
       }
-
       app-drawer-layout:not([narrow]) [drawer-toggle] {
         display: none;
       }
-
       [condensed-title] {
         position: absolute;
         top: 0;
@@ -105,7 +96,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         /* The difference in font size is used to calculate the scale of the title in the transition. */
         font-size: 16px;
       }
-
       [main-title] {
         position: absolute;
         top: -120px;
@@ -118,12 +108,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-size: 240px;
         -webkit-transform-origin: center top !important;
         transform-origin: center top !important;
-
         /* The difference in font size is used to calculate the scale of the title in the transition. */
         font-size: 32px;
       }
-
-
       .avatar-container {
         position: relative;
         border: 2px solid rgb(116, 29, 197);
@@ -133,7 +120,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 90px;
         margin: 20px auto;
       }
-
       .avatar-container .image {
         background-image: url('//app-layout-assets.appspot.com/assets/pesto/avatar.jpg');
         background-size: contain;
@@ -141,26 +127,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: 100%;
         width: 100%;
       }
-
       .contact-info {
         margin: 0 20px;
         padding-bottom: 20px;
         border-bottom: 1px solid #CCC;
         text-align: center;
       }
-
       .contact-info .name {
         font-weight: bold;
       }
-
       .contact-info .email {
         color: #999;
       }
-
       paper-item {
         height: 54px;
       }
-
       paper-item>a {
         width: 100%;
         height: 100%;
@@ -169,48 +150,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-decoration: none;
         color: rgb(0, 0, 0);
       }
-
       paper-icon-button {
         --paper-icon-button-ink-color: white;
       }
-
       #buttonLogin {
         background-color: rgb(161, 99, 219);
         --paper-icon-button-ink-color: white;
       }
-
       #buttonLogin:hover {
         background-color: rgb(119, 13, 218);
         --paper-icon-button-ink-color: white;
       }
-
       #btnNav {
         text-decoration: #fff;
         color: rgb(255, 255, 255);
       }
-
       .grid-container {
         display: grid;
         grid-template-columns: auto auto auto;
         padding: 10px;
       }
-
       .grid-item {
-
         padding: 20px;
         font-size: 30px;
         text-align: center;
       }
     </style>
-    <firebase-auth id="auth" user="{{user}}" provider="google">
-    </firebase-auth>
-    <!-- Patrón de rutas de navegación -->
-    <app-location route="{{_route}}" use-hash-as-path></app-location>
-    <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
-    <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
 
     <!------------------------------------------QUERYS-------------------------------------------------->
-    <firebase-query id="queryCantantes" path="/Cantantes" data="{{cantantes}}" orderByChild = "precio">
+    <firebase-auth id="auth" user="{{user}}" provider="google">
+    </firebase-auth>
+
+    <firebase-query id="queryCantantes" path="/Cantantes" data="{{cantantes}}" orderByChild="precio">
     </firebase-query>
 
     <firebase-query id="queryDuetos" path="/Duetos" data="{{duetos}}">
@@ -219,9 +190,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-query id="queryEspectadores" path="/Espectadores" data="{{usuarios}}">
     </firebase-query>
 
-    <firebase-query id="queryRanking" path="/Ranking" data="{{ranking}}">
+    <firebase-query id="queryGalas" path="/Programas" data="{{galas}}">
     </firebase-query>
     <!-------------------------------------------------------------------------------------------->
+
+    <!-- Patrón de rutas de navegación -->
+    <app-location route="{{_route}}" use-hash-as-path></app-location>
+    <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
+    <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
+
 
     <!-------------------------------------------------------------------------------------------->
     <!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->
@@ -306,29 +283,25 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <ot-gestionusuarios name="usuarios" usuarios="[[usuarios]]"></ot-gestionusuarios>
 
-        <ot-gestiongalas name="galas"></ot-gestiongalas>
+        <ot-gestiongalas name="galas" galas="[[galas]]"></ot-gestiongalas>
 
-        <ot-ranking name="ranking" ranking="[[ranking]]"></ot-ranking>
+        <ot-ranking name="ranking"></ot-ranking>
 
         <ot-gestionduetos name="duetos" duetos="[[duetos]]"></ot-gestionduetos>
 
         <ot-vercantante id="detailCantante" name="detailCantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-vercantante>
         <ot-verdueto id="detailDueto" name="detailDueto" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-verdueto>
         <ot-veruser id="detailUsuario" name="detailUsuario" usuario="[[_getUser(usuarios, _idData.id)]]"></ot-veruser>
+        <ot-vergala id="detailGala" name="detailGala" gala="[[_getGala(galas, _idData.id)]]"></ot-vergala>
 
         <ot-newuser name="newuser"></ot-newuser>
         <ot-newdueto name="newdueto" cantantes="[[cantantes]]"></ot-newdueto>
         <ot-newgala name="newgala"></ot-newgala>
         <ot-newcantante name="newcantante"></ot-newcantante>
 
-        <ot-delcantante name="delcantante"></ot-delcantante>
-        <ot-deldueto name="deldueto"></ot-deldueto>
-        <ot-delgala name="delgala"></ot-delgala>
-        <ot-deluser name="deluser"></ot-deluser>
-
         <ot-updatecantante name="updatecantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-updatecantante>
         <ot-updatedueto name="updatedueto" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-updatedueto>
-        <ot-updategala name="updategala"></ot-updategala>
+        <ot-updategala name="updategala" gala="[[_getGala(galas, _idData.id)]]"></ot-updategala>
         <ot-updateuser name="updateuser" usuarios="[[_getUser(usuarios, _idData.id)]]"></ot-updateuser>
 
       </iron-pages>
@@ -336,38 +309,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <script>
-
     Polymer({
-
       is: 'ot-appadmin',
-
       properties: {
-
         cantantes: Object,
-
         duetos: Object,
-
         usuarios: Object,
-
         _route: Object,
-
         _subRoute: Object,
-
         _pageData: {
           type: Object,
           observer: '_pageDataChanged'
         },
-
         _selectedPage: String,
-
         _idData: Object,
-
         /************************************************************************************************/
-
         user: Object,
-
         /************************************************************************************************/
-
         _scrollPositionMap: {
           type: Object,
           value: function () {
@@ -375,7 +333,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         }
       },
-
       _getCantante: function () {
         if (this.cantantes && this._idData && this._idData.id) {
           for (var i = 0; i < this.cantantes.length; ++i) {
@@ -387,7 +344,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         return null;
       },
-
       _getDueto: function () {
         if (this.duetos && this._idData && this._idData.id) {
           for (var i = 0; i < this.duetos.length; ++i) {
@@ -399,7 +355,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         return null;
       },
-
       _getUser: function () {
         if (this.usuarios && this._idData && this._idData.id) {
           for (var i = 0; i < this.usuarios.length; ++i) {
@@ -411,7 +366,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         return null;
       },
-
+      _getGala: function () {
+        if (this.galas && this._idData && this._idData.id) {
+          for (var i = 0; i < this.galas.length; ++i) {
+            var r = this.galas[i];
+            if (r.$key === this._idData.id) {
+              return r;
+            }
+          }
+        }
+        return null;
+      },
       attached: function () {
         this.async(function () {
           if (!this._route.path) {
@@ -422,27 +387,21 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _drawerSelected: function () {
         if (!this.$.drawer.persistent) this.$.drawer.close();
       },
-
       /************************************************************************************************/
-
       _abrirventanalogin: function () {
         return this.$.auth.signInWithPopup();
       },
-
       _salirUsuario: function () {
         console.log(this.user);
         this.$.auth.signOut();
       },
-
       /************************************************************************************************/
-
       /**
        * Preserves the document scroll position, so 
        * it can be restored when returning to a page.
        */
       _pageDataChanged: function (pageData, oldPageData) {
         var map = this._scrollPositionMap;
-
         if (oldPageData != null && oldPageData.page != null) {
           map[oldPageData.page] = window.pageYOffset;
         }
@@ -453,9 +412,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
         }
       }
-
     });
-
   </script>
 
 </dom-module>

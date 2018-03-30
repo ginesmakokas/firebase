@@ -55,12 +55,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     app-header {
       color: #fff;
       background-color: rgb(75, 139, 190);
-
     }
     app-toolbar {
       height: 5px;
     }
-
     app-drawer-layout:not([narrow]) [drawer-toggle] {
       display: none;
     }
@@ -71,9 +69,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         
         padding: 10px;
     }
-
     .grid-item {
-
         padding: 20px;
         font-size: 30px;
         text-align: center;
@@ -84,12 +80,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       background-color: black;
     }
   
-
     #buttonSel {
                 background-color: rgb(161, 99, 219);
                 --paper-icon-button-ink-color: white;
             }
-
     #buttonSel:hover {
                 background-color: rgb(119, 13, 218);
                 --paper-icon-button-ink-color: white;
@@ -98,9 +92,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 60%;
         height: 50%;
     }
-
-
-
     </style>
         <firebase-auth id="auth" user="{{user}}" provider="google">
         </firebase-auth>
@@ -117,30 +108,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         data="{{_idData}}"></app-route>
 
 
-
-    <!-- ------------------------------------------------------------------------------------>
-                                <!--REGISTRO-->
-      
-  
-    <!-------------------------------------------------------------------------------------->
-    
-
-
-    <!-------------------------------------------------------------------------------------->
-
-
 <!-------------------------------------------------------------------------------------------->        
 <!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->        
 <!-------------------------------------------------------------------------------------------->        
 
     
-<div class="grid-container" name="login">
+<!--<div class="grid-container" name="login">
         <div class="grid-item">
             <h1>UPDATE GALA</h1>
         </div>
         <div class="grid-item">
         </div>
-
         <div class="grid-item">
         </div>
         <div class="grid-item">
@@ -159,38 +137,58 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             
         </div> 
     </div>
+  </template>-->
+
+  <firebase-query id="queryUpdateGala" path="/Programas" data="{{galas}}">
+  </firebase-query>
+
+  <app-header-layout>
+      <div class="content">
+        <div>
+          <iron-image src="./image/perfil.jpg"></iron-image>
+        </div>
+        <div>Actualizar Gala</div>
+        <iron-form id="form1">
+          <form action="/foo" method="get">
+            <paper-input type="text" name="nombre" id="nombre" label="Nombre" value="{{gala.nombre}}"></paper-input>
+            <paper-input type="text" name="imagen" id="imagen" label="Ruta a una imagen" value="{{gala.imagen}}"></paper-input>
+            <paper-input type="text" name="dia" id="dia" label="Dia" value="{{gala.dia}}"></paper-input>
+            <paper-input type="text" name="descripcion" id="descripcion" label="Descripcion" value="{{gala.descripcion}}"></paper-input>
+            <div>
+              <!--<paper-button raised onclick="form1.submit()">Actualizar</paper-button>-->
+              <paper-button raised on-tap="_updateGalaValues">Actualizar</paper-button>
+              <paper-button raised on-tap="redirigir">Volver</paper-button>
+            </div>
+          </form>
+          <br>
+          <div class="output"></div>
+        </iron-form>
+      </div>
+
+    </app-header-layout>
   </template>
 
+
   <script>
-
   Polymer({
-
     is: 'ot-updategala',
-
     properties: {
-
       recipes: Object,
-
       _route: Object,
-
+      gala: Object,
       _subRoute: Object,
-
       _pageData: {
         type: Object,
         observer: '_pageDataChanged'
       },
-
       _selectedPage: String,
-
       _idData: Object,
       
       /************************************************************************************************/
-
       user: Object,
       aux1: String,
     
       /************************************************************************************************/
-
       _scrollPositionMap: {
         type: Object,
         value: function() {
@@ -198,7 +196,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       }
     },
-
     attached: function() {
       this.async(function() {
         if (!this._route.path) {
@@ -206,37 +203,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
       });
     }, 
-
-    _getRecipe: function() {
-      if (this.recipes && this._idData && this._idData.id) {
-        for (var i = 0; i < this.recipes.length; ++i) {
-          var r = this.recipes[i];
-          if (r.id === this._idData.id) {
-            return r;
-          }
-        }
-      }
-      return null;
-    },
-
+    _updateGalaValues: function () {
+        var dataGala = {
+          nombre: this.$.nombre.value,
+          imagen: this.$.imagen.value,
+          dia: this.$.dia.value,
+          descripcion: this.$.descripcion.value
+        };
+        console.log(dataGala);
+        console.log(this.gala.$key);
+        this.$.queryUpdateGala.ref.child(this.gala.$key).update(dataGala);
+      },
     _drawerSelected: function() {
       if (!this.$.drawer.persistent) this.$.drawer.close();
     },
-
     /************************************************************************************************/
-
     _abrirventanalogin: function(){
       return this.$.auth.signInWithPopup();
     },
-
     _salirUsuario: function(){
       console.log(this.user);
       this.$.auth.signOut();
     },
-
-
   /************************************************************************************************/
-
     /**
      * Preserves the document scroll position, so 
      * it can be restored when returning to a page.
@@ -254,9 +243,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
       }
     }
-
   });
-
   </script>
 
 </dom-module>
