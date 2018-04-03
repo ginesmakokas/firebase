@@ -42,56 +42,64 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../app-icons.html">
 
 <dom-module id="ot-updategala">
-
+  <link rel="import" type="css" href="../../css/w3.css">
   <template>
 
     <style>
       
-    :host {
-      --paper-font-common-base: {
-        font-family: Raleway, sans-serif;
-      };
-    }
-    app-header {
-      color: #fff;
-      background-color: rgb(75, 139, 190);
-    }
-    app-toolbar {
-      height: 5px;
-    }
-    app-drawer-layout:not([narrow]) [drawer-toggle] {
-      display: none;
-    }
-    .grid-container {
-        display: grid;
-        grid-template-columns: 400px 400px 400px 300px 300px;
-        grid-template-rows: 300px 300px 300px 300px 300px;
-        
-        padding: 10px;
-    }
-    .grid-item {
-        padding: 20px;
-        font-size: 30px;
-        text-align: center;
-    }
-    #btnNav{
-      text-decoration:#fff;
-      color: rgb(255, 255, 255);
-      background-color: black;
-    }
-  
-    #buttonSel {
-                background-color: rgb(161, 99, 219);
-                --paper-icon-button-ink-color: white;
-            }
-    #buttonSel:hover {
-                background-color: rgb(119, 13, 218);
-                --paper-icon-button-ink-color: white;
-    }
-    .imagentam{
-        width: 60%;
-        height: 50%;
-    }
+      :host {
+        display: block;
+        background-attachment: fixed;
+        background-size: 100% auto;
+        background-repeat: no-repeat;
+      }
+      #header {
+        color: white;
+        --app-header-background-rear-layer: {
+          background-color: #00AA8D;
+        }
+        ;
+      }
+      paper-icon-button {
+        color: white;
+        --paper-icon-button-ink-color: white;
+      }
+      .card-container {
+        position: relative;
+        width: 720px;
+        margin: 40px auto 40px;
+      }
+      paper-card {
+        padding: 16px;
+        width: 100%;
+      }
+      paper-card p {
+        margin: 12px 0;
+        color: #999;
+      }
+      h4 {
+        margin: 60px 0 12px;
+      }
+      .ingredient-item {
+        margin: 20px 0;
+        @apply --layout-horizontal;
+      }
+      .ingredient-amount {
+        margin-left: -80px;
+        width: 60px;
+        padding-right: 20px;
+        color: rgb(33, 169, 143);
+        text-align: right;
+      }
+      .ingredient-name {
+        @apply --layout-flex;
+      }
+      @media (max-width: 720px) {
+        .card-container {
+          width: 100%;
+          margin: 150px 0 0;
+        }
+      }
     </style>
         <firebase-auth id="auth" user="{{user}}" provider="google">
         </firebase-auth>
@@ -141,6 +149,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <firebase-query id="queryUpdateGala" path="/Programas" data="{{galas}}">
   </firebase-query>
+  <firebase-query path="/Programas/{{gala.$key}}/PuntuacionesCantantes" data="{{puntosCantantes}}">
+  </firebase-query>
+  <firebase-query path="/Programas/{{gala.$key}}/PuntuacionesDuetos" data="{{puntosDuetos}}">
+  </firebase-query>
+  <firebase-query path="/Programas/{{gala.$key}}/Comentarios" data="{{comentarios}}">
+  </firebase-query>
+  <firebase-query path="/Espectadores" data="{{usuarios}}">
+  </firebase-query>
 
   <app-header-layout>
       <div class="content">
@@ -154,6 +170,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-input type="text" name="imagen" id="imagen" label="Ruta a una imagen" value="{{gala.imagen}}"></paper-input>
             <paper-input type="text" name="dia" id="dia" label="Dia" value="{{gala.dia}}"></paper-input>
             <paper-input type="text" name="descripcion" id="descripcion" label="Descripcion" value="{{gala.descripcion}}"></paper-input>
+            <div>
+              <p>Puntuaciones:</p>
+              <table class="w3-table-all">
+                <thead>
+                  <tr class="w3-indigo">
+                    <th>Cantante</th>
+                    <th style="width: 15%;">Puntos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template is="dom-repeat" items="{{puntosCantantes}}">
+                    <tr>
+                      <td style="vertical-align: middle;">{{item.$key}}</td>
+                      <td style="vertical-align: middle;" value="{{item.$val}}">
+                        <paper-input type="text" name="puntosCantantes" id="puntosCantantes" label="puntosCantantes" value="{{item.$val}}"></paper-input>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+              <br>
+              <table class="w3-table-all">
+                <thead>
+                  <tr class="w3-indigo">
+                    <th>Dueto</th>
+                    <th style="width: 15%;">Puntos</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <template is="dom-repeat" items="{{puntosDuetos}}">
+                    <tr>
+                      <td style="vertical-align: middle;">{{item.$key}}</td>
+                      <td style="vertical-align: middle;" value = "{{item.Total}}">
+                        <paper-input type="text" name="puntosDueto" id="puntosDueto" label="puntosDueto" value="{{item.total}}"></paper-input>
+                      </td>
+                    </tr>
+                  </template>
+                </tbody>
+              </table>
+            </div>
             <div>
               <!--<paper-button raised onclick="form1.submit()">Actualizar</paper-button>-->
               <paper-button raised on-tap="_updateGalaValues">Actualizar</paper-button>
