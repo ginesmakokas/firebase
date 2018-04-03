@@ -18,6 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
 
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
@@ -95,6 +96,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </firebase-query>
     <firebase-query path="/Espectadores" data="{{usuarios}}">
     </firebase-query>
+    <firebase-query id="queryInsertComment" path="/Programas/{{gala.$key}}/Comentarios" data="{{comentarios}}">
+    </firebase-query>
+    <firebase-auth id="auth" user="{{user}}" provider="google">
+    </firebase-auth>
+    
 
     <!-- main panel -->
     <app-header-layout style="background-color: #f4f4f4">
@@ -144,6 +150,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </table>
             <br>
             <p>Comentarios: </p>
+            <div class="card-actions">
+              <table class="w3-table">
+                <tr>
+                  <td style="vertical-align: middle; width: 15%;">
+                    <iron-image src="[[_getUser([[user.displayName]], 'imagen')]]" sizing="cover" style="width: 40px; 
+                      height: 40px; 
+                      display: block;" class="w3-round w3-border w3-quarter"></iron-image>
+                  </td>
+                  <td style="vertical-align: middle;">
+                    <p><b>[[user.displayName]]</b> </p>
+                    <paper-item type="text" name="idUsuario" id="idUsuario" value="[[user.displayName]]"></paper-item>
+                    <paper-input  type="text" name="text" id="text" label="Deja tu comentario" ></paper-input>
+                    <paper-button style="font-size: 15px" raised on-tap="_insertComment">Publicar Comentario</paper-button>
+                  </td>
+                </tr>
+              </table>
+            </div>
           </div>
           <template is="dom-repeat" items="{{comentarios}}">
             <div class="card-actions">
@@ -172,12 +195,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     Polymer({
       is: 'ot-vergala',
       properties: {
-        gala: Object
+        gala: Object,
+        user: Object
       },
       __cantanteChanged: function (cantante) {
         if (cantante) {
           this.style.backgroundImage = 'url(' + cantante.imagen + ')';
         }
+      },
+
+      _insertComment: function () {
+        var fecha = new Date();
+        var fechaString;
+        var dataComment = {
+          usuario: this.$.idUsuario.value,
+          text:  this.$.text.value,
+          //timestamp: "30/03/2018 12:50"
+          timestamp: fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear() + "  " + fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds()
+        };
+     //   console.log(new Date().getTime());
+        console.log(fecha.getDate() + "/" + fecha.getMonth() + "/" + fecha.getFullYear() + "  " + fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds());
+        this.$.queryInsertComment.ref.child(this.$.text.value).update(dataComment);
+        this.$.text.value = "";
       },
 /*
       _getUser: function (idUsuario) {

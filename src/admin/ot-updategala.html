@@ -184,7 +184,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <tr>
                       <td style="vertical-align: middle;">{{item.$key}}</td>
                       <td style="vertical-align: middle;" value="{{item.$val}}">
-                        <paper-input type="text" name="puntosCantantes" id="puntosCantantes" label="puntosCantantes" value="{{item.$val}}"></paper-input>
+                        <paper-input type="number" max = "10" name="puntosCantantes" id="puntosCantantes" label="puntosCantantes" value="{{item.$val}}"></paper-input>
                       </td>
                     </tr>
                   </template>
@@ -203,7 +203,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     <tr>
                       <td style="vertical-align: middle;">{{item.$key}}</td>
                       <td style="vertical-align: middle;" value = "{{item.Total}}">
-                        <paper-input type="text" name="puntosDueto" id="puntosDueto" label="puntosDueto" value="{{item.total}}"></paper-input>
+                        <paper-input type="number" max = "10" name="puntosDueto" id="puntosDueto" label="puntosDueto" value="{{item.total}}"></paper-input>
                       </td>
                     </tr>
                   </template>
