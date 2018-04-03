@@ -44,6 +44,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="user/ot-verdueto.html">
 <link rel="import" href="user/ot-vercantante.html">
 <link rel="import" href="user/ot-vergala.html">
+<link rel="import" href="user/ot-ranking.html">
 <link rel="import" href="app-icons.html">
 <link rel="import" href="admin/ot-gestionusuarios.html">
 <link rel="import" href="admin/ot-gestioncantantes.html">
@@ -187,6 +188,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-query id="queryDuetos" path="/Duetos" data="{{duetos}}">
     </firebase-query>
 
+    <firebase-query id="queryRanking" path="/Ranking" data="{{ranking}}">
+    </firebase-query>
+
     <firebase-query id="queryEspectadores" path="/Espectadores" data="{{usuarios}}">
     </firebase-query>
 
@@ -285,7 +289,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <ot-gestiongalas name="galas" galas="[[galas]]"></ot-gestiongalas>
 
-        <ot-ranking name="ranking"></ot-ranking>
+        <ot-ranking name="ranking" ranking="[[ranking]]"></ot-ranking>
 
         <ot-gestionduetos name="duetos" duetos="[[duetos]]"></ot-gestionduetos>
 

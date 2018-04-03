@@ -12,6 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
 
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
@@ -38,7 +39,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-size: 100% auto;
         background-repeat: no-repeat;
       }
-
       #header {
         color: white;
         --app-header-background-rear-layer: {
@@ -46,37 +46,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         ;
       }
-
       paper-icon-button {
         color: white;
         --paper-icon-button-ink-color: white;
       }
-
       .card-container {
         position: relative;
         width: 720px;
         margin: 40px auto 40px;
       }
-
       paper-card {
         padding: 16px;
         width: 100%;
       }
-
       paper-card p {
         margin: 12px 0;
         color: #999;
       }
-
       h4 {
         margin: 60px 0 12px;
       }
-
       .ingredient-item {
         margin: 20px 0;
         @apply --layout-horizontal;
       }
-
       .ingredient-amount {
         margin-left: -80px;
         width: 60px;
@@ -84,11 +77,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: rgb(33, 169, 143);
         text-align: right;
       }
-
       .ingredient-name {
         @apply --layout-flex;
       }
-
       @media (max-width: 720px) {
         .card-container {
           width: 100%;
@@ -116,31 +107,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     </style>
 
-    <!--  <table class="w3-table-all w3-card-4 w3-centered">
-              <tr class="w3-blue">
-                <th>Imagen</th>
-                <th>Posicion</th>
-                <th>Nombre</th>
-                <th>Cantante 1</th>
-                <th>Cantante 2</th>
-                <th>Dueto</th>
-                <th>Puntuacion</th>
-              </tr>
-           <template is="dom-repeat" items="{{espectadores}}">
-              <tr is="s-tr" multi>
-                <td>{{item.imagen}}</td>
-                <td>1</td>
-                <td>{{item.nombre}}</td>
-                <td>{{item.cantante1}}</td>
-                <td>{{item.cantante2}}</td>
-                <td>{{item.dueto}}</td>
-                <td>11</td>
-              </tr>
-            </template>
-          </table>
 
-  </template> -->
-
+    <iron-ajax 
+        auto 
+        url="https://www.googleapis.com/youtube/v3/search" 
+        handle-as = "json"
+        last-response = "{{ranking}}">
+    </iron-ajax> 
     <table class="w3-table-all w3-card-4 w3-centered">
       <tr class="w3-blue">
         <th>Posicion</th>
@@ -154,7 +127,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </template>
     </table>
     <div>
-      <br></br>
+      <br>
+      <a target="_blank" href="https://us-central1-practica2firebase.cloudfunctions.net/updateRanking" id="btnRanking">
+        <paper-button raised style="background-color: rgb(71, 162, 236);">Actualizar Ranking</paper-button>
+      </a> 
+    <!--  <paper-button raised style="background-color: rgb(71, 162, 236);" on-tap="_updateRanking">Actualizar Ranking</paper-button> -->
       <paper-button raised on-tap="ayuda">AYUDA</paper-button>
     </div>
   </template>
@@ -167,8 +144,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ranking: Object,
         seleccion: String
       },
-      ayuda: function(){
-        console.log(this.ranking);
+      ayuda: function () {
+        console.log('url(https://us-central1-practica2firebase.cloudfunctions.net/updateRanking)');
+      },
+      _updateRanking: function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "https://us-central1-practica2firebase.cloudfunctions.net/updateRanking", true);
+        xhttp.send();
       },
       __cantanteChanged: function (cantante) {
         if (cantante) {
