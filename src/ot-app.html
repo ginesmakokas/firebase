@@ -167,6 +167,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --paper-icon-button-ink-color: white;
       }
 
+      #buttonLogout {
+        background-color: rgb(247, 144, 27);
+        --paper-icon-button-ink-color: white;
+        color: white;
+      }
+
+      #buttonLogout:hover {
+        background-color: rgb(280, 170, 53);
+        --paper-icon-button-ink-color: white;
+      }
+
       #btnNav {
         text-decoration: #fff;
         color: rgb(255, 255, 255);
@@ -202,7 +213,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <firebase-query id="queryRanking" path="/Ranking" data="{{ranking}}">
     </firebase-query>
-	
+
     <firebase-document id="queryUser2" path="/Espectadores/[[user.uid]]" data="{{spectator}}"></firebase-document>
 
 
@@ -217,16 +228,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header-layout has-scrolling-region>
 
           <app-header fixed slot="header">
-            <div class="avatar-container">
-              <div class="image"></div>
+            <div>
+              <iron-icon src="{{user.photoURL}}" style = "background-size: contain; border-radius:
+              50%; height: 100%; width: 100%;"></iron-icon>
             </div>
+            <!-- <div class="avatar-container">
+                <iron-icon src="{{user.photoURL}}" ></iron-icon> style="background-color: rgb(247, 144, 27);"
+              <div ></div>
+            </div>-->
+            <br>
             <div class="contact-info">
 
               <div class="name">[[user.displayName]]</div>
               <div class="email">[[user.email]]</div>
+              <div class="icon-price icon-text">
+                  <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+                  <span>{{spectator.creditos}} cr</span>
+                </div>
+              <br>
               <div class="email">
-                <paper-button raised on-tap="_salirUsuario">Salir</paper-button>
+                <paper-button raised  id="buttonLogout" on-tap="_salirUsuario">Salir</paper-button>
               </div>
+              <br>
             </div>
           </app-header>
 

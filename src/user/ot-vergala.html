@@ -173,7 +173,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <table class="w3-table">
                 <tr>
                   <td style="vertical-align: middle; width: 15%;">
-                    <iron-image src="[[_getUser(item.usuario, 'imagen')]]" sizing="cover" style="width: 40px; 
+                    <iron-image src="[[_getUser(item.uid, 'imagen')]]" sizing="cover" style="width: 40px; 
                       height: 40px; 
                       display: block;" class="w3-round w3-border w3-quarter"></iron-image>
                   </td>
@@ -208,14 +208,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var fecha = new Date();
         var fechaString;
         var dataComment = {
+          uid: this.user.uid,
           usuario: this.$.idUsuario.value,
           text:  this.$.text.value,
-          //timestamp: "30/03/2018 12:50"
           timestamp: fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear() + "  " + fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds()
         };
-     //   console.log(new Date().getTime());
-        console.log(fecha.getDate() + "/" + fecha.getMonth() + "/" + fecha.getFullYear() + "  " + fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds());
-        this.$.queryInsertComment.ref.child(this.$.text.value).update(dataComment);
+        console.log(this.comentarios.length);
+        this.$.queryInsertComment.ref.child(this.comentarios.length + 1).update(dataComment);
         this.$.text.value = "";
       },
 /*
@@ -234,11 +233,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
       */
       _getUser: function (idUsuario, atributo) {
+        console.log(idUsuario);
         if (this.usuarios) {
           for (var i = 0; i < this.usuarios.length; ++i) {
             var r = this.usuarios[i];
             if (r.$key === idUsuario) {
+              
+              console.log(r[atributo]);
               return r[atributo];
+              
             }
           }
         }
