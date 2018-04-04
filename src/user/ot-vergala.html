@@ -169,7 +169,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
           </div>
           <template is="dom-repeat" items="{{comentarios}}">
-            <div class="card-actions">
+          <iron-pages selected="[[_usuarioprivacidad(item.usuario)]]" attr-for-selected="name">
+            <div class="card-actions" name="publico">
               <table class="w3-table">
                 <tr>
                   <td style="vertical-align: middle; width: 15%;">
@@ -178,12 +179,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       display: block;" class="w3-round w3-border w3-quarter"></iron-image>
                   </td>
                   <td style="vertical-align: middle;">
-                    <p>{{item.timestamp}}: <b>{{item.usuario}}</b> dijo...</p>
+                   <p>{{item.timestamp}}: <b>{{item.usuario}}</b> dijo...</p>
                     <p><b>{{item.text}}</b></p>
                   </td>
                 </tr>
               </table>
             </div>
+            <div class="card-actions" name="privado">
+                <table class="w3-table">
+                  <tr>
+                    <td style="vertical-align: middle; width: 15%;">
+                      <iron-image src="" sizing="cover" style="width: 40px; 
+                        height: 40px; 
+                        display: block;" class="w3-round w3-border w3-quarter"></iron-image>
+                    </td>
+                    <td style="vertical-align: middle;">
+                     <p>{{item.timestamp}}: <b>Anonimo</b> dijo...</p>
+                      <p><b>{{item.text}}</b></p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+          </iron-pages>
           </template>
         </paper-card>
       </div>
@@ -231,7 +248,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         return null;
       }
-      */
+      */      
+      _usuarioprivacidad: function (idUsuario) {
+        console.log(idUsuario);
+        if (this.usuarios) {
+          for (var i = 0; i < this.usuarios.length; ++i) {
+            var r = this.usuarios[i];
+            if (r.nombre === idUsuario) {
+              if(r.privacidad === "publico"){
+                  return "publico";
+              } else{
+                  return "privado";
+              }             
+            }
+          }
+        }
+        return null;
+      },
       _getUser: function (idUsuario, atributo) {
         console.log(idUsuario);
         if (this.usuarios) {
