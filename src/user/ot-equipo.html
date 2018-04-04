@@ -187,10 +187,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </div>
             </template>
           </template>
-
-          <div>
-            <paper-button raised on-tap="ayuda">AYUDA</paper-button>
-          </div>
       </div>
 
     </app-header-layout>
@@ -229,11 +225,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var iconButton = Polymer.dom(event).localTarget;
         iconButton.icon = moreInfo.opened ? 'expand-more' : 'expand-less';
         moreInfo.toggle();
-      },
-      ayuda: function () {
-        console.log(this.user.uid);
-        console.log("Espectador");
-        console.log(this.espectador);
       },
       redirigir: function () {
         location.href = '#/home';
