@@ -326,10 +326,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <ot-duetos name="duetos" duetos="[[duetos]]" spectator="{{spectator}}"></ot-duetos>
         <ot-gala name="galas" galas="[[galas]]"></ot-gala>
 
-        <ot-vercantante id="detailCantante" name="detailCantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-vercantante>
+        <ot-vercantante id="detailCantante" name="detailCantante" galas="[[galas]]" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-vercantante>
 
 
-        <ot-verdueto id="detailDueto" name="detailDueto" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-verdueto>
+        <ot-verdueto id="detailDueto" name="detailDueto" galas="[[galas]]" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-verdueto>
         <ot-vergala id="detailGala" name="detailGala" gala="[[_getGala(galas, _idData.id)]]"></ot-vergala>
 
 

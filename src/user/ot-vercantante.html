@@ -29,9 +29,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-image/iron-image.html">
 
 <dom-module id="ot-vercantante">
-    <link rel="import" type="css" href="../../css/w3.css">
+  <link rel="import" type="css" href="../../css/w3.css">
   <template>
-    
+
     <style>
       :host {
         display: block;
@@ -103,13 +103,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <!-- main panel -->
     <app-header-layout style="background-color: #f4f4f4">
-      <iron-image src="{{cantante.imagen}}" sizing="cover" 
-      style="width: 200px; 
+      <iron-image src="{{cantante.imagen}}" sizing="cover" style="width: 200px; 
       height: 200px; 
       display: block;
       margin-left: auto;
-      margin-right: auto;" 
-      class="w3-round w3-border"></iron-image>
+      margin-right: auto;" class="w3-round w3-border"></iron-image>
       <div class="card-container">
         <paper-card heading="{{cantante.nombre}}">
           <div class="card-content">
@@ -125,27 +123,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>15</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>15</td>
-                </tr>
+                <template is="dom-repeat" items="{{galas}}">
+                  <tr>
+                    <td>{{item.nombre}}</td>
+                    <td>{{_getPuntosGala(cantante.$key, item.$key)}}</td>
+                  </tr>
+                </template>
                 <tr>
                   <th>Total</th>
-                  <th>30</th>
+                  <th>{{cantante.puntuacionTotal}}</th>
                 </tr>
               </tbody>
             </table>
-
-            <!--template is="dom-repeat" items="{{__actores(pelicula)}}">
-              <div class="ingredient-item">
-                <div class="ingredient-amount">{{item.nombre}}</div>
-                <div class="ingredient-name">{{item.nacionalidad}}</div>
-              </div>
-            </template-->
           </div>
         </paper-card>
       </div>
@@ -161,13 +150,28 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       properties: {
 
-        cantante: Object
+        cantante: Object,
+        galas: Object
 
       },
 
       __cantanteChanged: function (cantante) {
         if (cantante) {
           this.style.backgroundImage = 'url(' + cantante.imagen + ')';
+        }
+      },
+
+      _getPuntosGala: function (idCantante, idGala) {
+        if (idCantante && idGala) {
+          for (var i = 0; i < this.galas.length; ++i) {
+            var r = this.galas[i];
+            if (r.$key === idGala) {
+              console.log(r);
+              var progs = r['PuntuacionesCantantes'];
+              console.log(progs);
+              return progs[idCantante];
+            }
+          }
         }
       }
     });
