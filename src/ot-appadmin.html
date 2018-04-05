@@ -162,6 +162,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-color: rgb(119, 13, 218);
         --paper-icon-button-ink-color: white;
       }
+
+      #buttonLogout {
+        background-color: rgb(247, 144, 27);
+        --paper-icon-button-ink-color: white;
+        color: white;
+      }
+
+      #buttonLogout:hover {
+        background-color: rgb(280, 170, 53);
+        --paper-icon-button-ink-color: white;
+      }
+
       #btnNav {
         text-decoration: #fff;
         color: rgb(255, 255, 255);
@@ -212,20 +224,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- nav panel -->
       <app-drawer id="drawer2" swipe-open slot="drawer">
         <app-header-layout has-scrolling-region>
+      <app-header fixed slot="header">
+        <div>
+          <iron-icon src="{{user.photoURL}}" style = "background-size: contain; border-radius:
+          50%; height: 100%; width: 100%;"></iron-icon>
+        </div>
+        <!-- <div class="avatar-container">
+            <iron-icon src="{{user.photoURL}}" ></iron-icon> style="background-color: rgb(247, 144, 27);"
+          <div ></div>
+        </div>-->
+        <br>
+        <div class="contact-info">
 
-          <app-header fixed slot="header">
-            <div class="avatar-container">
-              <div class="image"></div>
-            </div>
-            <div class="contact-info">
-
-              <div class="name">[[user.displayName]]</div>
-              <div class="email">[[user.email]]</div>
-              <div class="email">
-                <paper-button raised on-tap="_salirUsuario">Salir</paper-button>
-              </div>
-            </div>
-          </app-header>
+          <div class="name">[[user.displayName]]</div>
+          <div class="email">[[user.email]]</div>
+          <br>
+          <div class="email">
+            <paper-button raised  id="buttonLogout" on-tap="_salirUsuario">Salir</paper-button>
+          </div>
+          <br>
+        </div>
+      </app-header>
 
 
           <!-- nav menu -->
@@ -295,12 +314,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <ot-vercantante id="detailCantante" name="detailCantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-vercantante>
         <ot-verdueto id="detailDueto" name="detailDueto" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-verdueto>
-        <ot-veruser id="detailUsuario" name="detailUsuario" usuario="[[_getUser(usuarios, _idData.id)]]"></ot-veruser>
+        <ot-veruser id="detailUsuario" name="detailUsuario" ranking="[[ranking]]" usuario="[[_getUser(usuarios, _idData.id)]]"></ot-veruser>
         <ot-vergala id="detailGala" name="detailGala" gala="[[_getGala(galas, _idData.id)]]" usuario="[[_getUser(usuarios, _idData.id)]]"></ot-vergala>
 
         <ot-newuser name="newuser"></ot-newuser>
         <ot-newdueto name="newdueto" cantantes="[[cantantes]]"></ot-newdueto>
-        <ot-newgala name="newgala"></ot-newgala>
+        <ot-newgala name="newgala" cantantes="[[cantantes]]" duetos="[[duetos]]"></ot-newgala>
         <ot-newcantante name="newcantante"></ot-newcantante>
 
         <ot-updatecantante name="updatecantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-updatecantante>
