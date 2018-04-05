@@ -258,8 +258,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-header-layout>
       <div class="content">
-        <paper-button raised style="background-color: lightgreen;" on-tap="_nuevoUsuario">
-          <iron-icon icon="icons:add"></iron-icon>Nuevo usuario</paper-button>
         <br>
         <h1>Usuarios</h1>
         <br>
@@ -362,10 +360,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _isPublic: function (public) {
         return public === 'true';
-      },
-
-      _nuevoUsuario: function () {
-        this.set('_route.path', '/newuser');
       },
 
       _deleteUser: function (e) {
