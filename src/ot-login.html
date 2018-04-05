@@ -104,7 +104,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         </firebase-auth>
         <firebase-document id="queryLogin" path="/Espectadores" data="{{espectadores}}">
         </firebase-document>
-        <firebase-document id="queryLogin2"></firebase-document>
+        <firebase-document id="queryLogin2" data="{{uuuuuser}}"></firebase-document>
         <!-- ------------------------------------------------------------------------------------>
 
 
@@ -148,6 +148,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 _route: Object,
 
                 _subRoute: Object,
+
+                espectadores: Array,
 
                 _pageData: {
                     type: Object,
@@ -199,13 +201,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         return "admin";
                     }
                     else {
-                        if (this.user) {
-                            console.log(this.$.queryLogin.ref.child(this.user.uid).uid);
-                            console.log("hola");
-                            console.log(this.user.uid);
-                            console.log(espectadores[this.user.uid]);
-                            if (espectadores[this.user.uid] === null ||
-                                espectadores[this.user.uid] === undefined) {
+                      
+                        if (this.user && Object.values(this.espectadores).length > 0) {
+                            
+                            if (espectadores[this.user.uid] == null ||
+                                espectadores[this.user.uid] == undefined) {
+                                console.log("esta dentro");
                                 var dataLogin = {
                                     creditos: 50,
                                     email: this.user.email,
@@ -220,7 +221,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     }
                 }
             },
-
             _abrirventanalogin: function () {
                 return this.$.auth.signInWithPopup();
             },
