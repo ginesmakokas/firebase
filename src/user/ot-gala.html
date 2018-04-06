@@ -26,8 +26,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
 <dom-module id="ot-gala">
-  <template>
+<link rel="import" type="css" href="../../css/w3.css">
 
+  <template>
     <style>
       .card-header {
         @apply --paper-font-headline;
@@ -114,9 +115,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-location route="{{_route}}" use-hash-as-path></app-location>
     <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
     <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
+    
     <app-header-layout>
       <div class="content">
-        <h1>Galas</h1>
+        <div><h1 class="w3-center">Galas</h1></div>
         <br>
         <template is="dom-repeat" items="{{galas}}">
           <div class="card-container">
