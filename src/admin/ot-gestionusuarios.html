@@ -282,10 +282,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <td style="vertical-align: middle;">{{item.nombre}}</td>
                 <td style="vertical-align: middle;">{{item.email}}</td>
                 <td style="vertical-align: middle;">
-                  <template is="dom-if" if="{{_isPublic(item.isPublic)}}">
+                  <template is="dom-if" if="{{_isPublic(item.privacidad)}}">
                     <iron-icon icon="icons:check" style="color: green;"></iron-icon>
                   </template>
-                  <template is="dom-if" if="{{!_isPublic(item.isPublic)}}">
+                  <template is="dom-if" if="{{!_isPublic(item.privacidad)}}">
                     <iron-icon icon="icons:clear" style="color: red;"></iron-icon>
                   </template>
                 </td>
@@ -359,7 +359,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _isPublic: function (public) {
-        return public === 'true';
+        return public === 'publico';
       },
 
       _deleteUser: function (e) {

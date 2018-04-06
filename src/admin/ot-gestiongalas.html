@@ -25,33 +25,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="ot-gestiongalas">
-
+  <link rel="import" type="css" href="../../css/w3.css">
   <template>
 
     <style>
       .card-header {
         @apply --paper-font-headline;
       }
+
       .icon-text {
         color: var(--paper-grey-600);
       }
+
       .icon-price {
         float: right;
         font-size: 15px;
         vertical-align: middle;
       }
+
       .content {
         display: block;
         position: relative;
         max-width: 1000px;
         margin: 5px auto;
       }
+
       .card-container {
         display: inline-block;
         width: 30%;
         color: black;
         text-decoration: none;
       }
+
       paper-card {
         display: block;
         margin: 5px;
@@ -59,15 +64,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           height: 180px;
         }
       }
+
       paper-card h2 {
         margin: 4px;
         font-weight: normal;
       }
+
       paper-card p {
         margin: 4px;
         font-size: 15px;
         color: #999;
       }
+
       @media (max-width: 960px) {
         .content {
           max-width: 800px;
@@ -76,6 +84,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           width: 50%;
         }
       }
+
       @media (max-width: 719px) {
         app-toolbar {
           height: 60px;
@@ -87,10 +96,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           width: 100%;
         }
       }
+
+      paper-button {
+        font-size: 12px;
+        height: 25px;
+      }
+
       paper-button.indigo {
         background-color: #dbdbdb;
         color: black;
-        font-size: 12px;
         --paper-button-raised-keyboard-focus: {
           background-color: var(--paper-pink-a200) !important;
           color: white !important;
@@ -102,10 +116,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-query id="queryGalas" path="/Programas" data="{{galas}}">
     </firebase-query>
 
-      <!-- Patrón de rutas de navegación -->
-      <app-location route="{{_route}}" use-hash-as-path></app-location>
-      <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
-      <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
+    <!-- Patrón de rutas de navegación -->
+    <app-location route="{{_route}}" use-hash-as-path></app-location>
+    <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
+    <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
 
     <!-------------------------------------------------------------------------------------------->
     <!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->
@@ -151,41 +165,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-button raised style="background-color: lightgreen;" on-tap="_newGala">
           <iron-icon icon="icons:add"></iron-icon>Nueva Gala</paper-button>
         <br>
-        <div class="content">
-          <h1>Galas</h1>
-          <br>
-          <template is="dom-repeat" items="{{galas}}">
-            <div class="card-container">
-              <paper-card image="{{item.imagen}}">
-                <div class="card-content">
-                  <div class="card-header">
-                    {{item.nombre}}
-                    <p>Día: {{item.dia}}</p>
-                  </div>
-                  <paper-button class="indigo" on-tap="_verGala">Ver detalle</paper-button>
+        <h1>Galas</h1>
+        <br>
+        <template is="dom-repeat" items="{{galas}}">
+          <div class="card-container">
+            <paper-card image="{{item.imagen}}">
+              <div class="card-content">
+                <div class="card-header">
+                  {{item.nombre}}
+                  <p>Día: {{item.dia}}</p>
                 </div>
-                <div>
-                  <!-- Eliminar -->
-                  <paper-button raised style="background-color: crimson; color: white" class="" on-tap="_deleteGala">
-                    <iron-icon icon="icons:delete"></iron-icon>
-                  </paper-button>
-                  <!-- Editar -->
-                  <paper-button raised style="background-color: rgb(15, 149, 202); color: white" on-tap="_updateGala">
-                    <iron-icon icon="image:edit"></iron-icon>
-                  </paper-button>
-                </div>
-                <div class="card-actions">
-                  <paper-button>Descripción</paper-button>
-                  <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggle" data-args="{{index}}" style="float:right;">
-                  </paper-icon-button>
-                  <iron-collapse id="descripcionGalaA{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
-                    {{item.descripcion}}
-                  </iron-collapse>
-                </div>
-              </paper-card>
-            </div>
-          </template>
-        </div>
+              </div>
+              <div style="margin-left: 20px;">
+                <paper-button class="indigo" on-tap="_verGala">
+                  <iron-icon icon="icons:visibility"></iron-icon>
+                </paper-button>
+                <!-- Eliminar -->
+                <paper-button raised style="background-color: crimson; color: white" class="" on-tap="_deleteGala">
+                  <iron-icon icon="icons:delete"></iron-icon>
+                </paper-button>
+                <!-- Editar -->
+                <paper-button raised style="background-color: rgb(15, 149, 202); color: white" on-tap="_updateGala">
+                  <iron-icon icon="image:edit"></iron-icon>
+                </paper-button>
+              </div>
+              <br>
+              <div class="card-actions">
+                <paper-button>Descripción</paper-button>
+                <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggle" data-args="{{index}}" style="float:right;">
+                </paper-icon-button>
+                <iron-collapse id="descripcionGalaA{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                  {{item.descripcion}}
+                </iron-collapse>
+              </div>
+            </paper-card>
+          </div>
+        </template>
+
     </app-header-layout>
   </template>
 
@@ -232,7 +248,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log(this.user);
         this.$.auth.signOut();
       },
-      ayuda: function(e){
+      ayuda: function (e) {
         console.log(e.model.get('item.descripcion'));
       },
       _newGala: function () {

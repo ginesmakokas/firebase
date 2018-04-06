@@ -142,8 +142,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <tbody>
                 <template is="dom-repeat" items="{{puntosDuetos}}">
                   <tr>
-                    <td style="vertical-align: middle;">{{item.$key}}</td>
-                    <td style="vertical-align: middle;">{{item.Total}}</td>
+                    <td style="vertical-align: middle;">{{_getCantante(item.$key, 1)}} y {{_getCantante(item.$key, 2)}}</td>
+                    <td style="vertical-align: middle;">{{item.total}}</td>
                   </tr>
                 </template>
               </tbody>
@@ -213,6 +213,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'ot-vergala',
       properties: {
         gala: Object,
+        duetos: Object,
         user: Object
       },
       __cantanteChanged: function (cantante) {
@@ -275,6 +276,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               console.log(r[atributo]);
               return r[atributo];
               
+            }
+          }
+        }
+        return null;
+      },
+      _getCantante: function (idDueto, numCantante) {
+        console.log(idDueto);
+        if (this.duetos) {
+          for (var i = 0; i < this.duetos.length; ++i) {
+            var r = this.duetos[i];
+            if (r.$key === idDueto) {
+              console.log(r['cantante' + numCantante]);
+              return r['cantante' + numCantante];
             }
           }
         }
