@@ -40,6 +40,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         background-size: 100% auto;
         background-repeat: no-repeat;
       }
+
       #header {
         color: white;
         --app-header-background-rear-layer: {
@@ -47,30 +48,37 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         ;
       }
+
       paper-icon-button {
         color: white;
         --paper-icon-button-ink-color: white;
       }
+
       .card-container {
         position: relative;
         width: 720px;
         margin: 40px auto 40px;
       }
+
       paper-card {
         padding: 16px;
         width: 100%;
       }
+
       paper-card p {
         margin: 12px 0;
         color: #999;
       }
+
       h4 {
         margin: 60px 0 12px;
       }
+
       .ingredient-item {
         margin: 20px 0;
         @apply --layout-horizontal;
       }
+
       .ingredient-amount {
         margin-left: -80px;
         width: 60px;
@@ -78,9 +86,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: rgb(33, 169, 143);
         text-align: right;
       }
+
       .ingredient-name {
         @apply --layout-flex;
       }
+
       @media (max-width: 720px) {
         .card-container {
           width: 100%;
@@ -100,7 +110,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </firebase-query>
     <firebase-auth id="auth" user="{{user}}" provider="google">
     </firebase-auth>
-    
+
 
     <!-- main panel -->
     <app-header-layout style="background-color: #f4f4f4">
@@ -159,9 +169,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                       display: block;" class="w3-round w3-border w3-quarter"></iron-image>
                   </td>
                   <td style="vertical-align: middle;">
-                    <p><b>[[user.displayName]]</b> </p>
+                    <p>
+                      <b>[[user.displayName]]</b>
+                    </p>
                     <paper-item type="text" name="idUsuario" id="idUsuario" value="[[user.displayName]]"></paper-item>
-                    <paper-input  type="text" name="text" id="text" label="Deja tu comentario" ></paper-input>
+                    <paper-input type="text" name="text" id="text" label="Deja tu comentario"></paper-input>
                     <paper-button style="font-size: 15px" raised on-tap="_insertComment">Publicar Comentario</paper-button>
                   </td>
                 </tr>
@@ -169,23 +181,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </div>
           </div>
           <template is="dom-repeat" items="{{comentarios}}">
-          <iron-pages selected="[[_usuarioprivacidad(item.usuario)]]" attr-for-selected="name">
-            <div class="card-actions" name="publico">
-              <table class="w3-table">
-                <tr>
-                  <td style="vertical-align: middle; width: 15%;">
-                    <iron-image src="[[_getUser(item.uid, 'imagen')]]" sizing="cover" style="width: 40px; 
+            <iron-pages selected="[[_usuarioprivacidad(item.usuario)]]" attr-for-selected="name">
+              <div class="card-actions" name="publico">
+                <table class="w3-table">
+                  <tr>
+                    <td style="vertical-align: middle; width: 15%;">
+                      <iron-image src="[[_getUser(item.uid, 'imagen')]]" sizing="cover" style="width: 40px; 
                       height: 40px; 
                       display: block;" class="w3-round w3-border w3-quarter"></iron-image>
-                  </td>
-                  <td style="vertical-align: middle;">
-                   <p>{{item.timestamp}}: <b>{{item.usuario}}</b> dijo...</p>
-                    <p><b>{{item.text}}</b></p>
-                  </td>
-                </tr>
-              </table>
-            </div>
-            <div class="card-actions" name="privado">
+                    </td>
+                    <td style="vertical-align: middle;">
+                      <p>{{item.timestamp}}:
+                        <b>{{item.usuario}}</b> dijo...</p>
+                      <p>
+                        <b>{{item.text}}</b>
+                      </p>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+              <div class="card-actions" name="privado">
                 <table class="w3-table">
                   <tr>
                     <td style="vertical-align: middle; width: 15%;">
@@ -194,13 +209,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         display: block;" class="w3-round w3-border w3-quarter"></iron-image>
                     </td>
                     <td style="vertical-align: middle;">
-                     <p>{{item.timestamp}}: <b>Anonimo</b> dijo...</p>
-                      <p><b>{{item.text}}</b></p>
+                      <p>{{item.timestamp}}:
+                        <b>Anonimo</b> dijo...</p>
+                      <p>
+                        <b>{{item.text}}</b>
+                      </p>
                     </td>
                   </tr>
                 </table>
               </div>
-          </iron-pages>
+            </iron-pages>
           </template>
         </paper-card>
       </div>
@@ -227,39 +245,43 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var dataComment = {
           uid: this.user.uid,
           usuario: this.$.idUsuario.value,
-          text:  this.$.text.value,
+          text: this.$.text.value,
           timestamp: fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear() + "  " + fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds()
         };
-        console.log(this.comentarios.length);
-        this.$.queryInsertComment.ref.child(this.comentarios.length + 1).update(dataComment);
-        this.$.text.value = "";
-      },
-/*
-      _getUser: function (idUsuario) {
-        alert(idUsuario);
-        if (this.usuarios) {
-          for (var i = 0; i < this.usuarios.length; ++i) {
-            var r = this.usuarios[i];
-            if (r.$key === idUsuario) {
-              alert(r.imagen);
-              return r;
-            }
-          }
+
+        if (this.$.text.value === "") {
+          this.$.text.value = "";
+        } else {
+          this.$.queryInsertComment.ref.child(this.comentarios.length + 1).update(dataComment);
+          this.$.text.value = "";
         }
-        return null;
-      }
-      */      
+      },
+      /*
+            _getUser: function (idUsuario) {
+              alert(idUsuario);
+              if (this.usuarios) {
+                for (var i = 0; i < this.usuarios.length; ++i) {
+                  var r = this.usuarios[i];
+                  if (r.$key === idUsuario) {
+                    alert(r.imagen);
+                    return r;
+                  }
+                }
+              }
+              return null;
+            }
+            */
       _usuarioprivacidad: function (idUsuario) {
         console.log(idUsuario);
         if (this.usuarios) {
           for (var i = 0; i < this.usuarios.length; ++i) {
             var r = this.usuarios[i];
             if (r.nombre === idUsuario) {
-              if(r.privacidad === "publico"){
-                  return "publico";
-              } else{
-                  return "privado";
-              }             
+              if (r.privacidad === "publico") {
+                return "publico";
+              } else {
+                return "privado";
+              }
             }
           }
         }
@@ -271,10 +293,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           for (var i = 0; i < this.usuarios.length; ++i) {
             var r = this.usuarios[i];
             if (r.$key === idUsuario) {
-              
+
               console.log(r[atributo]);
               return r[atributo];
-              
+
             }
           }
         }
