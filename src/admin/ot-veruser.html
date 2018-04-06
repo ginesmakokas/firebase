@@ -122,7 +122,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div class="card-content">
             <p>Email: {{usuario.email}}</p>
             <p>Descripción: {{usuario.descripcion}}</p>
-            <p>Posición en el ranking:</p>
+            <p>Puntuación: {{usuario.puntuacion}}</p>
+            <p>Posición en el ranking:{{_getPosicion()}}</p>
           </div>
           <div class="card-actions">
             <p>Equipo: </p>
@@ -153,11 +154,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 display: block;
                 margin-left: auto;
                 margin-right: auto;" class="w3-round w3-border"></iron-image>
-                <p>{{dueto.cantante1}} y {{dueto.cantante2}}</p>
+                <p>{{dueto.cantante1}} {{dueto.cantante2}}</p>
               </div>
-            </div>
-          </div>
         </paper-card>
+        </div>
+        </div>
+        <paper-button raised on-tap="_getPosicion">Ayuda</paper-button>
       </div>
     </app-header-layout>
 
@@ -175,8 +177,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         ranking: Object,
         posicion: {
           type: Object,
-          observer: '_getPosicion'
-          /*value: function () {
+          // observer: '_getPosicion'
+         /* value: function () {
+            var hola = this.ranking;
             for (var i = 0; i < this.ranking.length; i++) {
               var r = this.ranking[i];
               if (r.$val === this.usuario.email) {
@@ -188,21 +191,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }*/
         }
       },
-      _ayuda: function () {
-        console.log(this.ranking);
-        console.log(this.ranking.length);
-        // console.log(this.usuario);
-      },
 
       _getPosicion: function () {
-        for (var i = 0; i < this.ranking.length; i++) {
-          var r = this.ranking[i];
-          if (r.$val === this.usuario.email) {
-            console.log(r.$key);
-            return r.$key;
+        console.log( 'holaaaaaaaaaaa');
+        if (this.usuario) {
+          for (var i = 0; i < this.ranking.length; i++) {
+            var r = this.ranking[i];
+            if (r.$val === this.usuario.email) {
+              console.log(r.$key + 'holaaaaaaaaaaa');
+              return r.$key;
+            }
           }
+          //console.log('');
         }
-        return null;
       },
 
       __cantanteChanged: function (cantante) {
