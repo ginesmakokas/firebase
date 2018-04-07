@@ -107,8 +107,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </firebase-document>
     <firebase-document path="/Duetos/{{usuario.dueto}}" data="{{dueto}}">
     </firebase-document>
-    <firebase-document path="/Ranking/" data="{{posicionRanking}}">
-    </firebase-document>
+
 
     <!-- main panel -->
     <app-header-layout style="background-color: #f4f4f4">
@@ -122,8 +121,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <div class="card-content">
             <p>Email: {{usuario.email}}</p>
             <p>Descripción: {{usuario.descripcion}}</p>
-            <p>Puntuación: {{usuario.puntuacion}}</p>
-            <p>Posición en el ranking:{{_getPosicion()}}</p>
+            <p>Posición en el ranking: {{_getPosicion(usuario.email, ranking)}}</p>
+            <p>Puntos: {{usuario.puntuacion}}</p>
           </div>
           <div class="card-actions">
             <p>Equipo: </p>
@@ -162,7 +161,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <paper-button raised on-tap="_getPosicion">Ayuda</paper-button>
       </div>
     </app-header-layout>
-
+    <paper-button on-tap="_getPosicion">Hola</paper-button>
   </template>
 
   <script>
@@ -172,33 +171,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       is: 'ot-veruser',
 
       properties: {
-
         usuario: Object,
-        ranking: Object,
-        posicion: {
-          type: Object,
-          // observer: '_getPosicion'
-         /* value: function () {
-            var hola = this.ranking;
-            for (var i = 0; i < this.ranking.length; i++) {
-              var r = this.ranking[i];
-              if (r.$val === this.usuario.email) {
-                console.log(r.$key);
-                return r.$key;
-              }
-            }
-            return null;
-          }*/
-        }
+        ranking: Object
       },
 
-      _getPosicion: function () {
-        console.log( 'holaaaaaaaaaaa');
-        if (this.usuario) {
-          for (var i = 0; i < this.ranking.length; i++) {
+      _getPosicion: function (email, ranking) {
+        if (this.usuario && email && ranking) {
+          for (var i = 0; i < this.ranking.length; ++i) {
             var r = this.ranking[i];
-            if (r.$val === this.usuario.email) {
-              console.log(r.$key + 'holaaaaaaaaaaa');
+            if (r.$val === email) {
               return r.$key;
             }
           }

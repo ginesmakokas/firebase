@@ -211,6 +211,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-query id="query3" path="/Programas" data="{{galas}}">
     </firebase-query>
 
+    <firebase-query id="query4" path="/Espectadores" data="{{espectadores}}">
+    </firebase-query>
+
     <firebase-query id="queryRanking" path="/Ranking" data="{{ranking}}">
     </firebase-query>
 
@@ -333,7 +336,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 
         <ot-verdueto id="detailDueto" name="detailDueto" galas="[[galas]]" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-verdueto>
-        <ot-vergala id="detailGala" name="detailGala" gala="[[_getGala(galas, _idData.id)]]"></ot-vergala>
+        <ot-vergala id="detailGala" name="detailGala" gala="[[_getGala(galas, _idData.id)]]" duetos="[[duetos]]"></ot-vergala>
 
 
       </iron-pages>
@@ -353,6 +356,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         duetos: Object,
 
         galas: Object,
+
+        espectadores: Object,
 
         _route: Object,
 
