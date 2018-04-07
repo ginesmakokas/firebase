@@ -106,6 +106,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </firebase-query>
     <firebase-query path="/Espectadores" data="{{usuarios}}">
     </firebase-query>
+    <firebase-document path="/Espectadores/[[user.uid]]" data="{{spectator}}">
+    </firebase-document>
     <firebase-query id="queryInsertComment" path="/Programas/{{gala.$key}}/Comentarios" data="{{comentarios}}">
     </firebase-query>
     <firebase-auth id="auth" user="{{user}}" provider="google">
@@ -174,7 +176,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <b>[[user.displayName]]</b>
                       </p>
                       <paper-item type="text" name="idUsuario" id="idUsuario" value="[[user.displayName]]"></paper-item>
-                      <paper-input type="text" name="text" id="text" label="Deja tu comentario"></paper-input>
+                      <paper-input type="text" name="textComent" id="textComent" label="Deja tu comentario" class="textComent", value="{{comment}}"></paper-input>
                       <paper-button style="font-size: 15px" raised on-tap="_insertComment">Publicar Comentario</paper-button>
                     </td>
                   </tr>
@@ -234,7 +236,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         gala: Object,
         duetos: Object,
-        user: Object
+        user: Object,
+        comment: String
       },
       __cantanteChanged: function (cantante) {
         if (cantante) {
@@ -243,37 +246,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _insertComment: function () {
+        console.log(this.spectator);
         var fecha = new Date();
         var fechaString;
         var dataComment = {
           uid: this.user.uid,
-          usuario: this.$.idUsuario.value,
-          text: this.$.text.value,
+          text: this.comment,
+          usuario: this.spectator.nombre,
           timestamp: fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear() + "  " + fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds()
         };
 
-        if (this.$.text.value === "") {
-          this.$.text.value = "";
+        if (this.comment === "") {
+          this.comment = "";
         } else {
           this.$.queryInsertComment.ref.child(this.comentarios.length + 1).update(dataComment);
-          this.$.text.value = "";
+          this.comment = "";
         }
       },
-      /*
-            _getUser: function (idUsuario) {
-              alert(idUsuario);
-              if (this.usuarios) {
-                for (var i = 0; i < this.usuarios.length; ++i) {
-                  var r = this.usuarios[i];
-                  if (r.$key === idUsuario) {
-                    alert(r.imagen);
-                    return r;
-                  }
-                }
-              }
-              return null;
-            }
-            */
+
       _usuarioprivacidad: function (idUsuario) {
         console.log(idUsuario);
         if (this.usuarios) {
