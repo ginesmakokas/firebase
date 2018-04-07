@@ -160,25 +160,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </table>
             <br>
             <p>Comentarios: </p>
-            <div class="card-actions">
-              <table class="w3-table">
-                <tr>
-                  <td style="vertical-align: middle; width: 15%;">
-                    <iron-image src="[[_getUser([[user.displayName]], 'imagen')]]" sizing="cover" style="width: 40px; 
+            <template is="dom-if" if="{{!_admin(user)}}">
+              <div class="card-actions">
+                <table class="w3-table">
+                  <tr>
+                    <td style="vertical-align: middle; width: 15%;">
+                      <iron-image src="[[_getUser([[user.displayName]], 'imagen')]]" sizing="cover" style="width: 40px; 
                       height: 40px; 
                       display: block;" class="w3-round w3-border w3-quarter"></iron-image>
-                  </td>
-                  <td style="vertical-align: middle;">
-                    <p>
-                      <b>[[user.displayName]]</b>
-                    </p>
-                    <paper-item type="text" name="idUsuario" id="idUsuario" value="[[user.displayName]]"></paper-item>
-                    <paper-input type="text" name="text" id="text" label="Deja tu comentario"></paper-input>
-                    <paper-button style="font-size: 15px" raised on-tap="_insertComment">Publicar Comentario</paper-button>
-                  </td>
-                </tr>
-              </table>
-            </div>
+                    </td>
+                    <td style="vertical-align: middle;">
+                      <p>
+                        <b>[[user.displayName]]</b>
+                      </p>
+                      <paper-item type="text" name="idUsuario" id="idUsuario" value="[[user.displayName]]"></paper-item>
+                      <paper-input type="text" name="text" id="text" label="Deja tu comentario"></paper-input>
+                      <paper-button style="font-size: 15px" raised on-tap="_insertComment">Publicar Comentario</paper-button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </template>
           </div>
           <template is="dom-repeat" items="{{comentarios}}">
             <iron-pages selected="[[_usuarioprivacidad(item.usuario)]]" attr-for-selected="name">
@@ -315,6 +317,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         }
         return null;
+      },
+      _admin:function (user){
+        if(user)
+          return user.email == "adm.firebase@gmail.com";
+        return true;
       }
     });
   </script>
