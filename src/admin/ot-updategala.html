@@ -118,7 +118,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
 
 
-    <!-------------------------------------------------------------------------------------------->
+    <!-- ---------------------------------------------------------------------------------------- -->
     <!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->
     <!-------------------------------------------------------------------------------------------->
 
@@ -206,8 +206,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                   <template is="dom-repeat" items="{{puntosDuetos}}">
                     <tr>
                       <td style="vertical-align: middle;">{{_getCantante(item.$key, 1)}} y {{_getCantante(item.$key, 2)}}</td>
-                      <td style="vertical-align: middle;" value="{{item.total}}">
-                        <paper-input type="number" max="10" name="puntosDueto" id="puntosDueto" label="puntosDueto" value="{{item.total}}"></paper-input>
+                      <td style="vertical-align: middle;">
+                        <paper-input type="number" max="10" name="puntosDueto" id="puntosDueto" label="puntosDueto" value="{{item.$val}}"></paper-input>
                       </td>
                     </tr>
                   </template>
@@ -304,7 +304,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
        */
       _pageDataChanged: function (pageData, oldPageData) {
         var map = this._scrollPositionMap;
-
         if (oldPageData != null && oldPageData.page != null) {
           map[oldPageData.page] = window.pageYOffset;
         }
@@ -317,5 +316,4 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
     });
   </script>
-
 </dom-module>

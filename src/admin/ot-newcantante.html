@@ -42,7 +42,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../app-icons.html">
 
 <dom-module id="ot-newcantante">
-    <link rel="import" type="css" href="../../css/w3.css">
+  <link rel="import" type="css" href="../../css/w3.css">
   <template>
 
     <style>
@@ -124,57 +124,94 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </firebase-document>
 
     <!-------------------------------------------------------------------------------------------------------->
-
+    <paper-dialog id="dialogActualizar" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            Nuevo cantante insertado
+          </h2>
+        </center>
+        <br>
+         <paper-button class="indigo" on-tap="_continuar">Continuar</paper-button>
+          </center>
+      </div>
+    </paper-dialog>
+    <paper-dialog id="dialogError" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+        <div class="wrap-login100">
+          <center>
+            <h2>
+              Por favor, rellene todos los campos para insertar
+            </h2>
+          </center>
+          <br>
+           <paper-button class="indigo" on-tap="_continuar2">Continuar</paper-button>
+            </center>
+        </div>
+      </paper-dialog>
     <!-- main panel -->
     <app-header-layout>
-        <div class="content">
-            <div>
-                <iron-image src="./image/perfil.jpg"></iron-image>
-            </div>
-            <div><h1 class="w3-center">Nuevo cantante</h1></div>
-            <iron-form id="form1">
-                <form action="/foo" method="get">
-                    <paper-input type="text" name= "name" id="name" label="Nombre"></paper-input>
-                    <paper-input type="text" name= "imagen" id= "imagen" label="Ruta a una imagen"></paper-input>
-                    <paper-input type="text" name= "precio" id= "precio" label="Precio"></paper-input>
-                    <paper-input type="text" name= "descripcion" id= "descripcion" label="Descripcion"></paper-input>
-                    <div>
-                        <!--<paper-button raised onclick="form1.submit()">Actualizar</paper-button>-->
-                        <paper-button raised on-tap="_insertSinger">Insertar</paper-button>
-                        <paper-button raised on-tap="redirigir">Volver</paper-button>
-                    </div>
-                </form>
-                <br>
-                <div class="output"></div>
-            </iron-form>
+      <div class="content">
+        <div>
+          <iron-image src="./image/perfil.jpg"></iron-image>
         </div>
+        <div>
+          <h1 class="w3-center">Nuevo cantante</h1>
+        </div>
+        <iron-form id="form1">
+          <form action="/foo" method="get">
+            <paper-input type="text" name="name" id="name" label="Nombre"></paper-input>
+            <paper-input type="text" name="imagen" id="imagen" label="Ruta a una imagen"></paper-input>
+            <paper-input type="text" name="precio" id="precio" label="Precio"></paper-input>
+            <paper-input type="text" name="descripcion" id="descripcion" label="Descripcion"></paper-input>
+            <div>
+              <!--<paper-button raised onclick="form1.submit()">Actualizar</paper-button>-->
+              <paper-button raised on-tap="_insertSinger">Insertar</paper-button>
+            </div>
+          </form>
+          <br>
+          <div class="output"></div>
+        </iron-form>
+      </div>
 
     </app-header-layout>
-</template>
+  </template>
 
-<script>
+  <script>
     Polymer({
-        is: 'ot-newcantante',
-        properties: {
-            recipes: Object,
-        },
-        ayuda: function () {
-            console.log(this.peliculas);
-        },
-        redirigir: function () {
-            location.href = '#/cantantes';
-        },
-        _insertSinger: function () {
-            var dataSinger = {
-                nombre: this.$.name.value,
-                imagen: this.$.imagen.value,
-                precio: this.$.precio.value,
-                descripcion: this.$.descripcion.value
-            };
-            console.log(dataSinger);
-            this.$.queryinsertSinger.ref.child(this.$.name.value).update(dataSinger);
-            //this.$.queryinsertSinger.ref.saveValue("this.$.name.value/dataSinger");
+      is: 'ot-newcantante',
+      properties: {
+        recipes: Object,
+      },
+      ayuda: function () {
+        console.log(this.peliculas);
+      },
+      redirigir: function () {
+        location.href = '#/cantantes';
+      },
+      _insertSinger: function () {
+        var dataSinger = {
+          nombre: this.$.name.value,
+          imagen: this.$.imagen.value,
+          precio: parseInt(this.$.precio.value),
+          descripcion: this.$.descripcion.value
+        };
+        if (this.$.name.value === "" || this.$.imagen.value === "" || this.$.precio.value === "" || this.$.descripcion.value === "") {
+          this.$.dialogError.open();
+        } else {
+          this.$.dialogActualizar.open();
+          this.$.queryinsertSinger.ref.child(this.$.name.value).update(dataSinger);
         }
+      },
+      _continuar: function () {
+        this.$.dialogActualizar.close();
+        this.$.name.value = "";
+        this.$.imagen.value = "";
+        this.$.precio.value = "";
+        this.$.descripcion.value = "";
+      },
+      _continuar2: function () {
+        this.$.dialogError.close();
+      },
     });
 
   </script>

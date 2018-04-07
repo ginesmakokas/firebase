@@ -134,6 +134,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <firebase-query id="queryinsertGala" path="/Programas" data="{{galas}}">
     </firebase-query>
 
+    <paper-dialog id="dialogActualizar" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            Nueva Gala Insertada
+          </h2>
+        </center>
+        <br>
+         <paper-button class="indigo" on-tap="_continuar">Continuar</paper-button>
+          </center>
+      </div>
+    </paper-dialog>
+
+    <paper-dialog id="dialogError" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+        <div class="wrap-login100">
+          <center>
+            <h2>
+              Por favor, rellene todos los campos para insertar
+            </h2>
+          </center>
+          <br>
+           <paper-button class="indigo" on-tap="_continuar2">Continuar</paper-button>
+            </center>
+        </div>
+      </paper-dialog>
+
     <!-- main panel -->
     <app-header-layout>
       <div class="content">
@@ -229,8 +255,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           PuntuacionesDuetos: ptosDuetos
         };
 
-        console.log(dataGala);
-        this.$.queryinsertGala.ref.child(this.$.name.value).update(dataGala);
+        if (this.$.name.value ==="" || this.$.imagen.value ==="" || this.$.fecha.value===""|| this.$.descripcion.value===""){
+          this.$.dialogError.open();
+        }else{
+           this.$.dialogActualizar.open();
+          this.$.queryinsertGala.ref.child(this.$.name.value).update(dataGala);
+         }
       },
 
       _drawerSelected: function () {
@@ -243,6 +273,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _salirUsuario: function () {
         console.log(this.user);
         this.$.auth.signOut();
+      },
+      _continuar: function(){
+        this.$.dialogActualizar.close();
+        this.$.name.value= "";
+        this.$.imagen.value= "";
+        this.$.fecha.value = "";
+         this.$.descripcion.value= "";
+      },
+      _continuar2: function(){
+        this.$.dialogError.close();
       },
       /************************************************************************************************/
       /**
