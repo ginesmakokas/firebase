@@ -111,6 +111,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </style>
     <firebase-query id="queryUpdateSpectator" path="/Espectadores/[[user.uid]]" data="{{updateSpectator}}"></firebase-query>
 
+    <paper-dialog id="dialogActualizar" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            Perfil actualizado
+          </h2>
+        </center>
+        <br>
+         <paper-button class="indigo" on-tap="_continuar">Continuar</paper-button>
+          </center>
+      </div>
+    </paper-dialog>
+  
+      <paper-dialog id="dialogError" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+          <div class="wrap-login100">
+            <center>
+              <h2>
+                Por favor rellene todos los campos para insertar
+              </h2>
+            </center>
+            <br>
+             <paper-button class="indigo" on-tap="_continuar2">Continuar</paper-button>
+              </center>
+          </div>
+        </paper-dialog>
+
     <!-- main panel -->
     <app-header-layout>
       <div class="content">
@@ -127,7 +153,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <iron-form id="form1">
           <form action="/foo" method="get">
             <paper-input type="text" id="name" name="name" label="Nombre" value="{{spectator.nombre}}"></paper-input>
-            <paper-input type="text" id="mail" name="mail" label="Mail" value="{{spectator.email}}"></paper-input>
+            <paper-input type="text" disable id="mail" name="mail" label="Mail" value="{{spectator.email}}"></paper-input>
             <label id="labelradio">Tipo Perfil: </label>
             <paper-radio-group id="radioButtonGroup" aria-labelledby="labelradio" attr-for-selected="name" fallback-selection="privado"
               selected="{{spectator.privacidad}}" selected-item="{{rbprivacidad}}">
@@ -172,7 +198,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           descripcion: this.$.descripcion.value,
           privacidad: this.rbprivacidad.value
         };
-        this.$.queryUpdateSpectator.ref.update(dataUpdate);
+        if (this.$.name.value === "" || this.$.descripcion.value===""){
+              this.$.dialogError.open();
+       }else{
+            this.$.dialogActualizar.open();
+            this.$.queryUpdateSpectator.ref.update(dataUpdate);
+       }
+      }, 
+      _continuar: function(){
+        this.$.dialogActualizar.close();
+      },
+      _continuar2: function(){
+        this.$.dialogError.close();
       }
 
     });

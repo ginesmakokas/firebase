@@ -124,32 +124,30 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <!-------------------------------------------------------------------------------------------->
 
 
-    <!--<div class="grid-container" name="login">
-      <div class="grid-item">
-        <h1>UPDATE DUETO</h1>
+    <paper-dialog id="dialogActualizar" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            Dueto actualizado
+          </h2>
+        </center>
+        <br>
+         <paper-button class="indigo" on-tap="_continuar">Continuar</paper-button>
+          </center>
       </div>
-      <div class="grid-item">
-      </div>
-
-      <div class="grid-item">
-      </div>
-      <div class="grid-item">
-
-      </div>
-      <div class="grid-item">
-
-      </div>
-      <div class="grid-item">
-      </div>
-      <div class="grid-item">
-      </div>
-      <div class="grid-item">
-      </div>
-      <div class="grid-item">
-
-      </div>
-    </div>
-  </template>-->
+    </paper-dialog>
+    <paper-dialog id="dialogError" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+        <div class="wrap-login100">
+          <center>
+            <h2>
+              Por favor, rellene todos los campos para insertar
+            </h2>
+          </center>
+          <br>
+           <paper-button class="indigo" on-tap="_continuar2">Continuar</paper-button>
+            </center>
+        </div>
+      </paper-dialog>
 
     <app-header-layout>
       <div class="content">
@@ -233,9 +231,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 precio: parseInt(this.$.precio.value),
                 descripcion: this.$.descripcion.value
             };
-            console.log(dataPair);
-            console.log(this.dueto.$key);
-            this.$.queryUpdatePair.ref.child(this.dueto.$key).update(dataPair);
+            if (this.$.imagen.value ==="" || this.$.precio.value ===""||this.$.descripcion.value==="" ){
+                this.$.dialogError.open();
+            }else{
+              this.$.dialogActualizar.open();
+              this.$.queryUpdatePair.ref.child(this.dueto.$key).update(dataPair);
+            }
       },
 
       _drawerSelected: function () {
@@ -253,6 +254,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         this.$.auth.signOut();
       },
 
+      _continuar: function(){
+        this.$.dialogActualizar.close();
+      },
+      _continuar2: function(){
+        this.$.dialogError.close();
+      },
 
       /************************************************************************************************/
 

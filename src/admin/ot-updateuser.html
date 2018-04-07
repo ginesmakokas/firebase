@@ -152,7 +152,31 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </div>
     </div>
   </template>-->
+  <paper-dialog id="dialogActualizar" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+    <div class="wrap-login100">
+      <center>
+        <h2>
+          Perfil actualizado
+        </h2>
+      </center>
+      <br>
+       <paper-button class="indigo" on-tap="_continuar">Continuar</paper-button>
+        </center>
+    </div>
+  </paper-dialog>
 
+  <paper-dialog id="dialogError" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            Por favor rellene todos los campos para actualizar
+          </h2>
+        </center>
+        <br>
+         <paper-button class="indigo" on-tap="_continuar2">Continuar</paper-button>
+          </center>
+      </div>
+    </paper-dialog>
   <app-header-layout>
     <div class="content">
       <div>
@@ -237,9 +261,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           imagen: this.$.imagen.value,
           descripcion: this.$.descripcion.value
         };
-        console.log(dataUser);
-        console.log(this.usuarios.$key);
-        this.$.queryUpdateUser.ref.child(this.usuarios.$key).update(dataUser);
+        if (this.$.name.value === "" || this.$.imagen.value ==="" || this.$.descripcion.value===""){
+          this.$.dialogError.open();
+         
+        }else{
+          this.$.dialogActualizar.open();
+          this.$.queryUpdateUser.ref.child(this.usuarios.$key).update(dataUser);
+        }
+      },
+      _continuar: function(){
+        this.$.dialogActualizar.close();
+      },
+      _continuar2: function(){
+        this.$.dialogError.close();
       },
 
       _drawerSelected: function () {
