@@ -1,31 +1,15 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
-
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
-
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-
 <link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
@@ -33,16 +17,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../bower_components/app-layout/app-layout.html">
 <link rel="import" href="../../bower_components/paper-carousel/paper-carousel.html">
-
 <link rel="import" href="../../bower_components/jquery/jquery.html">
-
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../../bower_components/iron-image/iron-image.html">
 
 <link rel="import" href="../app-icons.html">
 
 <dom-module id="ot-newgala">
-    <link rel="import" type="css" href="../../css/w3.css">
+  <link rel="import" type="css" href="../../css/w3.css">
   <template>
 
     <style>
@@ -52,40 +34,49 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         ;
       }
+
       app-header {
         color: #fff;
         background-color: rgb(75, 139, 190);
       }
+
       app-toolbar {
         height: 5px;
       }
+
       app-drawer-layout:not([narrow]) [drawer-toggle] {
         display: none;
       }
+
       .grid-container {
         display: grid;
         grid-template-columns: 400px 400px 400px 300px 300px;
         grid-template-rows: 300px 300px 300px 300px 300px;
         padding: 10px;
       }
+
       .grid-item {
         padding: 20px;
         font-size: 30px;
         text-align: center;
       }
+
       #btnNav {
         text-decoration: #fff;
         color: rgb(255, 255, 255);
         background-color: black;
       }
+
       #buttonSel {
         background-color: rgb(161, 99, 219);
         --paper-icon-button-ink-color: white;
       }
+
       #buttonSel:hover {
         background-color: rgb(119, 13, 218);
         --paper-icon-button-ink-color: white;
       }
+
       .imagentam {
         width: 60%;
         height: 50%;
@@ -99,38 +90,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
     <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
 
-
-    <!-------------------------------------------------------------------------------------------->
-    <!--------------------------------    PARTE DEL ADMINISTRADOR       -------------------------->
-    <!-------------------------------------------------------------------------------------------->
-
-
-    <!--<div class="grid-container" name="login">
-        <div class="grid-item">
-            <h1>NEW GALA</h1>
-        </div>
-        <div class="grid-item">
-        </div>
-        <div class="grid-item">
-        </div>
-        <div class="grid-item">
-            
-        </div>
-        <div class="grid-item">
-            
-        </div>
-        <div class="grid-item">
-        </div> 
-        <div class="grid-item">
-        </div> 
-        <div class="grid-item">
-        </div> 
-        <div class="grid-item">
-            
-        </div> 
-    </div>
-  </template>-->
-
     <firebase-query id="queryinsertGala" path="/Programas" data="{{galas}}">
     </firebase-query>
 
@@ -142,23 +101,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           </h2>
         </center>
         <br>
-         <paper-button class="indigo" on-tap="_continuar">Continuar</paper-button>
-          </center>
+        <paper-button class="indigo" on-tap="_continuar">Continuar</paper-button>
+        </center>
       </div>
     </paper-dialog>
 
     <paper-dialog id="dialogError" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
-        <div class="wrap-login100">
-          <center>
-            <h2>
-              Por favor, rellene todos los campos para insertar
-            </h2>
-          </center>
-          <br>
-           <paper-button class="indigo" on-tap="_continuar2">Continuar</paper-button>
-            </center>
-        </div>
-      </paper-dialog>
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            Por favor, rellene todos los campos para insertar
+          </h2>
+        </center>
+        <br>
+        <paper-button class="indigo" on-tap="_continuar2">Continuar</paper-button>
+        </center>
+      </div>
+    </paper-dialog>
 
     <!-- main panel -->
     <app-header-layout>
@@ -166,7 +125,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <div>
           <iron-image src="./image/perfil.jpg"></iron-image>
         </div>
-        <div><h1 class="w3-center">Nueva Gala</h1></div>
+        <div>
+          <h1 class="w3-center">Nueva Gala</h1>
+        </div>
         <iron-form id="form1">
           <form action="/foo" method="get">
             <paper-input type="text" name="name" id="name" label="Nombre"></paper-input>
@@ -203,8 +164,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         /************************************************************************************************/
         user: Object,
         aux1: String,
-        cantantes:Object,
-        duetos:Object,
+        cantantes: Object,
+        duetos: Object,
         /************************************************************************************************/
         _scrollPositionMap: {
           type: Object,
@@ -220,27 +181,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           }
         });
       },
-      
+
       redirigir: function () {
         location.href = '#/galas';
       },
 
-      _ayuda: function(){
+      _ayuda: function () {
         console.log(this.duetos.length);
       },
 
       _insertGala: function () {
-        var ptosCantantes={};
-        var ptosDuetos={};
+        var ptosCantantes = {};
+        var ptosDuetos = {};
 
-        for(var i = 0; i < this.cantantes.length; i++){
+        for (var i = 0; i < this.cantantes.length; i++) {
           var r = this.cantantes[i];
           console.log(r.$key);
           ptosCantantes[r.$key] = 0;
         }
         console.log(ptosCantantes);
 
-        for(var i = 0; i < this.duetos.length; i++){
+        for (var i = 0; i < this.duetos.length; i++) {
           var r = this.duetos[i];
           console.log(r.$key);
           ptosDuetos[r.$key] = 0;
@@ -255,12 +216,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           PuntuacionesDuetos: ptosDuetos
         };
 
-        if (this.$.name.value ==="" || this.$.imagen.value ==="" || this.$.fecha.value===""|| this.$.descripcion.value===""){
+        if (this.$.name.value === "" || this.$.imagen.value === "" || this.$.fecha.value === "" || this.$.descripcion.value === "") {
           this.$.dialogError.open();
-        }else{
-           this.$.dialogActualizar.open();
+        } else {
+          this.$.dialogActualizar.open();
           this.$.queryinsertGala.ref.child(this.$.name.value).update(dataGala);
-         }
+        }
       },
 
       _drawerSelected: function () {
@@ -274,14 +235,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         console.log(this.user);
         this.$.auth.signOut();
       },
-      _continuar: function(){
+      _continuar: function () {
         this.$.dialogActualizar.close();
-        this.$.name.value= "";
-        this.$.imagen.value= "";
+        this.$.name.value = "";
+        this.$.imagen.value = "";
         this.$.fecha.value = "";
-         this.$.descripcion.value= "";
+        this.$.descripcion.value = "";
       },
-      _continuar2: function(){
+      _continuar2: function () {
         this.$.dialogError.close();
       },
       /************************************************************************************************/

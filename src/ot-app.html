@@ -1,42 +1,22 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../bower_components/polymer/polymer.html">
-
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
-
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
-
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-layout/app-layout.html">
-
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
-
 <link rel="import" href="../bower_components/polymerfire/firebase-query.html">
-
-
-
 
 <link rel="import" href="user/ot-cantantes.html">
 <link rel="import" href="user/ot-duetos.html">
@@ -232,7 +212,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
           <app-header fixed slot="header">
             <div>
-              <iron-icon src="{{user.photoURL}}" style = "background-size: contain; border-radius:
+              <iron-icon src="{{user.photoURL}}" style="background-size: contain; border-radius:
               50%; height: 100%; width: 100%;"></iron-icon>
             </div>
             <!-- <div class="avatar-container">
@@ -246,12 +226,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               <div class="email">[[user.email]]</div>
               <div class="name">Puntuación: [[spectator.puntuacion]]</div>
               <div class="icon-price icon-text">
-                  <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
-                  <span>{{spectator.creditos}} cr</span>
-                </div>
+                <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+                <span>{{spectator.creditos}} cr</span>
+              </div>
               <br>
               <div class="email">
-                <paper-button raised  id="buttonLogout" on-tap="_salirUsuario">Salir</paper-button>
+                <paper-button raised id="buttonLogout" on-tap="_salirUsuario">Salir</paper-button>
               </div>
               <br>
             </div>

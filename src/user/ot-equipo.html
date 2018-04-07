@@ -1,35 +1,20 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
-
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
-
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../../bower_components/iron-collapse/iron-collapse.html">
 
-
 <dom-module id="ot-equipo">
- <link rel="import" type="css" href="../../css/w3.css">
+  <link rel="import" type="css" href="../../css/w3.css">
   <template>
 
     <style>
@@ -39,12 +24,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         max-width: 1000px;
         margin: 5px auto;
       }
+
       .card-container {
         display: inline-block;
         width: 33.33%;
         color: black;
         text-decoration: none;
       }
+
       paper-card {
         display: block;
         margin: 5px;
@@ -52,14 +39,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           height: 200px;
         }
       }
+
       paper-card h2 {
         margin: 4px;
         font-weight: normal;
       }
+
       paper-card p {
         margin: 4px;
         color: #999;
       }
+
       paper-fab {
         position: fixed;
         right: 24px;
@@ -67,6 +57,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         --paper-fab-background: #EF5458;
         --paper-fab-keyboard-focus-background: #DF4448;
       }
+
       @media (max-width: 960px) {
         .content {
           max-width: 800px;
@@ -75,6 +66,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           width: 50%;
         }
       }
+
       @media (max-width: 719px) {
         app-toolbar {
           height: 60px;
@@ -95,6 +87,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           width: 100%;
         }
       }
+
       paper-button.indigo {
         background-color: #dbdbdb;
         color: black;
@@ -120,82 +113,82 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <firebase-document id="queryEspect" path="/Espectadores/[[user.uid]]" data="{{espectador}}">
     </firebase-document>
-    
+
     <!-------------------------------------------------------------------------------------------------------->
 
     <!-- main panel -->
     <app-header-layout>
       <div class="content">
-          <h1 class="w3-center">Equipo seleccionado por [[user.displayName]]</h1>
-          <br></br>
-          <h2>Cantantes:</h2>
-          
-          <template is="dom-repeat" items="{{cantantes}}">
-            <template is="dom-if" if="{{_isInCantante(item, espectador)}}">
-          
-              <div class="card-container">
-                <paper-card image="{{item.imagen}}">
-                  <div class="card-content">
-                    <div class="card-header">
-                      {{item.nombre}}
-                      <div class="icon-price icon-text">
-                        <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
-                        <span>{{item.precio}} cr</span>
-                      </div>
-                      <p>Puntuación: {{item.puntuacionTotal}}</p>
-                    </div>
-                    <a href="#/detailCantante/{{item.$key}}" class="card-container">
-                      <paper-button class="indigo">Ver detalle</paper-button>
-                    </a>
-                  </div>
-                  <div class="card-actions">
-                    <paper-button>Descripción</paper-button>
-                    <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggleCantante" data-args="{{index}}" style="float:right;">
-                    </paper-icon-button>
-                    <iron-collapse id="descripcionCantante{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
-                      {{item.descripcion}}
-                    </iron-collapse>
-                  </div>
-                </paper-card>
-              </div>
-            </template>
-          </template>
+        <h1 class="w3-center">Equipo seleccionado por [[user.displayName]]</h1>
+        <br></br>
+        <h2>Cantantes:</h2>
 
-          <br></br>
-          <h2>Duetos:</h2>
-          <template is="dom-repeat" items="{{duetos}}">
-            <template is="dom-if" if="{{_isInDueto(item, espectador)}}">
-              <div class="card-container">
-                <paper-card image="{{item.imagen}}">
-                  <div class="card-content">
-                    <div class="card-header">
-                      {{item.cantante1}} y {{item.cantante2}}
-                      <div class="icon-price icon-text">
-                        <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
-                        <span>{{item.precio}} cr</span>
-                      </div>
-                      <p>Puntuación: {{item.puntuacionTotal}}</p>
+        <template is="dom-repeat" items="{{cantantes}}">
+          <template is="dom-if" if="{{_isInCantante(item, espectador)}}">
+
+            <div class="card-container">
+              <paper-card image="{{item.imagen}}">
+                <div class="card-content">
+                  <div class="card-header">
+                    {{item.nombre}}
+                    <div class="icon-price icon-text">
+                      <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+                      <span>{{item.precio}} cr</span>
                     </div>
-                    <a href="#/detailDueto/{{item.$key}}" class="card-container">
-                      <paper-button class="indigo">Ver detalle</paper-button>
-                    </a>
+                    <p>Puntuación: {{item.puntuacionTotal}}</p>
                   </div>
-                  <div class="card-actions">
-                    <paper-button>Descripción</paper-button>
-                    <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggleDueto" data-args="{{index}}" style="float:right;">
-                    </paper-icon-button>
-                    <iron-collapse id="descripcionDueto{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
-                      {{item.descripcion}}
-                    </iron-collapse>
-                  </div>
-                </paper-card>
-              </div>
-            </template>
+                  <a href="#/detailCantante/{{item.$key}}" class="card-container">
+                    <paper-button class="indigo">Ver detalle</paper-button>
+                  </a>
+                </div>
+                <div class="card-actions">
+                  <paper-button>Descripción</paper-button>
+                  <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggleCantante" data-args="{{index}}" style="float:right;">
+                  </paper-icon-button>
+                  <iron-collapse id="descripcionCantante{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                    {{item.descripcion}}
+                  </iron-collapse>
+                </div>
+              </paper-card>
+            </div>
           </template>
+        </template>
+
+        <br></br>
+        <h2>Duetos:</h2>
+        <template is="dom-repeat" items="{{duetos}}">
+          <template is="dom-if" if="{{_isInDueto(item, espectador)}}">
+            <div class="card-container">
+              <paper-card image="{{item.imagen}}">
+                <div class="card-content">
+                  <div class="card-header">
+                    {{item.cantante1}} y {{item.cantante2}}
+                    <div class="icon-price icon-text">
+                      <iron-icon src="../../image/coin-money-1.png" style="width: 14px; height: 14px;"></iron-icon>
+                      <span>{{item.precio}} cr</span>
+                    </div>
+                    <p>Puntuación: {{item.puntuacionTotal}}</p>
+                  </div>
+                  <a href="#/detailDueto/{{item.$key}}" class="card-container">
+                    <paper-button class="indigo">Ver detalle</paper-button>
+                  </a>
+                </div>
+                <div class="card-actions">
+                  <paper-button>Descripción</paper-button>
+                  <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggleDueto" data-args="{{index}}" style="float:right;">
+                  </paper-icon-button>
+                  <iron-collapse id="descripcionDueto{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                    {{item.descripcion}}
+                  </iron-collapse>
+                </div>
+              </paper-card>
+            </div>
+          </template>
+        </template>
       </div>
 
     </app-header-layout>
-    <paper-fab icon="app:create"></paper-fab>
+
   </template>
 
   <script>
@@ -243,7 +236,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       devolverCosas: function (cantantes, espectador) {
         console.log(cantantes);
         console.log(espectador);
-        cantantes[2]= "";
+        cantantes[2] = "";
         return cantantes;
       }
     });

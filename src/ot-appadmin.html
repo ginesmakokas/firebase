@@ -1,62 +1,42 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../bower_components/polymer/polymer.html">
-
 <link rel="import" href="../bower_components/app-route/app-location.html">
 <link rel="import" href="../bower_components/app-route/app-route.html">
-
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../bower_components/iron-selector/iron-selector.html">
-
 <link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
-
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
-
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../bower_components/app-layout/app-layout.html">
-
 <link rel="import" href="../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/iron-collapse/iron-collapse.html">
-
 <link rel="import" href="../bower_components/firebase-query/firebase-query.html">
-
-
-
 
 <link rel="import" href="user/ot-verdueto.html">
 <link rel="import" href="user/ot-vercantante.html">
 <link rel="import" href="user/ot-vergala.html">
 <link rel="import" href="user/ot-ranking.html">
+
 <link rel="import" href="app-icons.html">
+
 <link rel="import" href="admin/ot-gestionusuarios.html">
 <link rel="import" href="admin/ot-gestioncantantes.html">
 <link rel="import" href="admin/ot-gestionduetos.html">
 <link rel="import" href="admin/ot-gestiongalas.html">
-
 <link rel="import" href="admin/ot-newuser.html">
 <link rel="import" href="admin/ot-veruser.html">
 <link rel="import" href="admin/ot-newcantante.html">
 <link rel="import" href="admin/ot-newdueto.html">
 <link rel="import" href="admin/ot-newgala.html">
-
 <link rel="import" href="admin/ot-updateuser.html">
 <link rel="import" href="admin/ot-updatecantante.html">
 <link rel="import" href="admin/ot-updatedueto.html">
@@ -74,16 +54,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         ;
       }
+
       app-header {
         color: #fff;
         background-color: rgb(75, 139, 190);
       }
+
       app-toolbar {
         height: 5px;
       }
+
       app-drawer-layout:not([narrow]) [drawer-toggle] {
         display: none;
       }
+
       [condensed-title] {
         position: absolute;
         top: 0;
@@ -97,6 +81,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         /* The difference in font size is used to calculate the scale of the title in the transition. */
         font-size: 16px;
       }
+
       [main-title] {
         position: absolute;
         top: -120px;
@@ -112,6 +97,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         /* The difference in font size is used to calculate the scale of the title in the transition. */
         font-size: 32px;
       }
+
       .avatar-container {
         position: relative;
         border: 2px solid rgb(116, 29, 197);
@@ -121,6 +107,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         width: 90px;
         margin: 20px auto;
       }
+
       .avatar-container .image {
         background-image: url('//app-layout-assets.appspot.com/assets/pesto/avatar.jpg');
         background-size: contain;
@@ -128,21 +115,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         height: 100%;
         width: 100%;
       }
+
       .contact-info {
         margin: 0 20px;
         padding-bottom: 20px;
         border-bottom: 1px solid #CCC;
         text-align: center;
       }
+
       .contact-info .name {
         font-weight: bold;
       }
+
       .contact-info .email {
         color: #999;
       }
+
       paper-item {
         height: 54px;
       }
+
       paper-item>a {
         width: 100%;
         height: 100%;
@@ -151,13 +143,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-decoration: none;
         color: rgb(0, 0, 0);
       }
+
       paper-icon-button {
         --paper-icon-button-ink-color: white;
       }
+
       #buttonLogin {
         background-color: rgb(161, 99, 219);
         --paper-icon-button-ink-color: white;
       }
+
       #buttonLogin:hover {
         background-color: rgb(119, 13, 218);
         --paper-icon-button-ink-color: white;
@@ -178,11 +173,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         text-decoration: #fff;
         color: rgb(255, 255, 255);
       }
+
       .grid-container {
         display: grid;
         grid-template-columns: auto auto auto;
         padding: 10px;
       }
+
       .grid-item {
         padding: 20px;
         font-size: 30px;
@@ -224,27 +221,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <!-- nav panel -->
       <app-drawer id="drawer" swipe-open slot="drawer">
         <app-header-layout has-scrolling-region>
-      <app-header fixed slot="header">
-        <div>
-          <iron-icon src="{{user.photoURL}}" style = "background-size: contain; border-radius:
+          <app-header fixed slot="header">
+            <div>
+              <iron-icon src="{{user.photoURL}}" style="background-size: contain; border-radius:
           50%; height: 100%; width: 100%;"></iron-icon>
-        </div>
-        <!-- <div class="avatar-container">
+            </div>
+            <!-- <div class="avatar-container">
             <iron-icon src="{{user.photoURL}}" ></iron-icon> style="background-color: rgb(247, 144, 27);"
           <div ></div>
         </div>-->
-        <br>
-        <div class="contact-info">
+            <br>
+            <div class="contact-info">
 
-          <div class="name">[[user.displayName]]</div>
-          <div class="email">[[user.email]]</div>
-          <br>
-          <div class="email">
-            <paper-button raised  id="buttonLogout" on-tap="_salirUsuario">Salir</paper-button>
-          </div>
-          <br>
-        </div>
-      </app-header>
+              <div class="name">[[user.displayName]]</div>
+              <div class="email">[[user.email]]</div>
+              <br>
+              <div class="email">
+                <paper-button raised id="buttonLogout" on-tap="_salirUsuario">Salir</paper-button>
+              </div>
+              <br>
+            </div>
+          </app-header>
 
 
           <!-- nav menu -->
@@ -315,7 +312,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <ot-vercantante id="detailCantante" name="detailCantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-vercantante>
         <ot-verdueto id="detailDueto" name="detailDueto" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-verdueto>
         <ot-veruser id="detailUsuario" name="detailUsuario" ranking="[[ranking]]" usuario="[[_getUser(usuarios, _idData.id)]]"></ot-veruser>
-        <ot-vergala id="detailGala" name="detailGala" gala="[[_getGala(galas, _idData.id)]]" usuario="[[_getUser(usuarios, _idData.id)]]" duetos="[[duetos]]"></ot-vergala>
+        <ot-vergala id="detailGala" name="detailGala" gala="[[_getGala(galas, _idData.id)]]" usuario="[[_getUser(usuarios, _idData.id)]]"
+          duetos="[[duetos]]"></ot-vergala>
 
         <ot-newuser name="newuser"></ot-newuser>
         <ot-newdueto name="newdueto" cantantes="[[cantantes]]"></ot-newdueto>

@@ -1,13 +1,3 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
 <link rel="import" href="../bower_components/app-route/app-location.html">
@@ -93,31 +83,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 text-align: center;
             }
         </style>
-        <!-- ------------------------------------------------------------------------------------>
 
-
-        <!--Autenticacion con FIREBASE-->
-        <firebase-app auth-domain="practica2firebase.firebaseapp.com" database-url="https://practica2firebase.firebaseio.com/" api-key="AIzaSyBuCthX0RXuTeaqw1B39CzV7NCT0dkHZy4">
+        <firebase-app auth-domain="otuahfirebase.firebaseapp.com" database-url="https://otuahfirebase.firebaseio.com/" api-key="AIzaSyDeRo4oh5blgPNpD1B3ye_XGX1dDTjR-SM">
         </firebase-app>
 
         <firebase-auth id="auth" user="{{user}}" provider="google">
         </firebase-auth>
         <firebase-document id="queryLogin" path="/Espectadores" data="{{espectadores}}">
         </firebase-document>
-        <firebase-document id="queryLogin2" data="{{uuuuuser}}"></firebase-document>
-        <!-- ------------------------------------------------------------------------------------>
 
-
-
-        <!-- Patrón de rutas de navegación -->
         <app-location route="{{_route}}" use-hash-as-path></app-location>
         <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
         <app-route route="{{_subRoute}}" pattern="/:id" data="{{_idData}}"></app-route>
-
-
-
-        <!-- ------------------------------------------------------------------------------------>
-        <!--REGISTRO-->
 
         <iron-pages selected="[[_usuariologado]]" attr-for-selected="name">
             <div class="grid-container" name="login">
@@ -160,16 +137,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                 _idData: Object,
 
-                /************************************************************************************************/
-
                 user: Object,
                 espectadores: Object,
                 _usuariologado: {
                     type: String,
                     computed: '_calculalogado(user, espectadores)'
                 },
-
-                /************************************************************************************************/
 
                 _scrollPositionMap: {
                     type: Object,
@@ -191,8 +164,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 if (!this.$.drawer.persistent) this.$.drawer.close();
             },
 
-            /************************************************************************************************/
-
             _calculalogado: function (usuario, espectadores) {
                 if (this.$.auth.user === undefined || this.$.auth.user === null)
                     return "login";
@@ -201,9 +172,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         return "admin";
                     }
                     else {
-                      
+
                         if (this.user && Object.values(this.espectadores).length > 0) {
-                            
+
                             if (espectadores[this.user.uid] == null ||
                                 espectadores[this.user.uid] == undefined) {
                                 console.log("esta dentro");

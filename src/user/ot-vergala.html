@@ -1,18 +1,6 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-icon/iron-icon.html">
-
 <link rel="import" href="../../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
@@ -20,12 +8,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
-
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="../../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
-
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../../bower_components/iron-image/iron-image.html">
 
@@ -106,6 +92,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </firebase-query>
     <firebase-query path="/Espectadores" data="{{usuarios}}">
     </firebase-query>
+    <firebase-document path="/Espectadores/[[user.uid]]" data="{{spectator}}">
+    </firebase-document>
     <firebase-query id="queryInsertComment" path="/Programas/{{gala.$key}}/Comentarios" data="{{comentarios}}">
     </firebase-query>
     <firebase-auth id="auth" user="{{user}}" provider="google">
@@ -153,7 +141,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <template is="dom-repeat" items="{{puntosDuetos}}">
                   <tr>
                     <td style="vertical-align: middle;">{{_getCantante(item.$key, 1)}} y {{_getCantante(item.$key, 2)}}</td>
-                    <td style="vertical-align: middle;">{{item.total}}</td>
+                    <td style="vertical-align: middle;">{{item.$val}}</td>
                   </tr>
                 </template>
               </tbody>
@@ -174,7 +162,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                         <b>[[user.displayName]]</b>
                       </p>
                       <paper-item type="text" name="idUsuario" id="idUsuario" value="[[user.displayName]]"></paper-item>
-                      <paper-input type="text" name="text" id="text" label="Deja tu comentario"></paper-input>
+                      <paper-input type="text" name="textComent" id="textComent" label="Deja tu comentario" class="textComent" , value="{{comment}}"></paper-input>
                       <paper-button style="font-size: 15px" raised on-tap="_insertComment">Publicar Comentario</paper-button>
                     </td>
                   </tr>
@@ -234,7 +222,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       properties: {
         gala: Object,
         duetos: Object,
-        user: Object
+        user: Object,
+        comment: String
       },
       __cantanteChanged: function (cantante) {
         if (cantante) {
@@ -243,37 +232,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _insertComment: function () {
+        console.log(this.spectator);
         var fecha = new Date();
         var fechaString;
         var dataComment = {
           uid: this.user.uid,
-          usuario: this.$.idUsuario.value,
-          text: this.$.text.value,
+          text: this.comment,
+          usuario: this.spectator.nombre,
           timestamp: fecha.getDate() + "/" + (fecha.getMonth() + 1) + "/" + fecha.getFullYear() + "  " + fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds()
         };
 
-        if (this.$.text.value === "") {
-          this.$.text.value = "";
+        if (this.comment === "") {
+          this.comment = "";
         } else {
           this.$.queryInsertComment.ref.child(this.comentarios.length + 1).update(dataComment);
-          this.$.text.value = "";
+          this.comment = "";
         }
       },
-      /*
-            _getUser: function (idUsuario) {
-              alert(idUsuario);
-              if (this.usuarios) {
-                for (var i = 0; i < this.usuarios.length; ++i) {
-                  var r = this.usuarios[i];
-                  if (r.$key === idUsuario) {
-                    alert(r.imagen);
-                    return r;
-                  }
-                }
-              }
-              return null;
-            }
-            */
+
       _usuarioprivacidad: function (idUsuario) {
         console.log(idUsuario);
         if (this.usuarios) {
@@ -318,8 +294,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         return null;
       },
-      _admin:function (user){
-        if(user)
+      _admin: function (user) {
+        if (user)
           return user.email == "adm.firebase@gmail.com";
         return true;
       }

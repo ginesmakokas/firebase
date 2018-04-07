@@ -1,32 +1,16 @@
-<!--
-@license
-Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
-This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
-The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
-The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
-Code distributed by Google as part of the polymer project is also
-subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
--->
-
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
-
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-
 <link rel="import" href="../../bower_components/app-route/app-location.html">
 <link rel="import" href="../../bower_components/app-route/app-route.html">
-
 <link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
 <link rel="import" href="../../bower_components/iron-selector/iron-selector.html">
-
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
 <link rel="import" href="../../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../../bower_components/paper-input/paper-input.html">
-
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
-
 <link rel="import" href="../../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../../bower_components/app-layout/app-header-layout/app-header-layout.html">
@@ -34,9 +18,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../../bower_components/app-layout/app-toolbar/app-toolbar.html">
 <link rel="import" href="../../bower_components/app-layout/app-layout.html">
 <link rel="import" href="../../bower_components/paper-carousel/paper-carousel.html">
-
 <link rel="import" href="../../bower_components/jquery/jquery.html">
-
 <link rel="import" href="../../bower_components/polymerfire/polymerfire.html">
 <link rel="import" href="../../bower_components/iron-image/iron-image.html">
 
@@ -122,14 +104,39 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <firebase-query id="queryInsertPair" path="/Duetos" data="{{duetos}}">
     </firebase-query>
-
+    <paper-dialog id="dialogActualizar" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            Nuevo dueto insertado
+          </h2>
+        </center>
+        <br>
+        <paper-button class="indigo" on-tap="_continuar">Continuar</paper-button>
+        </center>
+      </div>
+    </paper-dialog>
+    <paper-dialog id="dialogError" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
+      <div class="wrap-login100">
+        <center>
+          <h2>
+            Por favor rellene todos los campos para insertar
+          </h2>
+        </center>
+        <br>
+        <paper-button class="indigo" on-tap="_continuar2">Continuar</paper-button>
+        </center>
+      </div>
+    </paper-dialog>
     <!-- main panel -->
     <app-header-layout>
       <div class="content">
         <div>
           <iron-image src="./image/perfil.jpg"></iron-image>
         </div>
-        <div><h1 class="w3-center">Nuevo dueto</h1></div>
+        <div>
+          <h1 class="w3-center">Nuevo dueto</h1>
+        </div>
         <iron-form id="form1">
           <form action="/foo" method="get">
             <paper-input type="text" name="nombre" id="nombre" label="Nombre del dueto"></paper-input>
@@ -137,20 +144,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <paper-input type="text" name="precio" id="precio" label="Precio"></paper-input>
             <paper-input type="text" name="descripcion" id="descripcion" label="Descripcion"></paper-input>
             <br>
-            <select class="w3-select w3-border" name="option" id= "cantante1" required>
+            <select class="w3-select w3-border" name="option" id="cantante1" required>
               <option value="" disabled selected hidden>Cantante 1</option>
               <template is="dom-repeat" items="{{cantantes}}">
-                  <option name= "cantante1" value="{{item.nombre}}">{{item.nombre}}</option>
+                <option name="cantante1" value="{{item.nombre}}">{{item.nombre}}</option>
               </template>
             </select>
             <br>
             <br>
-            <select class="w3-select w3-border" name="option"  id= "cantante2" required>
-                <option value="" disabled selected hidden>Cantante 2</option>
-                <template is="dom-repeat" items="{{cantantes}}">
-                    <option name= "cantante2">{{item.nombre}}</option>
-                </template>
-              </select>
+            <select class="w3-select w3-border" name="option" id="cantante2" required>
+              <option value="" disabled selected hidden>Cantante 2</option>
+              <template is="dom-repeat" items="{{cantantes}}">
+                <option name="cantante2">{{item.nombre}}</option>
+              </template>
+            </select>
             <br>
             <br>
             <div>
@@ -190,9 +197,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           cantante1: this.$.cantante1.value,
           cantante2: this.$.cantante2.value,
         };
-        console.log(dataPair);
-        this.$.queryInsertPair.ref.child(this.$.nombre.value).update(dataPair);
-      }
+        if (this.$.nombre.value === "" || this.$.imagen.value === "" || this.$.precio.value === ""
+          || this.$.descripcion.value === "" || this.$.cantante1.value === "" || this.$.cantante2.value === "") {
+          this.$.dialogError.open();
+        } else {
+          this.$.dialogActualizar.open();
+          this.$.queryInsertPair.ref.child(this.$.nombre.value).update(dataPair);
+        }
+      },
+      _continuar: function () {
+        this.$.dialogActualizar.close();
+        this.$.nombre.value = "";
+        this.$.imagen.value = "";
+        this.$.precio.value = "";
+        this.$.descripcion.value = "";
+        this.$.cantante1.value = "Cantante 1";
+        this.$.cantante2.value = "Cantante 2";
+      },
+      _continuar2: function () {
+        this.$.dialogError.close();
+      },
     });
 
   </script>
