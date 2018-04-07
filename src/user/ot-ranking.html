@@ -124,13 +124,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       <tr class="w3-blue">
         <th>Posición</th>
         <th>Email</th>
-        <th>Puntuación</th>
       </tr>
       <template is="dom-repeat" items="{{ranking}}">
         <tr is="s-tr" multi>
           <td>{{item.$key}}</td>
-          <td>{{__versiprivado(item.$val)}}</td>
-          <td>{{_getPutuacion(item.$val)}}</td>
+          <td>{{item.$val}}</td>
         </tr>
       </template>
     </table>
@@ -158,18 +156,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var xhttp = new XMLHttpRequest();
         xhttp.open("GET", "https://us-central1-practica2firebase.cloudfunctions.net/updateRanking", true);
         xhttp.send();
-      },
-      _getPutuacion: function (email) {
-        if (this.usuarios) {
-          for (var i = 0; i < this.usuarios.length; i++) {
-            var r = this.usuarios[i];
-            if (r.email === email) {
-              console.log(r.$key + 'holaaaaaaaaaaa');
-              return r.puntuacion;
-            }
-          }
-          return null;
-        }
       },
       __versiprivado: function (mail) {
         if (this.usuarios) {

@@ -216,8 +216,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <firebase-document id="queryUser2" path="/Espectadores/[[user.uid]]" data="{{spectator}}"></firebase-document>
 
-    <firebase-query id="queryEspectadores" path="/Espectadores" data="{{usuarios}}">
-    </firebase-query>
 
 
     <!-------------------------------------------------------------------------------------------->
@@ -324,7 +322,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <ot-equipo name="home"></ot-equipo>
 
-        <ot-ranking name="ranking" ranking="[[ranking]]" usuarios="[[usuarios]]"></ot-ranking>
+        <ot-ranking name="ranking" ranking="[[ranking]]"></ot-ranking>
 
         <ot-duetos name="duetos" duetos="[[duetos]]" spectator="{{spectator}}"></ot-duetos>
         <ot-gala name="galas" galas="[[galas]]"></ot-gala>

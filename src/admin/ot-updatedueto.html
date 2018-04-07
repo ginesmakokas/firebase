@@ -230,7 +230,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _updatePairValues: function(){
         var dataPair = {
                 imagen: this.$.imagen.value,
-                precio: this.$.precio.value,
+                precio: parseInt(this.$.precio.value),
                 descripcion: this.$.descripcion.value
             };
             console.log(dataPair);

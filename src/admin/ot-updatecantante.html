@@ -236,7 +236,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         var dataSinger = {
           nombre: this.$.name.value,
           imagen: this.$.imagen.value,
-          precio: this.$.precio.value,
+          precio: parseInt(this.$.precio.value),
           descripcion: this.$.descripcion.value
         };
         console.log(dataSinger);
