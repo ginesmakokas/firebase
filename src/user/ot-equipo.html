@@ -145,7 +145,7 @@
                   <paper-button>Descripción</paper-button>
                   <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggleCantante" data-args="{{index}}" style="float:right;">
                   </paper-icon-button>
-                  <iron-collapse id="descripcionCantante{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                  <iron-collapse id="descripcionCantanteE{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
                     {{item.descripcion}}
                   </iron-collapse>
                 </div>
@@ -177,7 +177,7 @@
                   <paper-button>Descripción</paper-button>
                   <paper-icon-button icon="expand-more" title="Descripcion" on-tap="_toggleDueto" data-args="{{index}}" style="float:right;">
                   </paper-icon-button>
-                  <iron-collapse id="descripcionDueto{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
+                  <iron-collapse id="descripcionDuetoE{{index}}" style="width:100%; margin: 4px; font-size: 15px; color: #999;">
                     {{item.descripcion}}
                   </iron-collapse>
                 </div>
@@ -212,14 +212,14 @@
 
       _toggleCantante: function (e) {
         var i = e.model.get('index');
-        var moreInfo = document.getElementById('descripcionCantante' + i);
+        var moreInfo = document.getElementById('descripcionCantanteE' + i);
         var iconButton = Polymer.dom(event).localTarget;
         iconButton.icon = moreInfo.opened ? 'expand-more' : 'expand-less';
         moreInfo.toggle();
       },
       _toggleDueto: function (e) {
         var i = e.model.get('index');
-        var moreInfo = document.getElementById('descripcionDueto' + i);
+        var moreInfo = document.getElementById('descripcionDuetoE' + i);
         var iconButton = Polymer.dom(event).localTarget;
         iconButton.icon = moreInfo.opened ? 'expand-more' : 'expand-less';
         moreInfo.toggle();

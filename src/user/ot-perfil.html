@@ -115,7 +115,7 @@
       <div class="wrap-login100">
         <center>
           <h2>
-            Por favor rellene todos los campos para insertar
+            Por favor introduzca su nombre para insertar
           </h2>
         </center>
         <br>
@@ -176,14 +176,18 @@
       },
 
       _update: function () {
-        var dataUpdate = {
-          nombre: this.$.name.value,
-          descripcion: this.$.descripcion.value,
-          privacidad: this.rbprivacidad.value
-        };
-        if (this.$.name.value === "" || this.$.descripcion.value === "") {
+        if (this.$.name.value === "" || this.$.name.value == undefined) {
           this.$.dialogError.open();
         } else {
+          var desc = "";
+          if (this.$.descripcion.value !== undefined) {
+            desc = this.$.descripcion.value;
+          }
+          var dataUpdate = {
+            nombre: this.$.name.value,
+            descripcion: desc,
+            privacidad: this.rbprivacidad.value
+          };
           this.$.dialogActualizar.open();
           this.$.queryUpdateSpectator.ref.update(dataUpdate);
         }
