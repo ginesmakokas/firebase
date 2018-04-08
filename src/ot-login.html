@@ -89,8 +89,9 @@
 
         <firebase-auth id="auth" user="{{user}}" provider="google">
         </firebase-auth>
-        <firebase-document id="queryLogin" path="/Espectadores" data="{{espectadores}}">
+        <firebase-document id="queryLogin" path="/Espectadores/[[user.uid]]" data="{{espectador}}">
         </firebase-document>
+
         <firebase-query id="queryRankingLogin" path="/Ranking" data="{{ranking}}">
         </firebase-query>
 
@@ -143,7 +144,7 @@
                 espectadores: Object,
                 _usuariologado: {
                     type: String,
-                    computed: '_calculalogado(user, espectadores)'
+                    computed: '_calculalogado(user, espectador)'
                 },
 
                 _scrollPositionMap: {
@@ -166,7 +167,7 @@
                 if (!this.$.drawer.persistent) this.$.drawer.close();
             },
 
-            _calculalogado: function (usuario, espectadores) {
+            _calculalogado: function (usuario, espectador) {
                 if (this.$.auth.user === undefined || this.$.auth.user === null)
                     return "login";
                 else {
@@ -174,14 +175,13 @@
                         return "admin";
                     }
                     else {
-
-                        if (this.user && Object.values(this.espectadores).length > 0) {
-
-                            if (espectadores[this.user.uid] == null ||
-                                espectadores[this.user.uid] == undefined) {
+                        if (this.user && this.$.queryLogin.ref) {
+                            if (espectador === null ||
+                                espectador === undefined) {
                                 try{
                                     this.$.queryRankingLogin.ref.child(String(this.ranking.length+1)).update(this.user.email);
-                                } catch (e){}
+                                } catch (e){
+                                }
                                 var dataLogin = {
                                     creditos: 50,
                                     puntuacion: 0,
@@ -190,9 +190,10 @@
                                     nombre: this.user.displayName,
                                     privacidad: "privado"
                                 };
-                                this.$.queryLogin.ref.child(this.user.uid).update(dataLogin);
+                                this.$.queryLogin.ref.update(dataLogin);
                             }
                         }
+                        
                         return "usuario";
                     }
                 }
