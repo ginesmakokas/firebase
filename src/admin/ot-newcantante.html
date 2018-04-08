@@ -175,7 +175,8 @@
           nombre: this.$.name.value,
           imagen: this.$.imagen.value,
           precio: parseInt(this.$.precio.value),
-          descripcion: this.$.descripcion.value
+          descripcion: this.$.descripcion.value,
+          puntuacionTotal: 0
         };
         if (this.$.name.value === "" || this.$.imagen.value === "" || this.$.precio.value === "" || this.$.descripcion.value === "") {
           this.$.dialogError.open();

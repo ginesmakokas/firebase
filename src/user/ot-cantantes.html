@@ -122,6 +122,9 @@
     </firebase-auth>
 
     <firebase-query id="queryUpdateSpectatorCantante" path="/Espectadores/[[user.uid]]" data="{{updateSpectator}}"></firebase-query>
+    <firebase-document id="queryEspect" path="/Espectadores/[[user.uid]]" data="{{espectador}}">
+    </firebase-document>
+
 
     <paper-dialog id="dialogCompra" entry-animation="scale-up-animation" exit-animation="fade-out-animation">
       <div class="wrap-login100">

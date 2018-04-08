@@ -91,6 +91,8 @@
         </firebase-auth>
         <firebase-document id="queryLogin" path="/Espectadores" data="{{espectadores}}">
         </firebase-document>
+        <firebase-query id="queryRankingLogin" path="/Ranking" data="{{ranking}}">
+        </firebase-query>
 
         <app-location route="{{_route}}" use-hash-as-path></app-location>
         <app-route route="{{_route}}" pattern="/:page" data="{{_pageData}}" tail="{{_subRoute}}"></app-route>
@@ -177,7 +179,9 @@
 
                             if (espectadores[this.user.uid] == null ||
                                 espectadores[this.user.uid] == undefined) {
-                                console.log("esta dentro");
+                                try{
+                                    this.$.queryRankingLogin.ref.child(String(this.ranking.length+1)).update(this.user.email);
+                                } catch (e){}
                                 var dataLogin = {
                                     creditos: 50,
                                     puntuacion: 0,

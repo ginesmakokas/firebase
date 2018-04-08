@@ -104,6 +104,9 @@
       }
     </style>
 
+    <firebase-auth id="auth" user="{{user}}" provider="google">
+    </firebase-auth>
+
 
     <iron-ajax auto url="https://www.googleapis.com/youtube/v3/search" handle-as="json" last-response="{{ranking}}">
     </iron-ajax>
@@ -121,9 +124,11 @@
     </table>
     <div>
       <br>
-      <a target="_blank" href="https://us-central1-practica2firebase.cloudfunctions.net/updateRanking" id="btnRanking">
-        <paper-button raised style="background-color: rgb(71, 162, 236);">Actualizar Ranking</paper-button>
-      </a>
+      <template is="dom-if" if="{{_admin(user)}}">
+        <a target="_blank" href="https://us-central1-practica2firebase.cloudfunctions.net/updateRanking" id="btnRanking">
+          <paper-button raised style="background-color: rgb(71, 162, 236);">Actualizar Ranking</paper-button>
+        </a>
+      </template>
       <!--  <paper-button raised style="background-color: rgb(71, 162, 236);" on-tap="_updateRanking">Actualizar Ranking</paper-button> -->
     </div>
   </template>
@@ -141,7 +146,7 @@
       },
       _updateRanking: function () {
         var xhttp = new XMLHttpRequest();
-        xhttp.open("GET", "https://us-central1-practica2firebase.cloudfunctions.net/updateRanking", true);
+        xhttp.open("GET", "https://us-central1-otuahfirebase.cloudfunctions.net/updateRanking", true);
         xhttp.send();
       },
       __versiprivado: function (mail) {
@@ -164,6 +169,12 @@
         if (cantante) {
           this.style.backgroundImage = 'url(' + cantante.imagen + ')';
         }
+      },
+      _admin: function (user) {
+        if(user){
+          return user.email === "adm.firebase@gmail.com";
+        }
+        return false;
       }
     });
   </script>
