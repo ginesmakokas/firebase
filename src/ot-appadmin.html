@@ -308,8 +308,9 @@
 
         <ot-gestionduetos name="duetos" duetos="[[duetos]]"></ot-gestionduetos>
 
-        <ot-vercantante id="detailCantante" name="detailCantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-vercantante>
-        <ot-verdueto id="detailDueto" name="detailDueto" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-verdueto>
+        <ot-vercantante id="detailCantante" name="detailCantante" galas="[[galas]]" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-vercantante>
+        
+        <ot-verdueto id="detailDueto" name="detailDueto" dueto="[[_getDueto(duetos, _idData.id)]]" galas="[[galas]]" ></ot-verdueto>
         <ot-veruser id="detailUsuario" name="detailUsuario" ranking="[[ranking]]" usuario="[[_getUser(usuarios, _idData.id)]]"></ot-veruser>
         <ot-vergala id="detailGala" name="detailGala" gala="[[_getGala(galas, _idData.id)]]" usuario="[[_getUser(usuarios, _idData.id)]]"
           duetos="[[duetos]]"></ot-vergala>
@@ -320,6 +321,7 @@
         <ot-newcantante name="newcantante"></ot-newcantante>
 
         <ot-updatecantante name="updatecantante" cantante="[[_getCantante(cantantes, _idData.id)]]"></ot-updatecantante>
+        
         <ot-updatedueto name="updatedueto" dueto="[[_getDueto(duetos, _idData.id)]]"></ot-updatedueto>
         <ot-updategala name="updategala" gala="[[_getGala(galas, _idData.id)]]" duetos="[[duetos]]"></ot-updategala>
         <ot-updateuser name="updateuser" usuarios="[[_getUser(usuarios, _idData.id)]]"></ot-updateuser>
