@@ -188,7 +188,7 @@
                                     email: this.user.email,
                                     imagen: this.user.photoURL,
                                     nombre: this.user.displayName,
-                                    privacidad: "privado"
+                                    privacidad: "publico"
                                 };
                                 this.$.queryLogin.ref.child(this.user.uid).update(dataLogin);
                             }
