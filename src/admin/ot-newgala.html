@@ -123,9 +123,6 @@
     <app-header-layout>
       <div class="content">
         <div>
-          <iron-image src="./image/perfil.jpg"></iron-image>
-        </div>
-        <div>
           <h1 class="w3-center">Nueva Gala</h1>
         </div>
         <iron-form id="form1">
@@ -187,7 +184,7 @@
       },
 
       _ayuda: function () {
-        console.log(this.duetos.length);
+        //console.log(this.duetos.length);
       },
 
       _insertGala: function () {
@@ -196,14 +193,14 @@
 
         for (var i = 0; i < this.cantantes.length; i++) {
           var r = this.cantantes[i];
-          console.log(r.$key);
+          //console.log(r.$key);
           ptosCantantes[r.$key] = 0;
         }
-        console.log(ptosCantantes);
+        //console.log(ptosCantantes);
 
         for (var i = 0; i < this.duetos.length; i++) {
           var r = this.duetos[i];
-          console.log(r.$key);
+          //console.log(r.$key);
           ptosDuetos[r.$key] = 0;
         }
 
@@ -232,7 +229,7 @@
         return this.$.auth.signInWithPopup();
       },
       _salirUsuario: function () {
-        console.log(this.user);
+        //console.log(this.user);
         this.$.auth.signOut();
       },
       _continuar: function () {

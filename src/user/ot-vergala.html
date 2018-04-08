@@ -153,7 +153,7 @@
                 <table class="w3-table">
                   <tr>
                     <td style="vertical-align: middle; width: 15%;">
-                      <iron-image src="[[_getUser([[user.displayName]], 'imagen')]]" sizing="cover" style="width: 40px; 
+                      <iron-image src="[[user.photoURL]]" sizing="cover" style="width: 40px; 
                       height: 40px; 
                       display: block;" class="w3-round w3-border w3-quarter"></iron-image>
                     </td>
@@ -230,9 +230,8 @@
           this.style.backgroundImage = 'url(' + cantante.imagen + ')';
         }
       },
-
       _insertComment: function () {
-        console.log(this.spectator);
+        //console.log(this.spectator);
         var fecha = new Date();
         var fechaString;
         var dataComment = {
@@ -251,7 +250,7 @@
       },
 
       _usuarioprivacidad: function (idUsuario) {
-        console.log(idUsuario);
+        //console.log(idUsuario);
         if (this.usuarios) {
           for (var i = 0; i < this.usuarios.length; ++i) {
             var r = this.usuarios[i];
@@ -267,13 +266,13 @@
         return null;
       },
       _getUser: function (idUsuario, atributo) {
-        console.log(idUsuario);
+        //console.log(idUsuario);
         if (this.usuarios) {
           for (var i = 0; i < this.usuarios.length; ++i) {
             var r = this.usuarios[i];
             if (r.$key === idUsuario) {
 
-              console.log(r[atributo]);
+              //console.log(r[atributo]);
               return r[atributo];
 
             }
@@ -282,12 +281,12 @@
         return null;
       },
       _getCantante: function (idDueto, numCantante) {
-        console.log(idDueto);
+        //console.log(idDueto);
         if (this.duetos) {
           for (var i = 0; i < this.duetos.length; ++i) {
             var r = this.duetos[i];
             if (r.$key === idDueto) {
-              console.log(r['cantante' + numCantante]);
+              //console.log(r['cantante' + numCantante]);
               return r['cantante' + numCantante];
             }
           }

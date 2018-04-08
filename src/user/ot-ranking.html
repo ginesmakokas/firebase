@@ -107,9 +107,6 @@
     <firebase-auth id="auth" user="{{user}}" provider="google">
     </firebase-auth>
 
-
-    <iron-ajax auto url="https://www.googleapis.com/youtube/v3/search" handle-as="json" last-response="{{ranking}}">
-    </iron-ajax>
     <table class="w3-table-all w3-card-4 w3-centered">
       <tr class="w3-blue">
         <th>Posición</th>
@@ -142,7 +139,7 @@
         seleccion: String
       },
       _ayuda: function () {
-        console.log(this.usuarios);
+        //console.log(this.usuarios);
       },
       _updateRanking: function () {
         var xhttp = new XMLHttpRequest();

@@ -233,7 +233,7 @@
       },
 
       _salirUsuario: function () {
-        console.log(this.user);
+        //console.log(this.user);
         this.$.auth.signOut();
       },
 
@@ -242,7 +242,7 @@
       },
 
       _deleteSinger: function(e){
-        console.log(e.model.get('item.$key'));
+        //console.log(e.model.get('item.$key'));
         if(confirm("¿Está seguro que desea eliminar este cantante? Esta acción no se puede deshacer.")){
           this.$.querySinger.ref.child(e.model.get('item.$key')).remove();
         }

@@ -294,7 +294,7 @@
         if ((this.spectator.creditos - this.cantanteCompra.precio) < 0) {
           this.opcionMoneda = "no";
           this.$.textoDialogCompra.innerHTML = "No tienes suficiente dinero :(";
-          console.log(this.spectator.creditos);
+          //console.log(this.spectator.creditos);
         }
         else if (this.spectator.cantante1 === null || this.spectator.cantante1 === undefined || this.spectator.cantante1 === "null") {
           this.$.textoDialogCompra.innerHTML = "Has comprado a " + this.cantanteCompra.$key + " por " + this.cantanteCompra.precio;

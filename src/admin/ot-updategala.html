@@ -138,9 +138,6 @@
     <app-header-layout>
       <div class="content">
         <div>
-          <iron-image src="./image/perfil.jpg"></iron-image>
-        </div>
-        <div>
           <h1 class="w3-center">Actualizar Gala</h1>
         </div>
         <iron-form id="form1">
@@ -253,12 +250,12 @@
         }
       },
       _getCantante: function (idDueto, numCantante) {
-        console.log(idDueto);
+        //console.log(idDueto);
         if (this.duetos) {
           for (var i = 0; i < this.duetos.length; ++i) {
             var r = this.duetos[i];
             if (r.$key === idDueto) {
-              console.log(r['cantante' + numCantante]);
+              //console.log(r['cantante' + numCantante]);
               return r['cantante' + numCantante];
             }
           }
@@ -273,7 +270,7 @@
         return this.$.auth.signInWithPopup();
       },
       _salirUsuario: function () {
-        console.log(this.user);
+        //console.log(this.user);
         this.$.auth.signOut();
       },
       _continuar: function () {

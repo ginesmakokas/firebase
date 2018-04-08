@@ -193,17 +193,17 @@
         return this.$.auth.signInWithPopup();
       },
       _salirUsuario: function () {
-        console.log(this.user);
+        //console.log(this.user);
         this.$.auth.signOut();
       },
       ayuda: function (e) {
-        console.log(e.model.get('item.descripcion'));
+        //console.log(e.model.get('item.descripcion'));
       },
       _newGala: function () {
         this.set('_route.path', '/newgala');
       },
       _deleteGala: function (e) {
-        console.log(e.model.get('item.$key'));
+        //console.log(e.model.get('item.$key'));
         if (confirm("¿Está seguro que desea eliminar esta gala? Esta acción no se puede deshacer.")) {
           this.$.queryGalas.ref.child(e.model.get('item.$key')).remove();
         }

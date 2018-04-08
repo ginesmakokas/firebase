@@ -233,12 +233,12 @@
       },
 
       _salirUsuario: function () {
-        console.log(this.user);
+        //console.log(this.user);
         this.$.auth.signOut();
       },
 
       _deletePair: function(e){
-        console.log(e.model.get('item.$key'));
+        //console.log(e.model.get('item.$key'));
         if(confirm("¿Está seguro que desea eliminar este dueto? Esta acción no se puede deshacer.")){
           this.$.queryPair.ref.child(e.model.get('item.$key')).remove();
         }
@@ -246,8 +246,8 @@
 
       _verDueto: function (e) {
         var i = e.model.get('item.$key');
-        console.log(e.model.get('item.cantante1'));
-        console.log(e.model.get('item.cantante2'));
+        //console.log(e.model.get('item.cantante1'));
+        //console.log(e.model.get('item.cantante2'));
         this.set('_route.path', '/detailDueto/' + i);
       },
 
