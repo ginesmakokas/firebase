@@ -41,33 +41,43 @@
                 }
                 ;
             }
+
             app-header {
                 color: #fff;
                 background-color: rgb(75, 139, 190);
+
             }
+
             app-toolbar {
                 height: 5px;
             }
+
             app-drawer-layout:not([narrow]) [drawer-toggle] {
                 display: none;
             }
+
             paper-item {
                 height: 54px;
             }
+
             #buttonLogin {
                 background-color: rgb(161, 99, 219);
                 --paper-icon-button-ink-color: white;
             }
+
             #buttonLogin:hover {
                 background-color: rgb(119, 13, 218);
                 --paper-icon-button-ink-color: white;
             }
+
             .grid-container {
                 display: grid;
                 grid-template-columns: auto auto auto;
                 padding: 10px;
             }
+
             .grid-item {
+
                 padding: 20px;
                 font-size: 30px;
                 text-align: center;
@@ -79,9 +89,8 @@
 
         <firebase-auth id="auth" user="{{user}}" provider="google">
         </firebase-auth>
-        <firebase-document id="queryLogin" path="/Espectadores/[[user.uid]]" data="{{espectador}}">
+        <firebase-document id="queryLogin" path="/Espectadores" data="{{espectadores}}">
         </firebase-document>
-
         <firebase-query id="queryRankingLogin" path="/Ranking" data="{{ranking}}">
         </firebase-query>
 
@@ -108,24 +117,35 @@
     </template>
 
     <script>
+
         Polymer({
+
             is: 'ot-login',
+
             properties: {
+
                 _route: Object,
+
                 _subRoute: Object,
+
                 espectadores: Array,
+
                 _pageData: {
                     type: Object,
                     observer: '_pageDataChanged'
                 },
+
                 _selectedPage: String,
+
                 _idData: Object,
+
                 user: Object,
                 espectadores: Object,
                 _usuariologado: {
                     type: String,
-                    computed: '_calculalogado(user, espectador)'
+                    computed: '_calculalogado(user, espectadores)'
                 },
+
                 _scrollPositionMap: {
                     type: Object,
                     value: function () {
@@ -133,6 +153,7 @@
                     }
                 }
             },
+
             attached: function () {
                 this.async(function () {
                     if (!this._route.path) {
@@ -140,10 +161,12 @@
                     }
                 });
             },
+
             _drawerSelected: function () {
                 if (!this.$.drawer.persistent) this.$.drawer.close();
             },
-            _calculalogado: function (usuario, espectador) {
+
+            _calculalogado: function (usuario, espectadores) {
                 if (this.$.auth.user === undefined || this.$.auth.user === null)
                     return "login";
                 else {
@@ -151,25 +174,25 @@
                         return "admin";
                     }
                     else {
-                        if (this.user && this.$.queryLogin.ref) {
-                            if (espectador === null ||
-                                espectador === undefined) {
+
+                        if (this.user && Object.values(this.espectadores).length > 0) {
+
+                            if (espectadores[this.user.uid] == null ||
+                                espectadores[this.user.uid] == undefined) {
                                 try{
                                     this.$.queryRankingLogin.ref.child(String(this.ranking.length+1)).update(this.user.email);
-                                } catch (e){
-                                }
+                                } catch (e){}
                                 var dataLogin = {
                                     creditos: 50,
                                     puntuacion: 0,
                                     email: this.user.email,
                                     imagen: this.user.photoURL,
                                     nombre: this.user.displayName,
-                                    privacidad: "publico"
+                                    privacidad: "privado"
                                 };
-                                this.$.queryLogin.ref.update(dataLogin);
+                                this.$.queryLogin.ref.child(this.user.uid).update(dataLogin);
                             }
                         }
-                        
                         return "usuario";
                     }
                 }
@@ -177,17 +200,21 @@
             _abrirventanalogin: function () {
                 return this.$.auth.signInWithPopup();
             },
+
             _salirUsuario: function () {
-                //console.log(this.user);
+                console.log(this.user);
                 this.$.auth.signOut();
             },
+
             /************************************************************************************************/
+
             /**
              * Preserves the document scroll position, so 
              * it can be restored when returning to a page.
              */
             _pageDataChanged: function (pageData, oldPageData) {
                 var map = this._scrollPositionMap;
+
                 if (oldPageData != null && oldPageData.page != null) {
                     map[oldPageData.page] = window.pageYOffset;
                 }
@@ -198,7 +225,9 @@
                     Polymer.AppLayout.scroll({ top: 0, behavior: 'silent' });
                 }
             }
+
         });
+
     </script>
 
 </dom-module>
